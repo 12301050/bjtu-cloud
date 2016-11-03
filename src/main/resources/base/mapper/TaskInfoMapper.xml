@@ -40,6 +40,12 @@
     from task_info
     where node_id = #{nodeId,jdbcType=VARCHAR} and status = #{status,jdbcType=INTEGER}
   </select>
+  <select id="getDeleteByNode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task_info
+    where node_id = #{nodeId,jdbcType=VARCHAR} and status != 2
+  </select>
   <select id="queryTimeInfo" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -55,6 +61,10 @@
   <delete id="deleteByNodeId" parameterType="java.lang.String">
     delete from task_info
     where node_id = #{nodeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteTask" parameterType="java.lang.String">
+    delete from task_info
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from task_info

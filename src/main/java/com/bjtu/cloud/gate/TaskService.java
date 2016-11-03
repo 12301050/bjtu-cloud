@@ -20,4 +20,6 @@ public interface TaskService {
   List<TaskInfo> getTaskByUserName(String userName, Integer status) throws Exception;
   //查询所有任务日志
   List<TaskRecord> getAllTaskRecord() throws Exception;
+  //删除某个(些)任务
+  List<TaskInfo> deleteTask(String nodeId, String ids) throws Exception;
 }

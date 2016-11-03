@@ -55,6 +55,18 @@ public class TaskController {
     }
   }
 
+  //删除任务
+  @RequestMapping(value = "api/task/delete", method = RequestMethod.GET)
+  public RestResult<List<TaskInfo>> delete(String nodeId, String ids) {
+    try {
+      List<TaskInfo> taskInfos = taskService.deleteTask(nodeId, ids);
+      return RestResult.succ().data(taskInfos).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //按照日期查询所有任务日志
   @RequestMapping(value = "api/log/getAllTaskRecord", method = RequestMethod.GET)
   public RestResult<List<TaskRecord>> getAllRecords() {
