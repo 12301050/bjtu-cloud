@@ -18,4 +18,7 @@ public interface UserService {
 
   //增加节点
   Integer addNodeInUserInfo(String userName, String nodeId) throws Exception;
+
+  //删除节点
+  List<UserInfo> deleteUser(String userName) throws Exception;
 }

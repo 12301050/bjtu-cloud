@@ -120,6 +120,11 @@
     delete from node_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteByNodeId" parameterType="java.lang.String">
+    delete from node_info
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.bjtu.cloud.common.entity.NodeInfo">
     insert into node_info (id, node_name, node_id, 
       status, type, task_amount, 

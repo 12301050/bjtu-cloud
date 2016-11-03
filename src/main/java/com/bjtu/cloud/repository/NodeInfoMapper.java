@@ -10,6 +10,8 @@ import java.util.List;
 public interface NodeInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
+    Integer deleteByNodeId(@Param("nodeId")String nodeId);
+
     int insert(NodeInfo record);
 
     int insertSelective(NodeInfo record);

@@ -75,6 +75,18 @@ public class UserController {
     }
   }
 
+  //删除用户
+  @RequestMapping(value = "api/user/deleteUser", method = RequestMethod.GET)
+  public RestResult<List<UserInfo>> deleteUser(String userName) {
+    try{
+      List<UserInfo> userInfos = userService.deleteUser(userName);
+      return  RestResult.succ().data(userInfos).build();
+    }catch (Exception e) {
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //用户新增节点
   @RequestMapping(value = "api/user/addNode", method = RequestMethod.POST)
   public RestResult<List<UserInfo>> addNode(String userName, Integer type) {

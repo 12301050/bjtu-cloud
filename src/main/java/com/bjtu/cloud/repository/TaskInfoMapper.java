@@ -10,6 +10,8 @@ import java.util.List;
 public interface TaskInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
+    Integer deleteByNodeId(@Param("nodeId")String nodeId);
+
     int insert(TaskInfo record);
 
     int insertSelective(TaskInfo record);

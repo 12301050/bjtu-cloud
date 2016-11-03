@@ -52,6 +52,10 @@
     from task_info
     where  node_id = #{nodeId,jdbcType=VARCHAR} and id = #{taskId,jdbcType=INTEGER}
   </select>
+  <delete id="deleteByNodeId" parameterType="java.lang.String">
+    delete from task_info
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from task_info
     where id = #{id,jdbcType=INTEGER}
