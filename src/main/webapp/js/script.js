@@ -1213,7 +1213,7 @@ var App = function () {
                 select:true,
                 oTableTools: {
                 aButtons: [ "copy",  "csv", "pdf" ],
-                    sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+                sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
                 },
                 "oLanguage": {//国际语言转化
                    "sLengthMenu": "显示 _MENU_ 记录",
@@ -1221,6 +1221,7 @@ var App = function () {
                    "sEmptyTable": "未有相关数据",
                    "sLoadingRecords": "正在加载数据-请等待...",
                    "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
                     "oPaginate": {
                     "sFirst": "首页",
                     "sPrevious": "上页",

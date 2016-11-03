@@ -117,6 +117,18 @@
             $("#delSureText_id").html("The user has the task being performed, are you confirm the deletion of the user？");
             $("#delSure_id").html("Sure");
             $("#delCancel_id").html("Cancel");
+            $("#datatable2").dataTable().fnDestroy();
+            var table=$('#datatable2').dataTable({
+                "sPaginationType": "bs_full",
+				"sPaginate": false,
+				sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+                select:true,
+                oTableTools: {
+                aButtons: [ "copy",  "csv", "pdf" ],
+                sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+                }
+                   
+			}             );
             App.setPage("index");  //Set current page
         }
         function change_ch(){//变为中文
@@ -149,6 +161,33 @@
             $("#delSureText_id").html("该用户有正在执行的任务,你确认删除该用户？");
             $("#delSure_id").html("确定");
             $("#delCancel_id").html("取消");
+            $("#datatable2").dataTable().fnDestroy();
+		var table=$('#datatable2').dataTable({
+				"sPaginationType": "bs_full",
+				"sPaginate": false,
+				sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+                select:true,
+                oTableTools: {
+                aButtons: [ "copy",  "csv", "pdf" ],
+                sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+                },
+                "oLanguage": {//国际语言转化
+                   "sLengthMenu": "显示 _MENU_ 记录",
+                   "sZeroRecords": "对不起，查询不到任何相关数据",
+                   "sEmptyTable": "未有相关数据",
+                   "sLoadingRecords": "正在加载数据-请等待...",
+                   "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+        }
+                    
+                }
+                   
+			});
             App.setPage("index"); 
         }
 		jQuery(document).ready(function() {	
@@ -168,11 +207,13 @@
                     }
              }
                 else{
-                    localStorage.lang=1;
-                    localStorage.langclose=1;
+                    localStorage.lang=2;
+                    localStorage.langclose=2;
+                    change_en();
+
                  }
-             }); 			
-		});   
+             }); 
+            		});   
         
         function AutoCheckLang(){ //检查缓存中之前所设置的语言
             if(localStorage.langclose==1){
@@ -186,7 +227,8 @@
             }
            
         }
-         //window.onload = AutoCheckLang();                          
+         //window.onload = AutoCheckLang(); 
+
 	</script>                                  
 	<!-- /JAVASCRIPTS -->    
 <body id="bodyid" onload="AutoCheckLang()">
@@ -435,6 +477,9 @@
 												</tr>
 											</tbody>
 										</table>
+                            
+                            
+                            
 									</div>
 								</div>
 								<!-- /BOX -->
@@ -520,8 +565,7 @@
 													<td>3</td>
 													<td class="hidden-xs">82</td>
 													<td >这是第三个节点的名字</td>
-													<td >空闲</td>
-                                                    
+													<td >空闲</td>    
 												</tr>
 											</tbody>
 										</table>
