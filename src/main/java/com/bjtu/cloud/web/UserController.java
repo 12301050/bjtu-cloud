@@ -1,9 +1,11 @@
 package com.bjtu.cloud.web;
 
+import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.webDao.RestResult;
 import com.bjtu.cloud.common.entity.User;
 import com.bjtu.cloud.common.entity.UserInfo;
 import com.bjtu.cloud.gate.NodeService;
+import com.bjtu.cloud.gate.TaskService;
 import com.bjtu.cloud.gate.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,12 +77,36 @@ public class UserController {
     }
   }
 
+  //查询用户节点下有无正在运行任务
+  @RequestMapping(value = "api/user/queryTaskStatusByUser", method = RequestMethod.GET)
+  public RestResult<List<TaskInfo>> queryTaskStatusByUser(String userName, Integer status) {
+    try {
+      List<TaskInfo> taskInfos = userService.queryTaskStatusByUser(userName, status);
+      return RestResult.succ().data(taskInfos).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //删除用户
   @RequestMapping(value = "api/user/deleteUser", method = RequestMethod.GET)
   public RestResult<List<UserInfo>> deleteUser(String userName) {
     try{
       List<UserInfo> userInfos = userService.deleteUser(userName);
       return  RestResult.succ().data(userInfos).build();
+    }catch (Exception e) {
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
+  //删除节点
+  @RequestMapping(value = "api/user/deleteNode", method = RequestMethod.GET)
+  public RestResult<List<UserInfo>> deleteNode(String nodeIds) {
+    try {
+      List<UserInfo> userInfos = userService.deleteNode(nodeIds);
+      return RestResult.succ().data(userInfos).build();
     }catch (Exception e) {
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();

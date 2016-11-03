@@ -12,6 +12,7 @@ import com.bjtu.cloud.repository.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,51 @@ public class UserServiceImpl implements UserService{
     try {
       User user = userMapper.login(userName,password);
       return user;
+    }catch (Exception e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public List<TaskInfo> queryTaskStatusByUser(String userName, Integer status) {
+    List<TaskInfo> taskInfos = new ArrayList<TaskInfo>();
+    try {
+      UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
+      System.out.println(userInfo.getNodeIds());
+      String[] nodeIds = userInfo.getNodeIds().split(",");
+      for (int i = 0; i < nodeIds.length; i++) {
+        List<TaskInfo> taskInfo = taskInfoMapper.getTaskByUserName(nodeIds[i], status);
+        taskInfos.addAll(taskInfo);
+      }
+      return taskInfos;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+  @Override
+  public List<UserInfo> deleteNode(String nodeIds) throws Exception{
+    try {
+      List<UserInfo> userInfos = userInfoMapper.getAllUserInfo();
+      String[] nodeId = nodeIds.split(",");
+      for (int i = 0; i < nodeId.length; i++) {
+        Integer flagTask = taskInfoMapper.deleteByNodeId(nodeId[i]);
+        if(flagTask == 1)
+          continue;
+        else {
+          return null;
+        }
+      }
+      for (int i = 0; i < nodeId.length; i++) {
+        Integer flagNode = nodeInfoMapper.deleteByNodeId(nodeId[i]);
+        if(flagNode == 1)
+          continue;
+        else {
+          return null;
+        }
+      }
+      return userInfos;
     }catch (Exception e){
       e.printStackTrace();
       return null;

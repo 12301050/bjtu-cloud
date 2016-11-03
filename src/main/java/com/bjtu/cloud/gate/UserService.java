@@ -1,5 +1,6 @@
 package com.bjtu.cloud.gate;
 
+import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.User;
 import com.bjtu.cloud.common.entity.UserInfo;
 
@@ -19,6 +20,12 @@ public interface UserService {
   //增加节点
   Integer addNodeInUserInfo(String userName, String nodeId) throws Exception;
 
-  //删除节点
+  //删除用户
   List<UserInfo> deleteUser(String userName) throws Exception;
+
+  //删除节点
+  List<UserInfo> deleteNode(String nodeIds) throws Exception;
+
+  //查询用户节点下有无正在运行任务
+  List<TaskInfo> queryTaskStatusByUser(String userName, Integer status) throws Exception;
 }
