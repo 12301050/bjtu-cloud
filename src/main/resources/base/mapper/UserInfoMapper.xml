@@ -104,4 +104,10 @@
       node_ids = concat(node_ids,#{nodeId,jdbcType=VARCHAR})
     where user_name = #{userName,jdbcType=VARCHAR}
   </update>
+  <update id="updateDeleteNodeIds" parameterType="com.bjtu.cloud.common.entity.UserInfo">
+    update user_info
+    set node_amount = #{nodeAmount,jdbcType=INTEGER},
+    node_ids = #{nodeIds,jdbcType=VARCHAR}
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -28,6 +28,9 @@ public interface UserInfoMapper {
     //删除节点
     Integer deleteUser(@Param("userName")String userName);
 
+    //更新被删除的nodeIds
+    Integer updateDeleteNodeIds(UserInfo userInfo);
+
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);

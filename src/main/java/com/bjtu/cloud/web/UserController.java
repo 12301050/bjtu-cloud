@@ -119,7 +119,6 @@ public class UserController {
     try{
       String nodeId = nodeService.addNodeInNodeInfo(type);
       if(!nodeId.isEmpty()) {
-        nodeId = "," + nodeId;
         Integer flag = userService.addNodeInUserInfo(userName, nodeId);
         if (flag == 1) {
           List<UserInfo> userInfos = userService.getAll();

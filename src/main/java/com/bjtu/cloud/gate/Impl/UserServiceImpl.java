@@ -1,6 +1,6 @@
 package com.bjtu.cloud.gate.Impl;
 
-import com.bjtu.cloud.common.entity.NodeInfo;
+import java.util.LinkedList;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.User;
 import com.bjtu.cloud.common.entity.UserInfo;
@@ -79,12 +79,8 @@ public class UserServiceImpl implements UserService{
       List<UserInfo> userInfos = userInfoMapper.getAllUserInfo();
       String[] nodeId = nodeIds.split(",");
       for (int i = 0; i < nodeId.length; i++) {
-        Integer flagTask = taskInfoMapper.deleteByNodeId(nodeId[i]);
-        if(flagTask == 1)
-          continue;
-        else {
-          return null;
-        }
+        taskInfoMapper.deleteByNodeId(nodeId[i]);
+        continue;
       }
       for (int i = 0; i < nodeId.length; i++) {
         Integer flagNode = nodeInfoMapper.deleteByNodeId(nodeId[i]);
@@ -94,17 +90,54 @@ public class UserServiceImpl implements UserService{
           return null;
         }
       }
+      for (int i = 0; i < userInfos.size(); i++){
+        String[] nodeIdByUser = userInfos.get(i).getNodeIds().split(",");
+        String[] newNodeId = arrContrast(nodeIdByUser,nodeId);
+        String newNodeIds = converToString(newNodeId);
+        UserInfo ui = new UserInfo();
+        ui.setUserName(userInfos.get(i).getUserName());
+        ui.setNodeAmount(newNodeId.length);
+        ui.setNodeIds(newNodeIds);
+        userInfoMapper.updateDeleteNodeIds(ui);
+      }
+      userInfos = userInfoMapper.getAllUserInfo();
       return userInfos;
     }catch (Exception e){
       e.printStackTrace();
       return null;
     }
   }
-
+  //处理数组字符
+  private static String[] arrContrast(String[] arr1, String[] arr2){
+    List<String> list = new LinkedList<String>();
+    for (String str : arr1) {
+      if (!list.contains(str)) {
+        list.add(str);
+      }
+    }
+    for (String str : arr2) {
+      if(list.contains(str)){
+        list.remove(str);
+      }
+    }
+    String[] result = {};
+    return list.toArray(result);
+  }
+  //组合
+  public static String converToString(String[] id) {
+    String str = "";
+    if (id != null && id.length > 0) {
+      for (int i = 0; i < id.length; i++) {
+        str += id[i] + ",";
+      }
+    }
+    str = str.substring(0, str.length() - 1);
+    return str;
+  }
   @Override
   public Integer addNodeInUserInfo(String userName, String nodeId) throws Exception {
     try {
-      Integer flag = userInfoMapper.addNode(userName, nodeId);
+      Integer flag = userInfoMapper.addNode(userName, ","+nodeId);
       return flag;
     }catch (Exception e){
       e.printStackTrace();
