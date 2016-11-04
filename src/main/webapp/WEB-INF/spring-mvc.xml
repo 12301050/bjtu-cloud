@@ -49,6 +49,6 @@
         <property name="suffix" value=".html"></property>
     </bean>
 
-    <mvc:resources mapping="/order/**" location="/order/"/>
+    <mvc:resources mapping="/**" location="/"/>
 
 </beans>

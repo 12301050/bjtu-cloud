@@ -1,3 +1,5 @@
+'use strict';
+
 var RepoList = React.createClass({
   getInitialState: function() {
     return { loading: true, error: null, data: null};
@@ -18,13 +20,11 @@ var RepoList = React.createClass({
     }
     else {
       var repos = this.state.data.items;
-      var repoList = repos.map(function (repo) {
-        return (
-          <li>
-            <a href={repo.html_url}>{repo.name}</a> ({repo.stargazers_count} stars) <br/> {repo.description}
-          </li>
-        );
-      });
+      // var repoList = repos.map(function (repo) {
+      //   return (
+      //     <div> </div>
+      //   );
+      // });
       return (
         <main>
           <h1>Most Popular JavaScript Projects in Github</h1>
@@ -36,7 +36,7 @@ var RepoList = React.createClass({
 });
 ReactDOM.render(
   <RepoList
-    promise={$.getJSON('https://api.github.com/search/repositories?q=javascript&sort=stars')}
+    promise={$.getJSON('http://localhost:8080/api/log/getAllTaskRecord')}
   />,
   document.body
 );
