@@ -12,6 +12,8 @@ var UserGist = React.createClass({
 
   componentDidMount: function componentDidMount() {
     $.get(this.props.source, function (result) {
+      //log(result);
+      alert(result.data[0].operateTime);
       var lastGist = result[0];
       if (this.isMounted()) {
         this.setState({
@@ -24,19 +26,18 @@ var UserGist = React.createClass({
 
   render: function render() {
     return React.createElement(
-      'div',
-      null,
-      this.state.username,
-      '\'s last gist is',
-      React.createElement(
-        'a',
-        { href: this.state.lastGistUrl },
-        'here'
-      ),
-      '.'
+        'div',
+        null,
+        this.state.username,
+        '\'s last gist is',
+        React.createElement(
+            'a',
+            { href: this.state.lastGistUrl },
+            'here'
+        ),
+        '.'
     );
   }
 });
 
-ReactDOM.render(React.createElement(UserGist, { source: 'http://localhost:8080/api/log/getAllTaskRecord' }), 
-                document.body);
+ReactDOM.render(React.createElement(UserGist, { source: 'http://localhost:8080/api/log/getAllTaskRecord' }), document.body);
