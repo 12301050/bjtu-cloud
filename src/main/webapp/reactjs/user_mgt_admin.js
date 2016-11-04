@@ -1,42 +1,42 @@
 'use strict';
 
-var RepoList = React.createClass({
-  getInitialState: function() {
-    return { loading: true, error: null, data: null};
+var UserGist = React.createClass({
+  displayName: 'UserGist',
+
+  getInitialState: function getInitialState() {
+    return {
+      username: '',
+      lastGistUrl: ''
+    };
   },
 
-  componentDidMount() {
-    this.props.promise.then(
-      value => this.setState({loading: false, data: value}),
-      error => this.setState({loading: false, error: error}));
+  componentDidMount: function componentDidMount() {
+    $.get(this.props.source, function (result) {
+      var lastGist = result[0];
+      if (this.isMounted()) {
+        this.setState({
+          username: lastGist.owner.login,
+          lastGistUrl: lastGist.html_url
+        });
+      }
+    }.bind(this));
   },
 
-  render: function() {
-    if (this.state.loading) {
-      return <span>Loading...</span>;
-    }
-    else if (this.state.error !== null) {
-      return <span>Error: {this.state.error.message}</span>;
-    }
-    else {
-      var repos = this.state.data.items;
-      // var repoList = repos.map(function (repo) {
-      //   return (
-      //     <div> </div>
-      //   );
-      // });
-      return (
-        <main>
-          <h1>Most Popular JavaScript Projects in Github</h1>
-          <ol>{repoList}</ol>
-        </main>
-      );
-    }
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      this.state.username,
+      '\'s last gist is',
+      React.createElement(
+        'a',
+        { href: this.state.lastGistUrl },
+        'here'
+      ),
+      '.'
+    );
   }
 });
-ReactDOM.render(
-  <RepoList
-    promise={$.getJSON('http://localhost:8080/api/log/getAllTaskRecord')}
-  />,
-  document.body
-);
+
+ReactDOM.render(React.createElement(UserGist, { source: 'http://localhost:8080/api/log/getAllTaskRecord' }), 
+                document.body);
