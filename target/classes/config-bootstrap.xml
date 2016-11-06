@@ -25,6 +25,7 @@
 
   <import resource="classpath*:/config-property.xml"/>
   <import resource="classpath*:/config-mysql.xml"/>
+
   <!--<import resource="classpath*:/config-quartz.xml"/>-->
 
 </beans>
