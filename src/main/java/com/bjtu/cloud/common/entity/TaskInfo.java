@@ -5,6 +5,8 @@ import java.util.Date;
 public class TaskInfo {
     private Integer id;
 
+    private Integer pid;
+
     private String taskName;
 
     private String nodeId;
@@ -141,5 +143,13 @@ public class TaskInfo {
 
     public void setNetSpeed(Integer netSpeed) {
         this.netSpeed = netSpeed;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 }

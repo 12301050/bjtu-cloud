@@ -3,6 +3,7 @@
 <mapper namespace="com.bjtu.cloud.repository.TaskInfoMapper">
   <resultMap id="BaseResultMap" type="com.bjtu.cloud.common.entity.TaskInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="task_name" jdbcType="VARCHAR" property="taskName" />
     <result column="node_id" jdbcType="VARCHAR" property="nodeId" />
     <result column="host_path" jdbcType="VARCHAR" property="hostPath" />
@@ -18,7 +19,7 @@
     <result column="net_speed" jdbcType="INTEGER" property="netSpeed" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, task_name, node_id, host_path, node_path, type, status, mode, times, start_time,
+    id, pid, task_name, node_id, host_path, node_path, type, status, mode, times, start_time,
     end_time, cpu, memory, net_speed
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -71,12 +72,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bjtu.cloud.common.entity.TaskInfo">
-    insert into task_info (id, task_name, node_id,
+    insert into task_info (id, pid, task_name, node_id,
       host_path, node_path, type, 
       status, mode, times, 
       start_time, end_time, cpu, 
       memory, net_speed)
-    values (#{id,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{nodeId,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{nodeId,jdbcType=VARCHAR},
       #{hostPath,jdbcType=VARCHAR}, #{nodePath,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{mode,jdbcType=INTEGER}, #{times,jdbcType=INTEGER}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{cpu,jdbcType=INTEGER}, 
@@ -87,6 +88,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="pid != null">
+        pid,
       </if>
       <if test="taskName != null">
         task_name,
@@ -131,6 +135,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
       </if>
       <if test="taskName != null">
         #{taskName,jdbcType=VARCHAR},
@@ -179,6 +186,9 @@
       <if test="taskName != null">
         task_name = #{taskName,jdbcType=VARCHAR},
       </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
       <if test="nodeId != null">
         node_id = #{nodeId,jdbcType=VARCHAR},
       </if>
@@ -222,6 +232,7 @@
     update task_info
     set task_name = #{taskName,jdbcType=VARCHAR},
       node_id = #{nodeId,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
       host_path = #{hostPath,jdbcType=VARCHAR},
       node_path = #{nodePath,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
