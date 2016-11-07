@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.User;
 import com.bjtu.cloud.common.entity.UserInfo;
+import com.bjtu.cloud.docker.Cmds;
 import com.bjtu.cloud.gate.UserService;
 import com.bjtu.cloud.repository.NodeInfoMapper;
 import com.bjtu.cloud.repository.TaskInfoMapper;
@@ -80,14 +81,15 @@ public class UserServiceImpl implements UserService{
     try {
       List<UserInfo> userInfos = userInfoMapper.getAllUserInfo();
       String[] nodeId = nodeIds.split(",");
-      for (int i = 0; i < nodeId.length; i++) {
-        taskInfoMapper.deleteByNodeId(nodeId[i]);
-        continue;
-      }
-      for (int i = 0; i < nodeId.length; i++) {
-        Integer flagNode = nodeInfoMapper.deleteByNodeId(nodeId[i]);
-        if(flagNode == 1)
+      for(int i = 0; i < nodeId.length; i++) {
+        boolean delete, stop;
+        stop = Cmds.stopNode(nodeId[i]);
+        delete = Cmds.deleteNode(nodeId[i]);
+        if (stop == true && delete == true) {
+          taskInfoMapper.deleteByNodeId(nodeId[i]);
+          nodeInfoMapper.deleteByNodeId(nodeId[i]);
           continue;
+        }
         else {
           return null;
         }
@@ -153,18 +155,15 @@ public class UserServiceImpl implements UserService{
       UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       System.out.println(userInfo.getNodeIds());
       String[] nodeIds = userInfo.getNodeIds().split(",");
-      for (int i = 0; i < nodeIds.length; i++) {
-        Integer flagTask = taskInfoMapper.deleteByNodeId(nodeIds[i]);
-        if(flagTask == 1)
+      for(int i = 0; i < nodeIds.length; i++) {
+        boolean delete, stop;
+        stop = Cmds.stopNode(nodeIds[i]);
+        delete = Cmds.deleteNode(nodeIds[i]);
+        if (stop == true && delete == true) {
+          taskInfoMapper.deleteByNodeId(nodeIds[i]);
+          nodeInfoMapper.deleteByNodeId(nodeIds[i]);
           continue;
-        else {
-          return null;
         }
-      }
-      for (int i = 0; i < nodeIds.length; i++) {
-        Integer flagNode = nodeInfoMapper.deleteByNodeId(nodeIds[i]);
-        if(flagNode == 1)
-          continue;
         else {
           return null;
         }
