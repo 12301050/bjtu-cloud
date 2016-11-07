@@ -76,12 +76,12 @@ public class Cmds {
 			pid = outPuts.get(0);
 			break;
 		case JAVATASK:
-			cmds[2] = basecmd + "exec " + nodeId + " \"cd "+targetPath+" && ${JAVA_HOME}/bin/javac " + targetFileName+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + " \"cd "+targetPath+" && /jdk/bin/javac " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("javac:"))
 				return null;
 			cmds[2] = basecmd + "exec " + nodeId
-					+ " \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  ${JAVA_HOME}/bin/java "
+					+ " \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  /jdk/bin/java "
 					+ targetFileName.substring(targetFileName.length()-5, targetFileName.length())+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains( targetFileName.substring(targetFileName.length()-5, targetFileName.length())))
@@ -162,21 +162,10 @@ public class Cmds {
 		}
 		return memory;
 	}
-
-	public static boolean startNetWatch(String nodeId){
-		cmds[2] = basecmd + "exec " + nodeId + " nethogs > net.temp";
-		ArrayList<String> outPuts = executeCmds(cmds);
-		return true;
-	}
-	
-	public static boolean stopNetWatch(String nodeId){
-		cmds[2] = basecmd + "exec " + nodeId + " killall nethogs";
-		ArrayList<String> outPuts = executeCmds(cmds);
-		return true;
-	}
-	
 	
 	public static float nodeNetUsage(String nodeId) {
+		cmds[2] = basecmd + "exec " + nodeId + " cat /net.temp ";
+		ArrayList<String> outPuts = executeCmds(cmds);
 		return 0.1f;
 	}
 
@@ -217,6 +206,8 @@ public class Cmds {
 	}
 
 	public static float taskNetUsage(String nodeId, String pid) {
+		cmds[2] = basecmd + "exec " + nodeId + " cat /net.temp ";
+		ArrayList<String> outPuts = executeCmds(cmds);
 		return 0.1f;
 	}
 
