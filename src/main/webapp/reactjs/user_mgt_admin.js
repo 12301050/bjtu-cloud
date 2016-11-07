@@ -132,4 +132,4 @@ var UserGist = React.createClass({
       );
 }});
 
-ReactDOM.render(React.createElement(UserGist, { source: 'http://localhost:8080/api/log/getAllTaskRecord' }), document.getElementById('datatable2'));
+//ReactDOM.render(React.createElement(UserGist, { source: 'http://localhost:8080/api/log/getAllTaskRecord' }), document.getElementById('datatable2'));
