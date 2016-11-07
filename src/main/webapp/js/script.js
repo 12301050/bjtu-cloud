@@ -1206,8 +1206,10 @@ var App = function () {
 		$('#datatable1').dataTable({
 				"sPaginationType": "bs_full"
 			});
-		var table=$('#datatable2').dataTable({
+		var table=$('#datatable33').dataTable({
 				"sPaginationType": "bs_full",
+                //"ajax": 'http://localhost:8080/api/user/getAllUserInfo',
+                "sAjaxSource":'http://localhost:8080/api/user/getAllUserInfo',
 				"sPaginate": false,
 				sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
                 select:true,
@@ -1228,10 +1230,15 @@ var App = function () {
                     "sNext": "下页",
                     "sLast": "末页"
         }
-                    
-                }
-                   
-			});
+                },
+            "columns": [
+                { "data": "id" },
+                { "data": "userName" },
+                { "data": "nodeAmount" },
+                { "data": "nodeIds" }
+            ]
+
+        });
         var table=$('#datatableForNode').dataTable({
 				"sPaginationType": "bs_full",
 				sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",

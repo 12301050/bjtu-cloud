@@ -72,12 +72,12 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public List<TaskInfo> deleteTask(String nodeId, String ids) throws Exception{
+  public List<TaskInfo> deleteTask(String nodeId, String targetPaths) throws Exception{
     try {
       List<TaskInfo> taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
-      String[] taskIds = ids.split(",");
-      for (int i = 0; i < taskIds.length; i++) {
-        Integer flag = taskInfoMapper.deleteTask(taskIds[i]);
+      String[] taskPaths = targetPaths.split(",");
+      for (int i = 0; i < taskPaths.length; i++) {
+        Integer flag = taskInfoMapper.deleteTask(taskPaths[i]);
         if(flag == 1){
           taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
           continue;
