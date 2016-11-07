@@ -88,33 +88,40 @@
 
 			$.ajax({
 				type: "GET",
-				url: "http://localhost:8080/api/user/getAllUserInfo",//接口名字
+				url: "http://localhost:8080/api/node/getAllNode",//接口名字
 				dataType: "json",
 				success: function (data) {
 					var stringfortrlist = "";
 					for (var i = 0; i < data.data.length; i++) {
 						var idforlog=i+1;
-						var stringfortr = "<tr class=\"gradeX\">" +
-								"<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
-								"<td class=\"center\">" + data.data[i].userName +
-								"</td>" +
-								"<td class=\"center\"><a href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
-								"<td class=\"center\"><i class=\"fa fa-plus-square\"></i>&nbsp&nbsp&nbsp<i class=\"fa fa-minus-square\"></i></td>" +
-								"<td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
-								" </tr>";
+						var stringfortr ="<tr class=\"gradeX\">"+
+								"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+								"<td>"+idforlog+"</td>"+
+								"<td>"+data.data[i].nodeId+"</td>"+
+								"<td class=\"center\">"+data.data[i].type+"</td>"+
+								"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+								"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+								"<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+								"<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+								"<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+								"<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
+								"<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
+								"<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
+								"<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+								"</tr>";
 						stringfortrlist = stringfortrlist + stringfortr;
 					}
 					$("#datatableForNode").dataTable().fnDestroy();
-					$('#tableforusernode').html(stringfortrlist);
-					if(localStorage.langclose==1){//识别cookie
-						change_ch();
-					}
-					else if(localStorage.langclose==2){
-						change_en();
-					}
-					else{
-						localStorage.langclose=1;
-					}
+					$('#tbodyfornodelist').html(stringfortrlist);
+//					if(localStorage.langclose==1){//识别cookie
+//						change_ch();
+//					}
+//					else if(localStorage.langclose==2){
+//						change_en();
+//					}
+//					else{
+//						localStorage.langclose=1;
+//					}
 
 				}
 			});
@@ -368,7 +375,7 @@
 													<th class="hidden-xs">操作</th>
 												</tr>
 											</thead>
-											<tbody>
+											<tbody id="tbodyfornodelist">
 												<tr class="gradeX">
                                                     <td ><input type="checkbox" name="checkList"></td>
 													<td>1</td>
@@ -384,219 +391,6 @@
 													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>
 													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
 												</tr>
-												<tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr><tr class="gradeC">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>342</td>
-													<td class="hidden-xs">Python</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-													<td class="center">王大星</td>
-													<td class="center hidden-xs">空闲</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">42</a></td>
-													<td class="center hidden-xs">18%</td>
-													<td class="center hidden-xs">66%</td>
-													<td class="center hidden-xs">48%</td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-                                                    
-												</tr>
-												<tr class="gradeA">
-                                                    <td ><input type="checkbox" name="checkList"></td>
-													<td>2</td>
-													<td>338</td>
-													<td class="hidden-xs">PHP</td>
-													<td class="hidden-xs">这是第三个节点名</td>
-													<td class="center">王二星</td>
-													<td class="center hidden-xs">关闭</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38</a></td>
-													<td class="center hidden-xs">0%</td>
-													<td class="center hidden-xs">0%</td>
-													<td class="center hidden-xs">0%</td>
-													<td class="center hidden-xs"><a class="btn btn-info" style="font-size:4px;padding:0px 8px;">开启</a></td>
-												</tr>
-												
-												<tr class="gradeA">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>1</td>
-													<td>332</td>
-													<td class="hidden-xs">java</td>
-													<td class="hidden-xs">这是第一个节点名</td>
-													<td class="center">王三星</td>
-													<td class="center hidden-xs">活跃</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center hidden-xs">38%</td>
-													<td class="center hidden-xs">56%</td>
-													<td class="center hidden-xs">28%</td>
-													<td class="center hidden-xs"><a class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-												</tr>
-												<tr class="gradeA">
-                                                    <td > <input type="checkbox" name="checkList"></td>
-													<td>1</td>
-													<td>332</td>
-													<td class="hidden-xs">java</td>
-													<td class="hidden-xs">这是第一个节点名</td>
-													<td class="center">王四星</td>
-													<td class="center hidden-xs">活跃</td>
-                                                    <td class="hidden-xs"><a href="#table-modal-current" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center hidden-xs">38%</td>
-													<td class="center hidden-xs">56%</td>
-													<td class="center hidden-xs">28%</td>
-													<td class="center hidden-xs"><a class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-												</tr>
-												
 											</tbody>
 										</table>
 									</div>
