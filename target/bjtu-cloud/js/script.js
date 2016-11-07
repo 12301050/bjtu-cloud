@@ -1206,7 +1206,7 @@ var App = function () {
 		$('#datatable1').dataTable({
 				"sPaginationType": "bs_full"
 			});
-		var table=$('#datatable33').dataTable({
+		var table=$('#datatable2').dataTable({
 				"sPaginationType": "bs_full",
                 //"ajax": 'http://localhost:8080/api/user/getAllUserInfo',
                 "sAjaxSource":'http://localhost:8080/api/user/getAllUserInfo',

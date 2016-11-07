@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!--<meta http-equiv="content-type" content="text/html; charset=UTF-8">-->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
 	<title>云任务系统</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 	<meta name="description" content="">
@@ -82,9 +82,9 @@
 	<script type="text/javascript" src="js/gritter/js/jquery.gritter.min.js"></script>
 	<!-- CUSTOM SCRIPT -->
 	<script src="js/script.js"></script>
-    <script src="reactbuild/react.js"></script>
-    <script src="reactbuild/react-dom.js"></script>
-    <script src="reactbuild/browser.min.js"></script>
+    <!--<script src="reactbuild/react.js"></script>-->
+    <!--<script src="reactbuild/react-dom.js"></script>-->
+    <!--<script src="reactbuild/browser.min.js"></script>-->
 </head>
     <!-- JAVASCRIPTS-->
 	<script>
@@ -164,7 +164,6 @@
             $("#delSureText_id").html("该用户有正在执行的任务,你确认删除该用户？");
             $("#delSure_id").html("确定");
             $("#delCancel_id").html("取消");
-
             $("#datatable2").dataTable().fnDestroy();
 		var table=$('#datatable2').dataTable({
 				"sPaginationType": "bs_full",
@@ -228,13 +227,17 @@
 
                 }
             });
+
+            App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
+            App.init(); //Initialise plugins and elements
+
             $("#langli").click(function(){
                 if(localStorage.lang){ //缓存 1代表中文，2代表英文
                     if(localStorage.lang==1){
                         localStorage.lang=2;
                         localStorage.langclose=2;
                         change_en();
-                    } 
+                    }
                     else if(localStorage.lang==2){
                         localStorage.lang=1;
                         localStorage.langclose=1;
