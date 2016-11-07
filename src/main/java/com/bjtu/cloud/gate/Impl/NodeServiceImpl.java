@@ -3,6 +3,7 @@ package com.bjtu.cloud.gate.Impl;
 import com.bjtu.cloud.common.entity.NodeInfo;
 import com.bjtu.cloud.common.entity.NodeRecord;
 import com.bjtu.cloud.common.entity.UserInfo;
+import com.bjtu.cloud.docker.Cmds;
 import com.bjtu.cloud.gate.NodeService;
 import com.bjtu.cloud.repository.NodeInfoMapper;
 import com.bjtu.cloud.repository.NodeRecordMapper;
@@ -65,9 +66,21 @@ public class NodeServiceImpl implements NodeService {
 
   @Override
   public String addNodeInNodeInfo(Integer type) throws Exception {
-    String nodeId = "010";
+    String imageTag;
+    String nodeId;
+    if(type == 0)
+      imageTag = "binary";
+    else if(type == 1)
+      imageTag = "java";
+    else if(type == 2)
+      imageTag = "python";
+    else
+      imageTag = null;
     try {
+      System.out.println(imageTag);
       //TODO docker上进行节点创建
+      nodeId = Cmds.createNode("ubuntu:14.04").substring(0, 12);
+      System.out.println(nodeId);
       NodeInfo nodeInfo = new NodeInfo();
       if(!nodeId.isEmpty()){
         nodeInfo.setNodeName(nodeId);
