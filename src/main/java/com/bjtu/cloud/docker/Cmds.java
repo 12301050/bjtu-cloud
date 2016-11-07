@@ -14,7 +14,7 @@ public class Cmds {
 	public final static int JAVATASK = 1;
 	public final static int PYTHONTASK = 2;
 	public static String createNode(String imageTag) {
-		cmds[2] = basecmd + "run -i -d " + imageTag;
+		cmds[2] = basecmd + "run -t -i -d " + imageTag;
 		ArrayList<String> outPuts = executeCmds(cmds);
 		// 创建失败
 		if (outPuts.size() == 0)
