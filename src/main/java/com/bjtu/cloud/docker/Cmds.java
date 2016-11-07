@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Cmds {
 	private final static boolean DEBUG = false;
 	private final static String sudoPwd = "1";
-//	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
+	//	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
 	private final static String basecmd = "docker ";
 	private static String cmds[] = { "/bin/bash", "-c", basecmd };
 	public final static int BINTASK = 0;
@@ -53,6 +53,8 @@ public class Cmds {
 	}
 
 	public static boolean uploadTask(String nodeId, String hostPath, String targetPath, String targetFileName) {
+		cmds[2] = basecmd + " exec " + nodeId + " mkdir /"+targetPath;
+		executeCmds(cmds);
 		cmds[2] = basecmd + "cp " + hostPath + " " + nodeId + ":" + targetPath+"/"+targetFileName;
 		ArrayList<String> outPuts = executeCmds(cmds);
 		if (outPuts.size() != 0)
@@ -65,7 +67,7 @@ public class Cmds {
 		ArrayList<String> outPuts ;
 		switch (taskType) { 
 		case BINTASK:
-			cmds[2] = basecmd + "exec " + nodeId + "  \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  " + targetFileName+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + " start-stop-daemon -b -d /"+targetPath+" --start --quiet --pidfile ../xx.pid -m --exec  " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("no such file or directory"))
 				return null;
@@ -76,15 +78,15 @@ public class Cmds {
 			pid = outPuts.get(0);
 			break;
 		case JAVATASK:
-			cmds[2] = basecmd + "exec " + nodeId + " \"cd "+targetPath+" && /jdk/bin/javac " + targetFileName+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + " /bin/sh -c \"cd "+targetPath+" && /jdk/bin/javac " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("javac:"))
 				return null;
 			cmds[2] = basecmd + "exec " + nodeId
-					+ " \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  /jdk/bin/java "
-					+ targetFileName.substring(targetFileName.length()-5, targetFileName.length())+"\"";
+					+ " start-stop-daemon -b -d /"+targetPath+" --start --quiet --pidfile ../xx.pid -m --exec  /jdk/bin/java "
+					+ targetFileName.substring(0, targetFileName.length()-5)+"";
 			outPuts = executeCmds(cmds);
-			if(outPuts.size()!=0&&outPuts.get(0).contains( targetFileName.substring(targetFileName.length()-5, targetFileName.length())))
+			if(outPuts.size()!=0&&outPuts.get(0).contains(targetFileName.substring(0, targetFileName.length()-5)))
 				return null;
 			cmds[2] = basecmd + "exec " + nodeId + " cat xx.pid";
 			outPuts = executeCmds(cmds);
@@ -94,7 +96,7 @@ public class Cmds {
 			break;
 		case PYTHONTASK:
 			//TODO:python path
-			cmds[2] = basecmd + "exec " + nodeId + "  \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  /usr/bin/python3 " + targetFileName+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + " start-stop-daemon -b -d /"+targetPath+" --start --quiet --pidfile ../xx.pid -m --exec  /usr/bin/python3 " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("no such file or directory"))
 				return null;
@@ -116,8 +118,8 @@ public class Cmds {
 		return true;
 	}
 
-	public static boolean deleteTask(String nodeId, String taskId) {
-		cmds[2] = basecmd + "exec " + nodeId + " rm -rf " + taskId;
+	public static boolean deleteTask(String nodeId, String targetPath) {
+		cmds[2] = basecmd + "exec " + nodeId + " rm -rf " + targetPath;
 		ArrayList<String> outPuts = executeCmds(cmds);
 		if(outPuts.size()!=0&&outPuts.contains("No such file or directory"))
 			return false;
@@ -125,7 +127,7 @@ public class Cmds {
 	}
 
 	public static boolean checkTaskRunning(String nodeId, String pid) {
-		cmds[2] = basecmd + "exec " + nodeId + " kill -0   " + pid;
+		cmds[2] = basecmd + "exec " + nodeId + " /bin/bash -c \" kill -0   " + pid +"\" 2>&1";
 		ArrayList<String> outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("kill:")&&outPuts.get(0).contains(pid))
 				return false;
