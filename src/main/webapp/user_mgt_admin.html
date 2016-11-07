@@ -203,11 +203,12 @@
                 success: function (data) {
                     var stringfortrlist = "";
                     for (var i = 0; i < data.data.length; i++) {
+                        var idforlog=i+1;
                         var stringfortr = "<tr class=\"gradeX\">" +
-                                "<td>" + data.data[i].id + "</td><td>" + data.data[i].nodeAmount + "</td>" +
-                                "<td>" + data.data[i].userName +
+                                "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
+                                "<td class=\"center\">" + data.data[i].userName +
                                 "</td>" +
-                                "<td class=\"hidden-xs\">" + data.data[i].nodeIds + "</td>" +
+                                "<td class=\"center\"><a href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                                 "<td class=\"center\"><i class=\"fa fa-plus-square\"></i>&nbsp&nbsp&nbsp<i class=\"fa fa-minus-square\"></i></td>" +
                                 "<td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
                                 " </tr>";
