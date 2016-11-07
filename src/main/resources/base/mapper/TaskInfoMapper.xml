@@ -65,7 +65,7 @@
   </delete>
   <delete id="deleteTask" parameterType="java.lang.String">
     delete from task_info
-    where id = #{id,jdbcType=INTEGER}
+    where node_path = #{taskPath,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from task_info

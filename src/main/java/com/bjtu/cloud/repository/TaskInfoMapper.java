@@ -13,7 +13,7 @@ public interface TaskInfoMapper {
     Integer deleteByNodeId(@Param("nodeId")String nodeId);
 
     //删除某个(些)任务
-    Integer deleteTask(@Param("id")String id);
+    Integer deleteTask(@Param("taskPath")String taskPath);
     //可删除任务列表
     List<TaskInfo> getDeleteByNode(@Param("nodeId")String nodeId);
 
