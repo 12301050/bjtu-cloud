@@ -104,6 +104,13 @@
     from node_info
   </select>
 
+  <select id="queryTaskStatusByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    task_amount
+    from node_info
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </select>
+
   <update id="closeNode" parameterType="java.lang.String">
     update node_info
     set status = 0

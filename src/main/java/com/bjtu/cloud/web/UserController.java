@@ -79,10 +79,10 @@ public class UserController {
 
   //查询用户节点下有无正在运行任务
   @RequestMapping(value = "api/user/queryTaskStatusByUser", method = RequestMethod.GET)
-  public RestResult<List<TaskInfo>> queryTaskStatusByUser(String userName, Integer status) {
+  public RestResult<Integer> queryTaskStatusByUser(String userName) {
     try {
-      List<TaskInfo> taskInfos = userService.queryTaskStatusByUser(userName, status);
-      return RestResult.succ().data(taskInfos).build();
+      Integer status = userService.queryTaskStatusByUser(userName);
+      return RestResult.succ().data(status).build();
     }catch (Exception e){
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();

@@ -27,5 +27,5 @@ public interface UserService {
   List<UserInfo> deleteNode(String nodeIds) throws Exception;
 
   //查询用户节点下有无正在运行任务
-  List<TaskInfo> queryTaskStatusByUser(String userName, Integer status) throws Exception;
+  Integer queryTaskStatusByUser(String userName) throws Exception;
 }

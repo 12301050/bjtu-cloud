@@ -57,20 +57,22 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public List<TaskInfo> queryTaskStatusByUser(String userName, Integer status) {
-    List<TaskInfo> taskInfos = new ArrayList<TaskInfo>();
+  public Integer queryTaskStatusByUser(String userName) {
     try {
       UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       System.out.println(userInfo.getNodeIds());
       String[] nodeIds = userInfo.getNodeIds().split(",");
       for (int i = 0; i < nodeIds.length; i++) {
-        List<TaskInfo> taskInfo = taskInfoMapper.getTaskByUserName(nodeIds[i], status);
-        taskInfos.addAll(taskInfo);
+        Integer flag = nodeInfoMapper.queryTaskStatusByUser(nodeIds[i]).getTaskAmount();
+        if (flag != 0)
+          return 1;
+        else
+          continue;
       }
-      return taskInfos;
+      return 0;
     } catch (Exception e) {
       e.printStackTrace();
-      return null;
+      return 1;
     }
   }
   @Override
