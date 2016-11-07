@@ -307,8 +307,7 @@
 
 	<!-- PAGE -->
 	<section id="page">
-        <div id="example"></div>
-		<script type="text/babel" src="reactjs/user_mgt_admin.js"></script>
+
 				<!-- SIDEBAR -->
 				<div id="sidebar" class="sidebar">
 					<div class="sidebar-menu nav-collapse">
@@ -412,7 +411,11 @@
 											</a>
 										</div>
 									</div>
-									<div class="box-body">
+<!--                                    <div id="example"></div>-->
+                                    <script type="text/babel" src='./reactjs/user_mgt_admin.js'>
+                                    </script>
+									<div class="box-body" id="example">
+
 										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
@@ -424,63 +427,62 @@
 													<th class="hidden-xs" id="delete_id">删除用户</th>
 												</tr>
 											</thead>
-											<tbody id="userlisttbody">
+											<!--<tbody>-->
 
 
-											<tr class="gradeX">
-													<td>1</td><td>1</td>
-													<td>
-														王阿星
-														</td>
-													<td class="hidden-xs">2</td>
-                                                    <td class="center"><a href="#table-modal-addOneNodeForUser" data-toggle="modal"><i class="fa fa-plus-square"></i></a></a>&nbsp&nbsp&nbsp<a href="#table-modal-deleteOneOrMoreNodeForUser" data-toggle="modal"></ahref><i  class="fa fa-minus-square"></i></a></td>
-													<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;" id="del_butid">删除</a></td>
-												</tr>
-                                
-												<tr class="gradeC">
-													<td>2</td><td>2</td>
-													<td>王大星
-														 </td>
-													<td class="hidden-xs">4</td>
-													<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>
-													<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;" id="del_butid">删除</a></td>
-												</tr>
-												<tr class="gradeA">
-													<td>3</td><td>3</td>
-													<td>王二星</td>
-													<td class="hidden-xs">5</td>
-													<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>
-													<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>
-												</tr>
-												<tr class="gradeA">
-													<td>4</td><td>4</td>
-													<td>王三星</td>
-													<td class="hidden-xs">2</td>
-													<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>
-                                                    <td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>
-												</tr>
-												<tr class="gradeA">
-													<td>5</td><td>5</td>
-													<td>王四星</td>
-													<td class="hidden-xs">7</td>
-													<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>
-                                                    <td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>
-												</tr>
-												<tr class="gradeA">
-													<td>6</td><td>6</td>
-													<td>王五星</td>
-													<td class="hidden-xs">2</td>
-													<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>
-                                                    <td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>
-												</tr>
-												<tr class="gradeA">
-													<td>7</td><td>7</td>
-													<td>全是星</td>
-													<td class="hidden-xs">1</td>
-													<td class="center"><i class="fa fa-plus-square" onclick="addOneNodeForUser()"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square" onclick="deleteOneOrMoreNodeForUser()"></i></td>
-                                                    <td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>
-												</tr>
-											</tbody>
+											<!--<tr class="gradeX">-->
+													<!--<td>1</td><td>1</td>-->
+													<!--<td>王阿星-->
+														 <!--</td>-->
+													<!--<td class="hidden-xs">4</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>-->
+													<!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;" id="del_butid">删除</a></td>-->
+												<!--</tr>-->
+                                 <!-- -->
+												<!--<tr class="gradeC">-->
+													<!--<td>2</td><td>2</td>-->
+													<!--<td>王大星-->
+														 <!--</td>-->
+													<!--<td class="hidden-xs">4</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>-->
+													<!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;" id="del_butid">删除</a></td>-->
+												<!--</tr>-->
+												<!--<tr class="gradeA">-->
+													<!--<td>3</td><td>3</td>-->
+													<!--<td>王二星</td>-->
+													<!--<td class="hidden-xs">5</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>-->
+													<!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>-->
+												<!--</tr>-->
+												<!--<tr class="gradeA">-->
+													<!--<td>4</td><td>4</td>-->
+													<!--<td>王三星</td>-->
+													<!--<td class="hidden-xs">2</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>-->
+                                                    <!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>-->
+												<!--</tr>-->
+												<!--<tr class="gradeA">-->
+													<!--<td>5</td><td>5</td>-->
+													<!--<td>王四星</td>-->
+													<!--<td class="hidden-xs">7</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>-->
+                                                    <!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>-->
+												<!--</tr>-->
+												<!--<tr class="gradeA">-->
+													<!--<td>6</td><td>6</td>-->
+													<!--<td>王五星</td>-->
+													<!--<td class="hidden-xs">2</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square"></i></td>-->
+                                                    <!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>-->
+												<!--</tr>-->
+												<!--<tr class="gradeA">-->
+													<!--<td>7</td><td>7</td>-->
+													<!--<td>全是星</td>-->
+													<!--<td class="hidden-xs">1</td>-->
+													<!--<td class="center"><i class="fa fa-plus-square" onclick="addOneNodeForUser()"></i>&nbsp&nbsp&nbsp<i class="fa fa-minus-square" onclick="deleteOneOrMoreNodeForUser()"></i></td>-->
+                                                    <!--<td class="center"><a href="#table-modal-deleteUser" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">删除</a></td>-->
+												<!--</tr>-->
+											<!--</tbody>-->
 										</table>
                             
                             
