@@ -67,6 +67,19 @@ public class TaskController {
     }
   }
 
+  //创建任务
+  @RequestMapping(value = "api/task/create", method = RequestMethod.GET)
+  public RestResult<TaskInfo> create(String nodeId, String hostPath, Integer type,
+                                     Integer mode, Integer times, String startTime) {
+    try {
+      TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, mode, times, startTime);
+      return RestResult.succ().data(taskInfo).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //按照日期查询所有任务日志
   @RequestMapping(value = "api/log/getAllTaskRecord", method = RequestMethod.GET)
   public RestResult<List<TaskRecord>> getAllRecords() {

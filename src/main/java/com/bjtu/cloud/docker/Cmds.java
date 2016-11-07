@@ -60,12 +60,12 @@ public class Cmds {
 		return true;
 	}
 
-	public static String runTask(String nodeId, int taskType,String taskId, String targetPath) {
+	public static String runTask(String nodeId, int taskType,String targetPath, String targetFileName) {
 		String pid = null;
 		ArrayList<String> outPuts ;
-		switch (taskType) {
+		switch (taskType) { 
 		case BINTASK:
-			cmds[2] = basecmd + "exec " + nodeId + "  \"cd "+taskId+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  " + targetPath+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + "  \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("no such file or directory"))
 				return null;
@@ -76,15 +76,15 @@ public class Cmds {
 			pid = outPuts.get(0);
 			break;
 		case JAVATASK:
-			cmds[2] = basecmd + "exec " + nodeId + " \"cd "+taskId+" && ${JAVA_HOME}/bin/javac " + targetPath+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + " \"cd "+targetPath+" && ${JAVA_HOME}/bin/javac " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("javac:"))
 				return null;
 			cmds[2] = basecmd + "exec " + nodeId
-					+ " \"cd "+taskId+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  ${JAVA_HOME}/bin/java "
-					+ targetPath.substring(targetPath.length()-5, targetPath.length())+"\"";
+					+ " \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  ${JAVA_HOME}/bin/java "
+					+ targetFileName.substring(targetFileName.length()-5, targetFileName.length())+"\"";
 			outPuts = executeCmds(cmds);
-			if(outPuts.size()!=0&&outPuts.get(0).contains( targetPath.substring(targetPath.length()-5, targetPath.length())))
+			if(outPuts.size()!=0&&outPuts.get(0).contains( targetFileName.substring(targetFileName.length()-5, targetFileName.length())))
 				return null;
 			cmds[2] = basecmd + "exec " + nodeId + " cat xx.pid";
 			outPuts = executeCmds(cmds);
@@ -94,7 +94,7 @@ public class Cmds {
 			break;
 		case PYTHONTASK:
 			//TODO:python path
-			cmds[2] = basecmd + "exec " + nodeId + "  \"cd "+taskId+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  /usr/bin/python3 " + targetPath+"\"";
+			cmds[2] = basecmd + "exec " + nodeId + "  \"cd "+targetPath+" && start-stop-daemon --start --quiet --pidfile ../xx.pid -m --exec  /usr/bin/python3 " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("no such file or directory"))
 				return null;
