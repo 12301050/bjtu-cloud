@@ -165,7 +165,7 @@ function submitTheAddNodeReq(){//提交创建一个节点的请求
         success: function (data) {
             alert(data.data);
 
-            $('#wangyunodeAmount').text(at.data);//给节点数加1
+            $('#wangyunodeAmount').text(data.data);//给节点数加1
         }
     });
 }
