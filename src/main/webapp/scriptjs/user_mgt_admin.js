@@ -117,11 +117,35 @@ function change_ch(){//变为中文
 function changethedropdownbutton(obj){//更新下拉按钮名字以示选中状态
     $("#type_id").text(obj.text);
 }
-function showtheaddnodemodal(obj){//给模态框传值
+function showtheaddnodemodal(obj){//给用户添加节点时给模态框传值
     $('#table-modal-addOneNodeForUser').modal('show');
     var test=$(this);
     $('#idForUsernameWhenAddOneNode').val(obj.id);
-    //alert($('#wangyunodeAmount').text());
+}
+function showthedeleteusermodal(obj){//删除某个用户时给模态框传值，同时向后台请求该用户名下的用户状态
+    var username=obj.id;
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/user/queryTaskStatusByUser",//接口名字
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        data:{username:username},
+        success: function (data) {
+            console.log(data.data);
+            if(data.data=="1"){//该用户名下有正在运行的任务，给出相关提示
+                $('#table-modal-deleteUser').modal('show');
+            }else{//调用删除用户接口，完成删除任务
+                
+                alert("删除成功");//重新请求数据
+            }
+            //var newnodeAmount=data.data;
+            //if(newnodeAmount=="null"||newnodeAmount==""||newnodeAmount==null)
+            //    alert("不知道为什么服务器炸掉了，不过你不要着急，给王文博打电话！");
+            //else
+            //    $('#wangyunodeAmount').text(data.data);//给节点数加1
+        }
+    });
+    $('#idForUsernameWhenAddOneNode').val(obj.id);
 }
 function eventForidforReload(){//刷新按钮重新加载数据
     $.ajax({
@@ -135,12 +159,11 @@ function eventForidforReload(){//刷新按钮重新加载数据
                 var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
-                    "<td class=\"center\">" + data.data[i].userName +
-                    "</td>" +
+                    "<td class=\"center\">" + data.data[i].userName+"</td>"+
                     "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                     "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
                     "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
-                    "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
+                    "</td><td class=\"center\"><a id=\""+data.data[i].userName+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
@@ -187,12 +210,11 @@ jQuery(document).ready(function() {	//首先渲染
                 var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
-                    "<td class=\"center\">" + data.data[i].userName +
-                    "</td>" +
+                    "<td class=\"center\">" + data.data[i].userName+"</td>"+
                     "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                     "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
                     "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
-                    "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
+                    "</td><td class=\"center\"><a id=\""+data.data[i].userName+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
