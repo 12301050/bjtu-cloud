@@ -121,7 +121,7 @@ function showtheaddnodemodal(obj){//给模态框传值
     $('#table-modal-addOneNodeForUser').modal('show');
     var test=$(this);
     $('#idForUsernameWhenAddOneNode').val(obj.id);
-    //alert($('#idForUsernameWhenAddOneNode').val());
+    alert($('#wangyunodeAmount').text());
 }
 function submitTheAddNodeReq(){//提交创建一个节点的请求
     var dataforUserAndNode= {
@@ -137,6 +137,7 @@ function submitTheAddNodeReq(){//提交创建一个节点的请求
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
+
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
                     "<td class=\"center\">" + data.data[i].userName +
@@ -148,9 +149,8 @@ function submitTheAddNodeReq(){//提交创建一个节点的请求
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            $("#datatable2").dataTable().fnDestroy();
-            $('#tableforusernode').html(stringfortrlist);
-            AutoCheckLang();
+            $('#wangyunodeAmount').text();//给节点数加1
+            //AutoCheckLang();
         }
     });
 }
@@ -166,11 +166,12 @@ jQuery(document).ready(function() {	//首先渲染
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
+                var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
                     "<td class=\"center\">" + data.data[i].userName +
                     "</td>" +
-                    "<td class=\"center\"><a href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
+                    "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                     "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
                     "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
                 "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
