@@ -1,5 +1,6 @@
 package com.bjtu.cloud.web;
 
+import com.alibaba.fastjson.JSON;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.webDao.RestResult;
 import com.bjtu.cloud.common.entity.User;
@@ -9,10 +10,7 @@ import com.bjtu.cloud.gate.TaskService;
 import com.bjtu.cloud.gate.UserService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +32,7 @@ public class UserController {
 
   //用户登录
   @RequestMapping(value = "api/user/login", method = RequestMethod.GET)
-  public ModelAndView login(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                            String userName, String password) {
+  public ModelAndView login(HttpSession session,String userName, String password) {
     try {
       ModelAndView mv = new ModelAndView();
       User user = userService.login(userName, password);
@@ -85,10 +82,12 @@ public class UserController {
   }
 
   //查询用户节点下有无正在运行任务
-  @RequestMapping(value = "api/user/queryTaskStatusByUser", method = RequestMethod.GET)
-  public RestResult<Integer> queryTaskStatusByUser(String userName) {
+  @RequestMapping(value = "api/user/queryTaskStatusByUser", method = RequestMethod.POST)
+  public RestResult<Integer> queryTaskStatusByUser(@RequestBody String username) {
     try {
-      Integer status = userService.queryTaskStatusByUser(userName);
+      String usernameforquery=username.split("=")[1];
+
+      Integer status = userService.queryTaskStatusByUser(usernameforquery);
       return RestResult.succ().data(status).build();
     }catch (Exception e){
       e.printStackTrace();
@@ -97,10 +96,11 @@ public class UserController {
   }
 
   //删除用户
-  @RequestMapping(value = "api/user/deleteUser", method = RequestMethod.GET)
-  public RestResult<List<UserInfo>> deleteUser(String userName) {
+  @RequestMapping(value = "api/user/deleteUser", method = RequestMethod.POST)
+  public RestResult<List<UserInfo>> deleteUser(@RequestBody String userName) {
     try{
-      List<UserInfo> userInfos = userService.deleteUser(userName);
+      String usernameforquery=userName.split("=")[1];
+      List<UserInfo> userInfos = userService.deleteUser(usernameforquery);
       return  RestResult.succ().data(userInfos).build();
     }catch (Exception e) {
       e.printStackTrace();

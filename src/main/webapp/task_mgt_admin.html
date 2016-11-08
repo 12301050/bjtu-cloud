@@ -35,8 +35,8 @@
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<!-- BOOTSTRAP -->
 	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
-	
-	
+
+
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 		
@@ -134,7 +134,7 @@
 							<!--<li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>-->
 							<li><a  id="langli" ><i class="fa fa-cog"></i> 更换语言</a></li>
 							<!--<li><a href=""><i class="fa fa-eye"></i> Privacy Settings</a></li>-->
-							<li><a href="login.html"><i class="fa fa-power-off"></i>注销</a></li>
+							<li><a id="logout_id" href="/api/user/logout"><i class="fa fa-power-off"></i>注销</a></li>
 						</ul>
 					</li>
 					<!-- END USER LOGIN DROPDOWN -->
@@ -173,26 +173,26 @@
 				<div id="sidebar" class="sidebar">
 					<div class="sidebar-menu nav-collapse">
 						<div class="divide-20"></div>
-						
+
 						<!-- SIDEBAR MENU -->
 						<ul>
                             <li class="">
 								<a href="user_mgt_admin.html" >
-								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text"> 用户管理</span>
+								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text" id="user_mangid"> 用户管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
 							<li class="active">
 								<a href="task_mgt_admin.html">
-								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">任务管理</span>
+								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text" id="task_mangid">任务管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
                             <li class="">
 								<a href="log_mgt_admin.html">
-								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text"> 日志管理</span>
+								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text" id="log_mangid"> 日志管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
 						</ul>
 						<!-- /SIDEBAR MENU -->
@@ -233,12 +233,12 @@
 									<ul class="breadcrumb">
 										<li>
 											<i class="fa fa-home"></i>
-											<a href="user_mgt_admin.html">主页</a>
+											<a href="user_mgt_admin.html" id="home_id">主页</a>
 										</li>
 									</ul>
 									<!-- /BREADCRUMBS -->
 									<div class="clearfix">
-										<h3 class="content-title pull-left" id="Dashboard_h3">任务管理</h3>
+										<h3 class="content-title pull-left" id="Dtask">任务管理</h3>
 									</div>
 								</div>
 							</div>
@@ -275,36 +275,36 @@
 											<thead>
 												<tr>
                                                     <th id="nosort" style="text-align:center;padding:3px 3px 3px 3px;" class="" onclick="change()"><input type="checkbox" id="checkAll"></th>
-                                                    <th>编号</th>
-													<th>节点ID</th>
-													<th>节点类型</th>
-													<th>节点名称</th>
-													<th>用户名</th>
-													<th>节点状态</th>
-													<th class="hidden-xs">正在执行任务数</th>
-													<th>历史执行任务数</th>
-													<th>CPU占用率</th>
-													<th>内存使用率</th>
-													<th class="hidden-xs">带宽占用率</th>
-													<th class="hidden-xs">操作</th>
+                                                    <th id="number_id">编号</th>
+													<th id="node_id">节点ID</th>
+													<th id="node_type">节点类型</th>
+													<th id="node_name">节点名称</th>
+													<th id="user_name">用户名</th>
+													<th id="node_state">节点状态</th>
+													<th class="hidden-xs" id="task_number">正在执行任务数</th>
+													<th id="his_task">历史执行任务数</th>
+													<th id="cpu">CPU占用率</th>
+													<th id="ram">内存使用率</th>
+													<th class="hidden-xs" id="net">带宽占用率</th>
+													<th class="hidden-xs" id="operate">操作</th>
 												</tr>
 											</thead>
 											<tbody id="tbodyfornodelist">
-												<tr class="gradeX">
-                                                    <td ><input type="checkbox" name="checkList"></td>
-													<td>1</td>
-													<td>332</td>
-													<td class="hidden-xs">java</td>
-													<td class="hidden-xs">这是第一个节点名</td>
-													<td class="center">王阿星</td>
-													<td class="center hidden-xs">活跃</td>
-                                                    <td class="hidden-xs"><a onclick="changeToTaskView()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">56%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>
-												</tr>
+												<!--<tr class="gradeX">-->
+                                                    <!--<td ><input type="checkbox" name="checkList"></td>-->
+													<!--<td>1</td>-->
+													<!--<td>332</td>-->
+													<!--<td class="hidden-xs">java</td>-->
+													<!--<td class="hidden-xs">这是第一个节点名</td>-->
+													<!--<td class="center">王阿星</td>-->
+													<!--<td class="center hidden-xs">活跃</td>-->
+                                                    <!--<td class="hidden-xs"><a onclick="changeToTaskView()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>-->
+													<!--<td class="center"><a href="#table-modal-his" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">3</a></td>-->
+													<!--<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38%</a></td>-->
+													<!--<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">56%</a></td>-->
+													<!--<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>-->
+													<!--<td class="center hidden-xs"><a href="#table-modal-closeNode" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">关闭</a></td>-->
+												<!--</tr>-->
 											</tbody>
 										</table>
 									</div>
@@ -317,10 +317,10 @@
 						<div id="taskView" style="display:none;" class="row">
 							<div class="col-md-12">
 								<!-- BOX -->
-                                <a type="button" href="/task_mgt_admin.html" style="margin-left:0.5%;margin-bottom:0.2%;font-size: large;" class="btn btn-link" data-dismiss="modal"><i class="fa fa-angle-double-left"></i> 返回</a>
+                                <a type="button" href="/task_mgt_admin.html" style="margin-left:0.5%;margin-bottom:0.2%;font-size: large;" class="btn btn-link" data-dismiss="modal" id="back"><i class="fa fa-angle-double-left"></i> 返回</a>
 								<div class="box border purple">
 									<div class="box-title">
-										<h4 id="CPCEP_id"><i class="fa fa-table"></i>某个节点（动态显示）任务列表</h4>
+										<h4 id="node_list"><i class="fa fa-table"></i>某个节点（动态显示）任务列表</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -340,11 +340,11 @@
 										<table id="datatableForTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
-                                                    <th>编号</th>
-													<th>任务名称</th>
-													<th>任务模式</th>
-													<th>时间信息</th>
-													<th class="hidden-xs">资源信息</th>
+                                                    <th id="task_number1">编号</th>
+													<th id="task_name1">任务名称</th>
+													<th id="task_type1">任务模式</th>
+													<th id="time_info1">时间信息</th>
+													<th class="hidden-xs" id="resource_info">资源信息</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -503,7 +503,7 @@
 										</table>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+								  <button type="button" class="btn btn-danger" data-dismiss="modal" >close</button>
 								</div>
 							  </div>
 							</div>
@@ -513,17 +513,17 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">历史任务</h4>
+								  <h4 class="modal-title" id="his_text">历史任务</h4>
 								</div>
 								<div class="modal-body">
 								  
 										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
-													<th>编号</th>
-													<th>任务名称</th>
-													<th>任务模式</th>
-													<th>时间信息</th>
+													<th id="his_number">编号</th>
+													<th id="task_name">任务名称</th>
+													<th id="task_type">任务模式</th>
+													<th id="time_info">时间信息</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -553,7 +553,7 @@
 										</table>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+								  <button type="button" class="btn btn-danger" data-dismiss="modal" id="close_button">关闭</button>
 								</div>
 							  </div>
 							</div>
@@ -563,15 +563,15 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">提示</h4>
+								  <h4 class="modal-title" id="tips">提示</h4>
 								</div>
 								<div class="modal-body" style="text-align: center;">
 								  
-										<p style="font-size: larger;">正在执行6个任务，确定关闭该节点？</p>
+										<p style="font-size: larger;" id="sureText_id">正在执行6个任务，确定关闭该节点？</p>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-danger" data-dismiss="modal">确定</button>
-                                  <button type="button" class="btn btn-inverse" data-dismiss="modal">取消</button>
+								  <button type="button" class="btn btn-danger" data-dismiss="modal" id="sure">确定</button>
+                                  <button type="button" class="btn btn-inverse" data-dismiss="modal" id="cancel">取消</button>
 								</div>
 							  </div>
 							</div>
@@ -602,7 +602,7 @@
 										</table>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+								  <button type="button" class="btn btn-danger" data-dismiss="modal" id="button_close_id">关闭</button>
 								</div>
 							  </div>
 							</div>
@@ -644,11 +644,11 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">XX时间信息</h4>
+								  <h4 class="modal-title" id="time_text">XX时间信息</h4>
 								</div>
 								<div class="modal-body">
 								  
-										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
 													<th></th>
@@ -659,15 +659,15 @@
 											<tbody>
 												
 												<tr class="gradeA">
-                                                     <td> 开始时间</td>
+                                                     <td id="start_time"> 开始时间</td>
 													<td>2016-09-25 11:12</td>
 												</tr>
 												<tr class="gradeA">
-                                                     <td> 执行时间</td>
+                                                     <td id="execute_time"> 执行时间</td>
 													<td>1d 2h 3m 44s</td>
 												</tr>
                                                 <tr class="gradeA">
-                                                     <td> 结束时间</td>
+                                                     <td id="end_time"> 结束时间</td>
 													<td>2016-09-26 13:15</td>
 												</tr>
 												
@@ -676,7 +676,7 @@
 										</table>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+								  <button type="button" class="btn btn-success" data-dismiss="modal" id="sure_time">确定</button>
 								</div>
 							  </div>
 							</div>
@@ -686,7 +686,7 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">CPU动态信息(后期动态修改成内存和网络)</h4>
+								  <h4 class="modal-title" id="cpu_info">CPU动态信息(后期动态修改成内存和网络)</h4>
 								</div>
 								<div class="modal-body">
                             
@@ -716,7 +716,7 @@
 							
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+								  <button type="button" class="btn btn-success" data-dismiss="modal" id="cpu_sure">确定</button>
 								</div>
 							  </div>
 							</div>

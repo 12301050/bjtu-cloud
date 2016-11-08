@@ -44,7 +44,7 @@ public class TaskController {
   }
 
   //根据用户名查询任务
-  @RequestMapping(value = "api/task/getTaskByUserName", method = RequestMethod.GET)
+  @RequestMapping(value = "api/task/getTaskByUserName", method = RequestMethod.POST)
   public RestResult<List<TaskInfo>> getTaskByUserName(String userName, Integer status) {
     try {
       List<TaskInfo> taskInfos = taskService.getTaskByUserName(userName, status);
