@@ -14,6 +14,9 @@ public interface UserService {
   //获取所有用户信息
   List<UserInfo> getAll() throws Exception;
 
+  //根据用户名获取用户信息
+  UserInfo getUserByUserName(String userName) throws Exception;
+
   //用户登录
   User login(String userName, String password) throws Exception;
 

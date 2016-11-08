@@ -46,6 +46,18 @@ public class UserServiceImpl implements UserService{
     }
   }
 
+  //根据用户名获取用户信息
+  @Override
+  public UserInfo getUserByUserName(String userName) throws Exception{
+    try{
+      UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
+      return userInfo;
+    }catch (Exception e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
   @Override
   public User login(String userName, String password) throws Exception {
     try {

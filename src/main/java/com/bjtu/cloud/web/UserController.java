@@ -118,14 +118,23 @@ public class UserController {
 
   //用户新增节点
   @RequestMapping(value = "api/user/addNode", method = RequestMethod.POST)
-  public RestResult<List<UserInfo>> addNode(String userName,@RequestBody Map<String, String> map,Integer type) {
+  public RestResult<Integer> addNode(@RequestBody Map<String, String> map) {
     try{
+      String userName = map.get("username");
+      String nodeType = map.get("nodetype");
+      Integer type;
+      if(nodeType == "Java")
+        type = 1;
+      else if(nodeType == "Python")
+        type = 2;
+      else
+        type = 0;
       String nodeId = nodeService.addNodeInNodeInfo(type);
       if(!nodeId.isEmpty()) {
         Integer flag = userService.addNodeInUserInfo(userName, nodeId);
         if (flag == 1) {
-          List<UserInfo> userInfos = userService.getAll();
-          return RestResult.succ().data(userInfos).build();
+          UserInfo userInfo = userService.getUserByUserName(userName);
+          return RestResult.succ().data(userInfo.getNodeAmount()).build();
         } else {
           return RestResult.fail().build();
         }
