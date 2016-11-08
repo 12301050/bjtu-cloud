@@ -41,7 +41,7 @@ public class UserController {
       User user = userService.login(userName, password);
       if (user == null){
         //跳转到错误页面
-        mv.setViewName("redirect:/index3.jsp");
+        mv.setViewName("redirect:/login_bg.html?error=error");
       }else if (user.getRole() == 0) {
         //跳转到管理员页面
         mv.setViewName("redirect:/index1.jsp");
@@ -55,7 +55,7 @@ public class UserController {
     }
   }
 
-  //用户登录
+  //用户登出
   @RequestMapping(value = "api/user/logout", method = RequestMethod.GET)
   public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session,
                                   String userName) {

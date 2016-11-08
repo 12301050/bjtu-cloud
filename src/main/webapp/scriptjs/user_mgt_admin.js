@@ -121,7 +121,7 @@ function showtheaddnodemodal(obj){//给模态框传值
     $('#table-modal-addOneNodeForUser').modal('show');
     var test=$(this);
     $('#idForUsernameWhenAddOneNode').val(obj.id);
-    alert($('#wangyunodeAmount').text());
+    //alert($('#wangyunodeAmount').text());
 }
 function eventForidforReload(){//刷新按钮重新加载数据
     $.ajax({
