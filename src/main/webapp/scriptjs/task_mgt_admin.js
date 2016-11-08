@@ -1,3 +1,15 @@
+function AutoCheckLang(){ //检查缓存中之前所设置的语言
+    if(localStorage.langclose==1){
+        change_ch();
+    }
+    else if(localStorage.langclose==2){
+        change_en();
+    }
+    else{
+        localStorage.langclose=1;
+    }
+
+}
 function change_en(){//变为英文
 
     $("#Dashboard_h3").html("USER MANAGEMENT");
@@ -153,23 +165,14 @@ jQuery(document).ready(function() {	//首先渲染
             }
             $("#datatableForNode").dataTable().fnDestroy();
             $('#tbodyfornodelist').html(stringfortrlist);
-            if(localStorage.langclose==1){//识别cookie
-                change_ch();
-            }
-            else if(localStorage.langclose==2){
-                change_en();
-            }
-            else{
-                localStorage.langclose=1;
-            }
-
+            AutoCheckLang();
         }
     });
 
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 
-    $("#langli").click(function(){
+    $("#langli").click(function(){//点击选择更换语言
         if(localStorage.lang){ //缓存 1代表中文，2代表英文
             if(localStorage.lang==1){
                 localStorage.lang=2;
