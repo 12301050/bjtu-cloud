@@ -106,6 +106,18 @@ public class NodeController {
     }
   }
 
+  //查询某个节点的其中一个性能的数值
+  @RequestMapping(value = "api/node/getOnePerformance", method = RequestMethod.GET)
+  public RestResult<Float> getOnePerformance(String nodeId, Integer number) {
+    try{
+      Float performance = nodeService.getOnePerformance(nodeId, number);
+      return RestResult.succ().data(performance).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //按照日期查询所有节点日志
   @RequestMapping(value = "api/log/getAllNodeRecord", method = RequestMethod.GET)
   public RestResult<List<NodeRecord>> getAllRecords() {

@@ -148,8 +148,8 @@ public class NodeServiceImpl implements NodeService {
     Float cpu = Cmds.nodeCpuUsage(nodeId);
     performance.add(cpu);
 
-    Float memoryTotal = Cmds.nodeMemoryUsage(nodeId)[0];
-    performance.add(memoryTotal);
+    /*Float memoryTotal = Cmds.nodeMemoryUsage(nodeId)[0];
+    performance.add(memoryTotal);*/
 
     Float memoryUse = Cmds.nodeMemoryUsage(nodeId)[1];
     performance.add(memoryUse);
@@ -165,6 +165,34 @@ public class NodeServiceImpl implements NodeService {
     } catch (Exception e){
       e.printStackTrace();
     }
+    return performance;
+  }
+
+  @Override
+  public Float getOnePerformance(String nodeId, Integer number) throws Exception {
+    Float performance = null;
+    NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+    switch (number){
+      case 0:
+        performance = Cmds.nodeCpuUsage(nodeId);
+        nodeInfo.setCpu((int) (performance*10));
+        break;
+      case 1:
+        performance = Cmds.nodeMemoryUsage(nodeId)[1];
+        nodeInfo.setMemory((int)(performance*10));
+        break;
+      case 2:
+        performance = Cmds.nodeNetUsage(nodeId);
+        nodeInfo.setNetSpeed((int)(performance*10));
+        break;
+    }
+
+    try {
+      nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+
     return performance;
   }
 }

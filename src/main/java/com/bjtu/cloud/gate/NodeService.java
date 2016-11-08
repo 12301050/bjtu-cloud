@@ -21,8 +21,11 @@ public interface NodeService {
   //获取某个用户下所有节点
   List<NodeInfo> getNodeByUser(String userName) throws Exception;
 
-  ////查询某个节点的三个性能的数值
+  //查询某个节点的三个性能的数值
   List<Float> getPerformance(String nodeId) throws Exception;
+
+  //查询某个节点的其中一个性能的数值
+  Float getOnePerformance(String nodeId, Integer number) throws Exception;
 
   //新增节点
   String addNodeInNodeInfo(Integer type) throws Exception;
