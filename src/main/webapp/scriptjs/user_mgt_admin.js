@@ -152,32 +152,33 @@ function eventForidforReload(){//刷新按钮重新加载数据
     App.init(); //Initialise plugins and elements
 }
 function submitTheAddNodeReq(){//提交创建一个节点的请求
-    var dataforUserAndNode= {
+    var dataforUserAndNode= JSON.stringify({
         username:$("#idForUsernameWhenAddOneNode").val(),
-        nodetype:$("#type_id").text(),
-    };
+        nodetype:$("#type_id").text()
+    });
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/user/addNode",//接口名字
         dataType: "json",
+        contentType: "application/json; charset=utf-8",
         data:dataforUserAndNode,
         success: function (data) {
             var stringfortrlist = "";
-            for (var i = 0; i < data.data.length; i++) {
-                var idforlog=i+1;
-
-                var stringfortr = "<tr class=\"gradeX\">" +
-                    "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
-                    "<td class=\"center\">" + data.data[i].userName +
-                    "</td>" +
-                    "<td class=\"center\"><a href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
-                    "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
-                    "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
-                    "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
-                    " </tr>";
-                stringfortrlist = stringfortrlist + stringfortr;
-            }
-            $('#wangyunodeAmount').text();//给节点数加1
+            //for (var i = 0; i < data.data.length; i++) {
+            //    var idforlog=i+1;
+            //
+            //    var stringfortr = "<tr class=\"gradeX\">" +
+            //        "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
+            //        "<td class=\"center\">" + data.data[i].userName +
+            //        "</td>" +
+            //        "<td class=\"center\"><a href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
+            //        "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
+            //        "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
+            //        "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
+            //        " </tr>";
+            //    stringfortrlist = stringfortrlist + stringfortr;
+            //}
+            $('#wangyunodeAmount').text("11");//给节点数加1
             //AutoCheckLang();
         }
     });

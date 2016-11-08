@@ -7,7 +7,9 @@ import com.bjtu.cloud.common.entity.UserInfo;
 import com.bjtu.cloud.gate.NodeService;
 import com.bjtu.cloud.gate.TaskService;
 import com.bjtu.cloud.gate.UserService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kafukaaa on 16/10/23.
@@ -115,7 +118,7 @@ public class UserController {
 
   //用户新增节点
   @RequestMapping(value = "api/user/addNode", method = RequestMethod.POST)
-  public RestResult<List<UserInfo>> addNode(String userName, Integer type) {
+  public RestResult<List<UserInfo>> addNode(String userName,@RequestBody Map<String, String> map,Integer type) {
     try{
       String nodeId = nodeService.addNodeInNodeInfo(type);
       if(!nodeId.isEmpty()) {
