@@ -125,13 +125,15 @@ public class UserController {
       String userName = map.get("username");
       String nodeType = map.get("nodetype");
       Integer type;
-      if(nodeType == "Java")
+      if(nodeType.equals("Java"))
         type = 1;
-      else if(nodeType == "Python")
+      else if(nodeType.equals("Python"))
         type = 2;
       else
         type = 0;
-      String nodeId = nodeService.addNodeInNodeInfo(type);
+      //Todo 这里暂时跳过一下
+      //String nodeId = nodeService.addNodeInNodeInfo(type);
+      String nodeId = "qqq";
       if(!nodeId.isEmpty()) {
         Integer flag = userService.addNodeInUserInfo(userName, nodeId);
         if (flag == 1) {
