@@ -141,4 +141,30 @@ public class NodeServiceImpl implements NodeService {
       return null;
     }
   }
+
+  @Override
+  public List<Float> getPerformance(String nodeId) throws Exception {
+    List<Float> performance = new ArrayList<Float>();
+    Float cpu = Cmds.nodeCpuUsage(nodeId);
+    performance.add(cpu);
+
+    Float memoryTotal = Cmds.nodeMemoryUsage(nodeId)[0];
+    performance.add(memoryTotal);
+
+    Float memoryUse = Cmds.nodeMemoryUsage(nodeId)[1];
+    performance.add(memoryUse);
+
+    Float net = Cmds.nodeNetUsage(nodeId);
+    performance.add(net);
+    try {
+      NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+      nodeInfo.setCpu((int) (cpu*10));
+      nodeInfo.setMemory((int)(memoryUse*10));
+      nodeInfo.setNetSpeed((int)(net*10));
+      nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+    return performance;
+  }
 }
