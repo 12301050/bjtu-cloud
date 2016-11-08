@@ -35,7 +35,7 @@ public class UserController {
   //用户登录
   @RequestMapping(value = "api/user/login", method = RequestMethod.GET)
   public ModelAndView login(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                  String userName, String password) {
+                            String userName, String password) {
     try {
       ModelAndView mv = new ModelAndView();
       User user = userService.login(userName, password);
@@ -44,8 +44,10 @@ public class UserController {
         mv.setViewName("redirect:/login_bg.html?error=error");
       }else if (user.getRole() == 0) {
         //跳转到管理员页面，数据库中角色为0
+        session.setAttribute("userName", userName);
         mv.setViewName("redirect:/user_mgt_admin.html");
       }else if (user.getRole() == 1){
+        session.setAttribute("userName", userName);
         //跳转到普通用户页面，数据库中角色为1
         mv.setViewName("redirect:/node_mgt_user.html");
       }
@@ -57,11 +59,11 @@ public class UserController {
 
   //用户登出
   @RequestMapping(value = "api/user/logout", method = RequestMethod.GET)
-  public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                  String userName) {
+  public ModelAndView getUserInfo(HttpSession session) {
     try {
       ModelAndView mv = new ModelAndView();
-        mv.setViewName("redirect:/index.jsp");
+      session.setAttribute("userName", null);
+      mv.setViewName("redirect:/index.jsp");
       return mv;
     } catch (Exception e) {
       return null;
