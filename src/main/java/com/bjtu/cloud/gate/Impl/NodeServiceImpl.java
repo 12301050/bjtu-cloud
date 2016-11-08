@@ -43,9 +43,14 @@ public class NodeServiceImpl implements NodeService {
   @Override
   public Integer closeNode(String nodeId) throws Exception {
     try {
-      //TODO 对docker上的节点进行关闭
-      Integer flag = nodeInfoMapper.closeNode(nodeId);
-      return flag;
+      //调用docker关闭节点
+      Boolean result = Cmds.stopNode(nodeId);
+      if (result == true) {
+        Integer flag = nodeInfoMapper.closeNode(nodeId);
+        return flag;
+      }else {
+        return 0;
+      }
     }catch (Exception e){
       e.printStackTrace();
       return 0;
@@ -55,9 +60,14 @@ public class NodeServiceImpl implements NodeService {
   @Override
   public Integer startNode(String nodeId) throws Exception {
     try {
-      //TODO 对docker上的节点进行关闭
-      Integer flag = nodeInfoMapper.startNode(nodeId);
-      return flag;
+      //调用docker开启节点
+      Boolean result = Cmds.runNode(nodeId);
+      if (result == true) {
+        Integer flag = nodeInfoMapper.startNode(nodeId);
+        return flag;
+      }else {
+        return 0;
+      }
     }catch (Exception e){
       e.printStackTrace();
       return 0;
