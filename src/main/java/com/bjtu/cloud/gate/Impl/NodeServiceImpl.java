@@ -103,6 +103,7 @@ public class NodeServiceImpl implements NodeService {
         if(flag != 0){
           return nodeId;
         }else {
+          //Todo 大奶说这个地方可能需要改
           return nodeId;
         }
       }else {
@@ -110,7 +111,7 @@ public class NodeServiceImpl implements NodeService {
       }
     }catch (Exception e){
       e.printStackTrace();
-      return null;
+      return "";
     }
   }
 

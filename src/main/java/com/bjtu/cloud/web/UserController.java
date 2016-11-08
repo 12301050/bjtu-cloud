@@ -132,8 +132,8 @@ public class UserController {
       else
         type = 0;
       //Todo 这里暂时跳过一下
-      //String nodeId = nodeService.addNodeInNodeInfo(type);
-      String nodeId = "qqq";
+      String nodeId = nodeService.addNodeInNodeInfo(type);
+      //String nodeId = "aaa";//测试返回为假的
       if(!nodeId.isEmpty()) {
         Integer flag = userService.addNodeInUserInfo(userName, nodeId);
         if (flag == 1) {

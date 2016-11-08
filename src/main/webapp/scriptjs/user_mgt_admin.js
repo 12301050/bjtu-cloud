@@ -163,9 +163,12 @@ function submitTheAddNodeReq(){//提交创建一个节点的请求
         contentType: "application/json; charset=utf-8",
         data:dataforUserAndNode,
         success: function (data) {
-            alert(data.data);
-
-            $('#wangyunodeAmount').text(data.data);//给节点数加1
+            //alert(data.data);
+            var newnodeAmount=data.data;
+            if(newnodeAmount=="null"||newnodeAmount==""||newnodeAmount==null)
+                alert("不知道为什么服务器炸掉了，不过你不要着急，给王文博打电话！");
+            else
+                $('#wangyunodeAmount').text(data.data);//给节点数加1
         }
     });
 }
@@ -189,7 +192,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                     "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
                     "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
-                "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
+                    "</td><td class=\"center\"><a href=\"#table-modal-deleteUser\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" id=\"del_butid\">删除</a></td>" +
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
