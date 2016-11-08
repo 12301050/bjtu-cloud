@@ -80,7 +80,7 @@ public class Cmds {
 		case JAVATASK:
 			cmds[2] = basecmd + "exec " + nodeId + " /bin/sh -c \"cd "+targetPath+" && /jdk/bin/javac " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
-			if(outPuts.size()!=0&&outPuts.get(0).contains("javac:"))
+			if(outPuts.size()!=0)
 				return null;
 			cmds[2] = basecmd + "exec " + nodeId
 					+ " start-stop-daemon -b -d /"+targetPath+" --start --quiet --pidfile ../xx.pid -m --exec  /jdk/bin/java "
@@ -156,19 +156,29 @@ public class Cmds {
 		ArrayList<String> outPuts = executeCmds(cmds);
 		if(outPuts.size()>4){
 			for(String line : outPuts){
-				if(line.contains("KiB Mem:")){
-					memory[0]=Float.valueOf(line.substring(8,line.lastIndexOf(" total,")).trim());
-					memory[1]=Float.valueOf(line.substring(25,line.lastIndexOf(" used,")).trim());  
+				if(line.contains("KiB Mem :")){
+					memory[0]=Float.valueOf(line.substring(9,line.lastIndexOf(" total,")).trim());
+					memory[1]=Float.valueOf(line.substring(line.lastIndexOf("free,")+5,line.lastIndexOf(" used,")).trim());
 				}
 			}
 		}
 		return memory;
 	}
-	
-	public static float nodeNetUsage(String nodeId) {
-		cmds[2] = basecmd + "exec " + nodeId + " cat /net.temp ";
+
+	//index 0 up index 1 down
+	public static float[] nodeNetUsage(String nodeId) {
+		float [] net = new float[2];
+		cmds[2] = basecmd + "exec " + nodeId + " /nethogs/src/nethogs";
 		ArrayList<String> outPuts = executeCmds(cmds);
-		return 0.1f;
+		if(outPuts.size()!=0){
+			for(String line : outPuts){
+				if(line.contains("TOTAL:")){
+					net[0]=Float.valueOf(line.substring(line.lastIndexOf("TOTAL:")+6,line.lastIndexOf(",")).trim());
+					net[1]=Float.valueOf(line.substring(line.lastIndexOf(",")+1,line.length()).trim());
+				}
+			}
+		}
+		return net;
 	}
 
 	public static float taskCpuUsage(String nodeId, String pid) {
@@ -194,11 +204,11 @@ public class Cmds {
 		if(outPuts.size()>4){
 			int i=0;
 			for(String line : outPuts){
-				if(line.contains("KiB Mem:")){
-					memory[0]=Float.valueOf(line.substring(8,line.lastIndexOf(" total,")).trim());
+				if(line.contains("KiB Mem :")){
+					memory[0]=Float.valueOf(line.substring(9,line.lastIndexOf(" total,")).trim());
 				}
-				if(i==1&&line.contains(pid))
-					memory[1]=Float.valueOf(line.substring(52,57).trim())*memory[0];
+				if(i==1&&line.length()>6&&line.substring(0,6).contains(pid))
+					memory[1]=Float.valueOf(line.substring(52,57).trim())*0.01f*memory[0];
 				if(line.contains("  PID USER")){
 					i++;
 				}
@@ -206,11 +216,20 @@ public class Cmds {
 		}
 		return memory;
 	}
-
-	public static float taskNetUsage(String nodeId, String pid) {
-		cmds[2] = basecmd + "exec " + nodeId + " cat /net.temp ";
+	//index 0 up index 1 down
+	public static float[] taskNetUsage(String nodeId, String pid) {
+		float [] net = new float[2];
+		cmds[2] = basecmd + "exec " + nodeId + " /nethogs/src/nethogs";
 		ArrayList<String> outPuts = executeCmds(cmds);
-		return 0.1f;
+		if(outPuts.size()!=0){
+			for(String line : outPuts){
+				if(line.contains(pid+":")){
+					net[0]=Float.valueOf(line.substring(line.lastIndexOf(pid+":")+pid.length()+1,line.lastIndexOf(",")).trim());
+					net[1]=Float.valueOf(line.substring(line.lastIndexOf(",")+1,line.length()).trim());
+				}
+			}
+		}
+		return net;
 	}
 
 	public static ArrayList<String> executeCmds(String[] cmds) {

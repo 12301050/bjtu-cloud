@@ -155,7 +155,7 @@ public class NodeServiceImpl implements NodeService {
     Float memoryUse = Cmds.nodeMemoryUsage(nodeId)[1];
     performance.add(memoryUse);
 
-    Float net = Cmds.nodeNetUsage(nodeId);
+    Float net = Cmds.nodeNetUsage(nodeId)[1];
     performance.add(net);
     try {
       NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
@@ -183,7 +183,7 @@ public class NodeServiceImpl implements NodeService {
         nodeInfo.setMemory((int)(performance*10));
         break;
       case 2:
-        performance = Cmds.nodeNetUsage(nodeId);
+        performance = Cmds.nodeNetUsage(nodeId)[1];
         nodeInfo.setNetSpeed((int)(performance*10));
         break;
     }
