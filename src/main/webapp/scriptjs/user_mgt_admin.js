@@ -122,6 +122,34 @@ function showtheaddnodemodal(obj){//给用户添加节点时给模态框传值
     var test=$(this);
     $('#idForUsernameWhenAddOneNode').val(obj.id);
 }
+function deleteUserByUsername(username){
+    $.ajax({
+        type: "POST",
+        data:{username:username},
+        url: "http://localhost:8080/api/user/deleteUser",//接口名字
+        dataType: "json",
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog=i+1;
+                var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
+                var stringfortr = "<tr class=\"gradeX\">" +
+                    "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
+                    "<td class=\"center\">" + data.data[i].userName+"</td>"+
+                    "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
+                    "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
+                    "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
+                    "</td><td class=\"center\"><a id=\""+data.data[i].userName+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
+                    " </tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $("#datatable2").dataTable().fnDestroy();
+            $('#tableforusernode').html(stringfortrlist);
+            AutoCheckLang();
+        }
+    });
+    App.init(); //Initialise plugins and elements
+}
 function showthedeleteusermodal(obj){//删除某个用户时给模态框传值，同时向后台请求该用户名下的用户状态
     var username=obj.id;
     $.ajax({
@@ -135,8 +163,8 @@ function showthedeleteusermodal(obj){//删除某个用户时给模态框传值�
             if(data.data=="1"){//该用户名下有正在运行的任务，给出相关提示
                 $('#table-modal-deleteUser').modal('show');
             }else{//调用删除用户接口，完成删除任务
-                
-                alert("删除成功");//重新请求数据
+                deleteUserByUsername(username);
+                //alert("删除成功");//重新请求数据
             }
             //var newnodeAmount=data.data;
             //if(newnodeAmount=="null"||newnodeAmount==""||newnodeAmount==null)

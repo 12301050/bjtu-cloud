@@ -98,8 +98,9 @@ public class UserController {
 
   //删除用户
   @RequestMapping(value = "api/user/deleteUser", method = RequestMethod.GET)
-  public RestResult<List<UserInfo>> deleteUser(String userName) {
+  public RestResult<List<UserInfo>> deleteUser(@RequestBody String userName) {
     try{
+      String usernameforquery=userName.split("=")[1];
       List<UserInfo> userInfos = userService.deleteUser(userName);
       return  RestResult.succ().data(userInfos).build();
     }catch (Exception e) {
