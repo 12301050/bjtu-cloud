@@ -32,8 +32,7 @@ public class UserController {
 
   //用户登录
   @RequestMapping(value = "api/user/login", method = RequestMethod.GET)
-  public ModelAndView login(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                            String userName, String password) {
+  public ModelAndView login(HttpSession session,String userName, String password) {
     try {
       ModelAndView mv = new ModelAndView();
       User user = userService.login(userName, password);
