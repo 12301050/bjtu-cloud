@@ -44,10 +44,10 @@ public class UserController {
         mv.setViewName("redirect:/login_bg.html?error=error");
       }else if (user.getRole() == 0) {
         //跳转到管理员页面，数据库中角色为0
-        mv.setViewName("redirect:/node_mgt_user.html");
+        mv.setViewName("redirect:/user_mgt_admin.html");
       }else if (user.getRole() == 1){
         //跳转到普通用户页面，数据库中角色为1
-        mv.setViewName("redirect:/user_mgt_admin.html");
+        mv.setViewName("redirect:/node_mgt_user.html");
       }
       return mv;
     } catch (Exception e) {
