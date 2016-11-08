@@ -122,7 +122,7 @@ function showtheaddnodemodal(obj){//给用户添加节点时给模态框传值
     var test=$(this);
     $('#idForUsernameWhenAddOneNode').val(obj.id);
 }
-function deleteUserByUsername(username){
+function deleteUserByUsername(username){//当用户名下没有正在运行的任务时，删除该用户
     $.ajax({
         type: "POST",
         data:{username:username},
