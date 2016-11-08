@@ -1,4 +1,4 @@
-var url = location.search; //获取url中"?"符后的字串
+var url = location.search; //获取url中"?"符后的字串，只用来控制显示
 var theRequest = new Object();
 if (url.indexOf("?") != -1) {
   var str = url.substr(1);

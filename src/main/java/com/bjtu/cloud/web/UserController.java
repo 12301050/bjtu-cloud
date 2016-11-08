@@ -45,9 +45,11 @@ public class UserController {
       }else if (user.getRole() == 0) {
         //跳转到管理员页面，数据库中角色为0
         session.setAttribute("userName", userName);
+        session.setMaxInactiveInterval(600);//给session设置600秒，好像是10分钟
         mv.setViewName("redirect:/user_mgt_admin.html");
       }else if (user.getRole() == 1){
         session.setAttribute("userName", userName);
+        session.setMaxInactiveInterval(600);//给session设置600秒，好像是10分钟
         //跳转到普通用户页面，数据库中角色为1
         mv.setViewName("redirect:/node_mgt_user.html");
       }
@@ -62,8 +64,8 @@ public class UserController {
   public ModelAndView getUserInfo(HttpSession session) {
     try {
       ModelAndView mv = new ModelAndView();
-      session.setAttribute("userName", null);
-      mv.setViewName("redirect:/index.jsp");
+      session.invalidate();//让session失效，做访问控制
+      mv.setViewName("redirect:/login_bg.html");
       return mv;
     } catch (Exception e) {
       return null;
