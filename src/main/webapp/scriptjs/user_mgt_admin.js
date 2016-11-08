@@ -161,6 +161,7 @@ function showthedeleteusermodal(obj){//删除某个用户时给模态框传值�
         success: function (data) {
             console.log(data.data);
             if(data.data=="1"){//该用户名下有正在运行的任务，给出相关提示
+                $('#hiddenforusername').val(username);//以备用户点击“确定删除”时使用
                 $('#table-modal-deleteUser').modal('show');
             }else{//调用删除用户接口，完成删除任务
                 deleteUserByUsername(username);
@@ -174,6 +175,10 @@ function showthedeleteusermodal(obj){//删除某个用户时给模态框传值�
         }
     });
     $('#idForUsernameWhenAddOneNode').val(obj.id);
+}
+function deleteWhenConfirm(){
+    var readytodelete=$('#hiddenforusername').val();//获取提前准备好的数据
+    deleteUserByUsername(readytodelete);
 }
 function eventForidforReload(){//刷新按钮重新加载数据
     $.ajax({

@@ -406,8 +406,9 @@
 										<h4 id="delSureText_id">该用户有正在执行的任务,你确认删除该用户？</h4>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-success" data-dismiss="modal" id="delSure_id">确定</button>
-										<button type="button" class="btn btn-inverse" data-dismiss="modal" id ="delCancel_id">取消</button>
+										<input type="hidden" class="btn btn-success" data-dismiss="modal" id="hiddenforusername"/>
+										<input type="button" class="btn btn-success" data-dismiss="modal" onclick="deleteWhenConfirm()" id="delSure_id" value="确定"/>
+										<input type="button" class="btn btn-inverse" data-dismiss="modal" id ="delCancel_id" value="取消"/>
 									</div>
 								</div>
 							</div>

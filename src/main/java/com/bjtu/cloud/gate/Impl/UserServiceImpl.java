@@ -167,19 +167,19 @@ public class UserServiceImpl implements UserService{
       UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       System.out.println(userInfo.getNodeIds());
       String[] nodeIds = userInfo.getNodeIds().split(",");
-//      for(int i = 0; i < nodeIds.length; i++) {
-//        boolean delete, stop;
-//        stop = Cmds.stopNode(nodeIds[i]);
-//        delete = Cmds.deleteNode(nodeIds[i]);
-//        if (stop == true && delete == true) {
-//          taskInfoMapper.deleteByNodeId(nodeIds[i]);
-//          nodeInfoMapper.deleteByNodeId(nodeIds[i]);
-//          continue;
-//        }
-//        else {
-//          return null;
-//        }
-//      }
+      for(int i = 0; i < nodeIds.length; i++) {
+        boolean delete, stop;
+        stop = Cmds.stopNode(nodeIds[i]);
+        delete = Cmds.deleteNode(nodeIds[i]);
+        if (stop == true && delete == true) {
+          taskInfoMapper.deleteByNodeId(nodeIds[i]);
+          nodeInfoMapper.deleteByNodeId(nodeIds[i]);
+          continue;
+        }
+        else {
+          return null;
+        }
+      }
       Integer flag = userInfoMapper.deleteUser(userName);
       if(flag == 1)
         return userInfoMapper.getAllUserInfo();
