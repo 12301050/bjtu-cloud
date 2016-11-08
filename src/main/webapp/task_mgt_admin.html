@@ -81,105 +81,19 @@
 	<!-- CUSTOM SCRIPT -->
 	<script src="js/script.js"></script>
 	<script src="js/charts.js"></script>
+	<script src="scriptjs/task_mgt_admin.js"></script>
 </head>
     <!-- JAVASCRIPTS-->
 	<script>
-		jQuery(document).ready(function() {
 
-			$.ajax({
-				type: "GET",
-				url: "http://localhost:8080/api/node/getAllNode",//接口名字
-				dataType: "json",
-				success: function (data) {
-					var stringfortrlist = "";
-					for (var i = 0; i < data.data.length; i++) {
-						var idforlog=i+1;
-						var stringfortr ="<tr class=\"gradeX\">"+
-								"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-								"<td>"+idforlog+"</td>"+
-								"<td>"+data.data[i].nodeId+"</td>"+
-								"<td class=\"center\">"+data.data[i].type+"</td>"+
-								"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-								"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-								"<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-								"<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-								"<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
-								"<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-								"<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-								"<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-								"<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
-								"</tr>";
-						stringfortrlist = stringfortrlist + stringfortr;
-					}
-					$("#datatableForNode").dataTable().fnDestroy();
-					$('#tbodyfornodelist').html(stringfortrlist);
-//					if(localStorage.langclose==1){//识别cookie
-//						change_ch();
-//					}
-//					else if(localStorage.langclose==2){
-//						change_en();
-//					}
-//					else{
-//						localStorage.langclose=1;
-//					}
-
-				}
-			});
-
-            $("td").css("text-align","center");
-            
-            App.setPage("index");  //Set current page
-			App.init(); //Initialise plugins and elements
-
-			var url = location.search; //获取url中"?"符后的字串，用于处理用户展示页面跳转过来的请求
-
-			if (url.indexOf("?") != -1) {
-				var str = url.substr(1);
-				strs = str.split("&");
-				alert(strs[0].split("=")[1]);
-			}
-			/*更换语言包，后期需要捕获cookie中的语言标识，用if做判断*/
-             $("#langli").click(function(){
-//                   var result = setEnglish($("body").html());
-//                 $("body").html(result);
-                 $("#Dashboard_h3").html("仪表板");
-                 $("#TS_id").html("团队状态");
-                 $("#Skins_id").html("皮肤");
-                 $("#langli").html("更换语言");
-                 $("#CPCEP_id").html("复制，打印，CSV，PDF");
-                 
-//                 App.setPage("index");  //Set current page
-                 //App.init(); //Initialise plugins and elements 
-             }); 	
-           
-		});  
-        function change(){
-                //alert("change");TODO修改图标属性
-            }
         function changeToTaskView(){
             //alert("!!");
-            
             $("#nodeView").css("display","none");
             $("#taskView").css("display","block");
         }
         function showThreeChartsWhenViewTask(){
             $("#threeCharts").css("display","block");
         }
-//        function setEnglish(bodyString) {
-//            var result = bodyString;  
-//                                                   
-//		    result = result.replaceAll('Dashboard','仪表板');
-//			result = result.replaceAll('INBOX','收件箱');
-//			result = result.replaceAll('Overview','预览');
-//			result = result.replaceAll('Statistics','数据');
-//			result = result.replaceAll('Home','主页');
-//                                          
-//            return result;
-//}
-//        String.prototype.replaceAll = function(oldStr, newStr) {
-//            return this.replace(new RegExp(oldStr,"gm"),newStr);    
-//                              
-// }                              
 	</script>                                  
 	<!-- /JAVASCRIPTS -->    
 <body id="bodyid">
@@ -423,7 +337,7 @@
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatableTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableForTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
                                                     <th>编号</th>

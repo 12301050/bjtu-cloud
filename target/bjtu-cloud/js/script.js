@@ -1206,7 +1206,7 @@ var App = function () {
 		$('#datatable1').dataTable({
 				"sPaginationType": "bs_full"
 			});
-		var table=$('#datatable2').dataTable({
+		var table=$('#datatable33').dataTable({
 				"sPaginationType": "bs_full",
                 //"ajax": 'http://localhost:8080/api/user/getAllUserInfo',
                 "sAjaxSource":'http://localhost:8080/api/user/getAllUserInfo',
@@ -1239,19 +1239,19 @@ var App = function () {
             ]
 
         });
-        var table=$('#datatableForNode').dataTable({
-				"sPaginationType": "bs_full",
-				sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-                select:true,
-                oTableTools: {
-                aButtons: [ { 
-                      "sExtends": "select", 
-                      "sButtonText": "删除" ,
-                       //"id":"deletebutton",
-                        },"copy",  "csv", "pdf" ],
-                    sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-                }
-			});
+        //var table=$('#datatableForNode1').dataTable({
+			//	"sPaginationType": "bs_full",
+			//	sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        //        select:true,
+        //        oTableTools: {
+        //        aButtons: [ {
+        //              "sExtends": "select",
+        //              "sButtonText": "删除" ,
+        //               //"id":"deletebutton",
+        //                },"copy",  "csv", "pdf" ],
+        //            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        //        }
+			//});
         $("#checkAll").on("click", function () {//选中所有的行
                if ($(this).prop("checked") === true) {
                    $("input[name='checkList']").prop("checked", $(this).prop("checked"));
