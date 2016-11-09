@@ -90,6 +90,7 @@
 		//alert("!!");
 		$("#nodeView").css("display","none");
 		$("#taskView").css("display","block");
+		$("#datatableForTask").css("width","100%");
 	}
 	function showThreeChartsWhenViewTask(){
 		$("#threeCharts").css("display","block");
@@ -337,7 +338,7 @@
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatableForTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableForTask" cellpadding="0" cellspacing="0" border="0" style="width: 100%;" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 											<tr>
 												<th id="task_number1">编号</th>
@@ -884,7 +885,11 @@
 </html>
 <script>
 	var i=0;
-	//setTimeout("search()",3000);
+	setTimeout("modify()",2000);
+	function modify(){
+
+		$("datatableForTask").removeAttr("style");
+	}
 	function search(){
 		alert("过来了！");
 

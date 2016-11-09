@@ -1285,14 +1285,14 @@ var App = function () {
                 sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
             }
         });
-        $('#datatableTask').dataTable({
-            "sPaginationType": "bs_full",
-            sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-            oTableTools: {
-                aButtons: ["copy",  "csv", "pdf"],
-                sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-            }
-        });
+        //$('#datatableTask').dataTable({
+        //    "sPaginationType": "bs_full",
+        //    sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        //    oTableTools: {
+        //        aButtons: ["copy",  "csv", "pdf"],
+        //        sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        //    }
+        //});
         $('.datatable').each(function(){
             var datatable = $(this);
             // SEARCH - Add the placeholder for Search and Turn this into in-line form control
