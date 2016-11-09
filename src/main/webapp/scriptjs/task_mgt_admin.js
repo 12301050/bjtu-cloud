@@ -195,6 +195,37 @@ function change_ch(){//变为中文
     $("#datatableForTask").css("width","100%");
     App.setPage("index");
 }
+function showTheTimeInfo(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
+    var username=obj.id;
+    console.log(obj.text);
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        data:{username:username},
+        success: function (data) {
+            console.log(data.data);
+            var stringfortrlist = "";
+            for(var i=0;i<data.data.length;i++){
+                var idforlog=i+1;//逻辑编号
+                var max = (data.data[i].status==1)?"开启":"关闭";
+                console.log(max);
+                var stringfortr="<tr class=\"gradeA\">"+
+                    "<td style=\"text-align:center;\"><input type=\"checkbox\" name=\"checkList\"></td>"+
+                    "<td>"+idforlog+"</td>"+
+                    "<td class=\"hidden-xs\">"+data.data[i].nodeId+"</td>"+
+                    "<td >"+data.data[i].nodeName+"</td>"+
+                    "<td >"+max+"</td>"+
+                    "</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $('#showNodeListWhenDeleteNode').html(stringfortrlist);
+            $('#idForUsernameWhenDeleteNodes').val(username);
+        }
+    });
+
+}
 function changeToTaskView(nodeid){//用户点击”正在执行的任务“时显示任务列表
     //alert("!!");
     //alert(nodeid);
@@ -215,7 +246,7 @@ function changeToTaskView(nodeid){//用户点击”正在执行的任务“时�
                     "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"hidden-xs\">"+mode+"</td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTheTimeInfo("+data.data[i].taskName+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                 "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                 "+</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
