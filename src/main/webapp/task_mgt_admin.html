@@ -879,6 +879,29 @@
                 $(this).toggleClass('selected');
             } );
         });
-                 
+
 	</script>               
 </html>
+<script>
+	window.onload=function(){
+		alert("!!!!!!!");
+	}
+	var url = location.search; //获取url中"?"符后的字串，只用来控制显示
+	var theRequest = new Object();
+	//alert($("#datatableForNode_filter").innerHTML);
+	if (url.indexOf("?") != -1) {//链接中有值
+		var str = url.substr(1);
+		strs = str.split("&");
+
+		if(strs[0].split("=")[0]=="username"){
+			//alert("您输入的账号密码有误，请重新输入！");
+			//$("#datatableForNode_filter").children("lable").children(0).val(strs[0].split("=")[1]);
+			console.log($('#datatableForNode_filter label').children());
+			$("#datatableForNode_filter label").children().val("!!");
+			$("#datatableForNode_filter label").children().text("!!");
+			$("#datatableForNode_filter label").children().html("!!");
+			console.log($("[aria-controls='datatableForNode']"));
+			$("input[aria-controls='datatableForNode']").css("background","red");
+		}
+	}
+</script>
