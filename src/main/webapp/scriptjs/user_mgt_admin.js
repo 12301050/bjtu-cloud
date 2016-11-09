@@ -147,6 +147,7 @@ function showtheDeletenodemodal(obj){//删除节点时首先获取当前时间�
                 stringfortrlist = stringfortrlist + stringfortr;
             }
             $('#showNodeListWhenDeleteNode').html(stringfortrlist);
+            $('#idForUsernameWhenDeleteNodes').val(username);
         }
     });
 
@@ -314,6 +315,7 @@ jQuery(document).ready(function() {	//首先渲染
         // table.row('.selected').remove().draw(false);
         var nodeIds="";
         var indexfordelete=new Array();
+
         $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
             n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
             var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
@@ -321,34 +323,20 @@ jQuery(document).ready(function() {	//首先渲染
             indexfordelete.push(n);
             //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
         });
+        var dataforUserDeleteNode= JSON.stringify({
+            username:$('#idForUsernameWhenDeleteNodes').val(),
+            nodeIds:nodeIds
+        });
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/api/user/deleteNode",//接口名字
             dataType: "json",
-            data:nodeIds,
+            data:dataforUserDeleteNode,
             contentType: "application/json; charset=utf-8",
             success: function (data) {//删除成功
                 alert("删除成功了！");
-                for(var j=0;j<indexfordelete.length;j++){
-                    //$("table#datatableForDeleteNode tbody").find("tr:eq(" + indexfordelete[j] + ")").remove();
-                }
-                //var stringfortrlist = "";
-                //for (var i = 0; i < data.data.length; i++) {
-                //    var idforlog = i + 1;
-                //    var idforNodeAmount = data.data[i].userName + "nodeAmount";//设置表示节点个数的id号
-                //    var stringfortr = "<tr class=\"gradeX\">" +
-                //        "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
-                //        "<td class=\"center\">" + data.data[i].userName + "</td>" +
-                //        "<td class=\"center\"><a id=\"" + idforNodeAmount + "\" href=\"task_mgt_admin.html?username=" + data.data[i].userName + " \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount + "</a></td>" +
-                //        "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">" +
-                //        "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>" +
-                //        "</td><td class=\"center\"><a id=\"" + data.data[i].userName + "\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
-                //        " </tr>";
-                //    stringfortrlist = stringfortrlist + stringfortr;
-                //}
-                //$("#datatable2").dataTable().fnDestroy();
-                //$('#tableforusernode').html(stringfortrlist);
-                //AutoCheckLang();
+                console.log(data.data);
+                $('#wangyunodeAmount').text(data.data);//给节点数减1
             }
         });
     });

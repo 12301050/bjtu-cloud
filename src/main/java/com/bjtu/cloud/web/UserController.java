@@ -111,9 +111,9 @@ public class UserController {
 
   //删除节点
   @RequestMapping(value = "api/user/deleteNode", method = RequestMethod.POST)
-  public RestResult<Integer> deleteNode(@RequestBody String nodeIds, String userName) {
+  public RestResult<Integer> deleteNode(@RequestBody Map<String,String> map) {
     try {
-      UserInfo userInfo = userService.deleteNode(nodeIds, userName);
+      UserInfo userInfo = userService.deleteNode(map.get("nodeIds"), map.get("username"));
       //List<UserInfo> userInfos = null;
       return RestResult.succ().data(userInfo.getNodeAmount()).build();
     }catch (Exception e) {
