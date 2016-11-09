@@ -247,8 +247,8 @@ function changeToTaskView(nodeid){//用户点击”正在执行的任务“时�
                     "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"hidden-xs\">"+mode+"</td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTheTimeInfo("+data.data[i].taskName+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
-                "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
-                "+</tr>";
+                    "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "+</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
             $("#datatableForTask").dataTable().fnDestroy();

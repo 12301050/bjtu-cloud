@@ -28,8 +28,21 @@ function change_en(){//变为英文
     $("#date_id").html("date");
     $("#details_id").html("details");
     $("#datatableForLog").dataTable().fnDestroy();
+    $("#datatableforloglist").dataTable().fnDestroy();
   //  $("#datatableForTask").dataTable().fnDestroy();
+
     var table=$('#datatableForLog').dataTable({
+        "sPaginationType": "bs_full",
+        "sPaginate": false,
+        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        select:true,
+        oTableTools: {
+            aButtons: [ "copy",  "csv", "pdf" ],
+            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        }
+
+    });
+    $('#datatableforloglist').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -69,8 +82,35 @@ function change_ch(){//变为中文
     $("#date_id").html("日期");
     $("#details_id").html("详情");
     $("#datatableForLog").dataTable().fnDestroy();
+    $("#datatableforloglist").dataTable().fnDestroy();
     //$("#datatableForTask").dataTable().fnDestroy();
     var table=$('#datatableForLog').dataTable({
+        "sPaginationType": "bs_full",
+        "sPaginate": false,
+        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        select:true,
+        oTableTools: {
+            aButtons: [ "copy",  "csv", "pdf" ],
+            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        },
+        "oLanguage": {//国际语言转化
+            "sLengthMenu": "显示 _MENU_ 记录",
+            "sZeroRecords": "对不起，查询不到任何相关数据",
+            "sEmptyTable": "未有相关数据",
+            "sLoadingRecords": "正在加载数据-请等待...",
+            "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoEmpty":"当前显示 0 到 0 条，共 0 条记录。",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页"
+            }
+        }
+
+    });
+    $('#datatableforloglist').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -123,9 +163,10 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
+
     $.ajax({
        type: "GET",
-       url: "http://localhost:8080/api/node/getAllNode",//接口名字
+       url: "http://localhost:8080/api/log/getAllTaskRecord",//接口名字
        dataType: "json",
        success: function (data) {
            var stringfortrlist = "";
@@ -148,10 +189,9 @@ jQuery(document).ready(function() {	//首先渲染
                    "</tr>";
                stringfortrlist = stringfortrlist + stringfortr;
            }
-           $("#datatableForLog").dataTable().fnDestroy();
+           //$("#datatableForLog").dataTable().fnDestroy();
            //$('#tbodyfornodelist').html(stringfortrlist);
            AutoCheckLang();
-
        }
    });
     
