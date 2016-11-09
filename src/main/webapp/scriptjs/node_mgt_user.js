@@ -12,14 +12,14 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
 }
 function change_en(){//变为英文
 
-    $("#Dtask").html("TASK MANAGEMENT");
+    $("#Dnode").html("NODE MANAGEMENT");
     $("#Skins_id").html("skins");
     $("#langli").html("language");
     $("#logout_id").html("log out");
-    $("#CPCEP_id").html("node list");
-    $("#user_mangid").html("USER MANAGEMENT");
-    $("#task_mangid").html("TASK MANAGEMENT");
-    $("#log_mangid").html("LOG MANAGEMENT");
+    $("#node_list_id").html("node list");
+    $("#node_mgt_id").html("NODE MANAGEMENT");
+    $("#task_mgt_id").html("TASK MANAGEMENT");
+    $("#his_mgt_id").html("HISTORY MANAGEMENT");
     $("#home_id").html("Home");
     $("#number_id").html("number");
     $("#node_id").html("nodeID");
@@ -58,9 +58,9 @@ function change_en(){//变为英文
     $("#tips").html("tips");
     $("#cpu_info").html("cpu information");
     $("#cpu_sure").html("sure");
-    $("#datatableForNode").dataTable().fnDestroy();
+    $("#datatableNodeUser").dataTable().fnDestroy();
     $("#datatableForTask").dataTable().fnDestroy();
-    var table=$('#datatableForNode').dataTable({
+    var table=$('#datatableNodeUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -89,15 +89,13 @@ function change_en(){//变为英文
     App.setPage("index");  //Set current page
 }
 function change_ch(){//变为中文
-    $("#Dtask").html("任务管理");
+    $("#Dnode").html("节点管理");
     $("#Skins_id").html("皮肤");
     $("#logout_id").html("注销");
     $("#langli").html("更换语言");
-    $("#CPCEP_id").html("节点列表");
-    $("#user_mangid").html("用户管理");
-    $("#task_mangid").html("任务管理");
-    $("#log_mangid").html("日志管理");
-
+    $("#node_mgt_id").html("节点管理");
+    $("#task_mgt_id").html("任务管理");
+    $("#his_mgt_id").html("历史任务");
     $("#home_id").html("主页");
     $("#number_id").html("编号");
     $("#node_id").html("节点ID");
@@ -111,6 +109,7 @@ function change_ch(){//变为中文
     $("#ram").html("内存使用率");
     $("#net").html("带宽占用率");
     $("#operate").html("操作");
+    $("#task_list").html("任务列表");
     $("#his_number").html("编号");
     $("#task_name").html("任务名称");
     $("#task_type").html("任务类型");
@@ -121,21 +120,11 @@ function change_ch(){//变为中文
     $("#task_type1").html("任务类型");
     $("#time_info1").html("时间信息");
     $("#resource_info").html("资源信息");
-     $("#button_close_id").html("关闭");
-     $("#his_text").html("历史任务");
-     $("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
-     $("#sure").html("确定");
-     $("#cancel").html("取消");
-     $("#back").html("返回");
-     $("#node_list").html("任务列表");
-     $("#sure_time").html("确认");
-     $("#time_text").html("时间信息");
-     $("#tips").html("提示");
-     $("#cpu_info").html("cpu 动态信息");
-     $("#cpu_sure").html("确定");
-    $("#datatableForNode").dataTable().fnDestroy();
+    $("#button_close_id").html("关闭");
+
+    $("#datatableNodeUser").dataTable().fnDestroy();
     $("#datatableForTask").dataTable().fnDestroy();
-    var table=$('#datatableForNode').dataTable({
+    var table=$('#datatableNodeUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -195,7 +184,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            $("#datatableForNode").dataTable().fnDestroy();
+            $("#datatableNodeUser").dataTable().fnDestroy();
             $('#tbodyfornodelist').html(stringfortrlist);
             AutoCheckLang();
         }

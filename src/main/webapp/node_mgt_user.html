@@ -83,6 +83,7 @@
 	<!-- CUSTOM SCRIPT -->
 	<script src="js/script.js"></script>
 	<script src="js/charts.js"></script>
+	<script src="scriptjs/node_mgt_user.js"></script>
 </head>
     <!-- JAVASCRIPTS-->
 	<script>
@@ -94,20 +95,7 @@
 			App.init(); //Initialise plugins and elements 
             Charts.initCharts();
 			Charts.initPieCharts();
-           
-            /*更换语言包，后期需要捕获cookie中的语言标识，用if做判断*/
-             $("#langli").click(function(){
-//                   var result = setEnglish($("body").html());
-//                 $("body").html(result);
-                 $("#Dashboard_h3").html("仪表板");
-                 $("#TS_id").html("团队状态");
-                 $("#Skins_id").html("皮肤");
-                 $("#langli").html("更换语言");
-                 $("#CPCEP_id").html("复制，打印，CSV，PDF");
-                 
-                 App.setPage("index");  //Set current page
-                 //App.init(); //Initialise plugins and elements 
-             }); 	
+
            
 		});  
         function change(){
@@ -122,21 +110,7 @@
         function showThreeChartsWhenViewTask(){
             $("#threeCharts").css("display","block");
         }
-//        function setEnglish(bodyString) {
-//            var result = bodyString;  
-//                                                   
-//		    result = result.replaceAll('Dashboard','仪表板');
-//			result = result.replaceAll('INBOX','收件箱');
-//			result = result.replaceAll('Overview','预览');
-//			result = result.replaceAll('Statistics','数据');
-//			result = result.replaceAll('Home','主页');
-//                                          
-//            return result;
-//}
-//        String.prototype.replaceAll = function(oldStr, newStr) {
-//            return this.replace(new RegExp(oldStr,"gm"),newStr);    
-//                              
-// }                              
+
 	</script>                                  
 	<!-- /JAVASCRIPTS -->    
 <body id="bodyid">
@@ -228,19 +202,19 @@
 						<ul>
                             <li class="active">
 								<a href="node_mgt_user.html">
-								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">节点管理</span>
+								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text" id="node_mgt_id">节点管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
                             <li class="">
 								<a href="task_mgt_user.html" >
-								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text"> 任务管理</span>
+								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text" id="task_mgt_id"> 任务管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
                             <li class="">
 								<a href="his_mgt_user.html">
-								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text"> 历史任务</span>
+								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text" id="his_mgt_id"> 历史任务</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
@@ -283,12 +257,12 @@
 									<ul class="breadcrumb">
 										<li>
 											<i class="fa fa-home"></i>
-											<a href="node_mgt_user.html">主页</a>
+											<a href="node_mgt_user.html" id="home_id">主页</a>
 										</li>
 									</ul>
 									<!-- /BREADCRUMBS -->
 									<div class="clearfix">
-										<h3 class="content-title pull-left" id="Dashboard_h3">节点管理</h3>
+										<h3 class="content-title pull-left" id="Dnode">节点管理</h3>
 									</div>
 								</div>
 							</div>
@@ -304,7 +278,7 @@
 								<!-- BOX -->
 								<div class="box border purple">
 									<div class="box-title">
-										<h4 id="CPCEP_id"><i class="fa fa-table"></i>节点列表</h4>
+										<h4 id="node_list_id"><i class="fa fa-table"></i>节点列表</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -321,18 +295,18 @@
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableNodeUser" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
-                                                    <th>编号</th>
-													<th>节点ID</th>
-													<th>节点名称</th>
-													<th>节点类型</th>
-													<th>节点状态</th>
-													<th class="hidden-xs">任务运行数</th>
-													<th>CPU占用率</th>
-													<th>内存使用率</th>
-													<th class="hidden-xs">带宽占用率</th>
+                                                    <th id="number_id">编号</th>
+													<th id="node_id">节点ID</th>
+													<th id="node_name">节点名称</th>
+													<th id="node_type">节点类型</th>
+													<th id="node_state">节点状态</th>
+													<th class="hidden-xs" id="task_number">正在执行的任务数</th>
+													<th id="cpu">CPU占用率</th>
+													<th id="ram">内存使用率</th>
+													<th class="hidden-xs" id="net">带宽占用率</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -410,7 +384,7 @@
                                 <a type="button" href="/task_mgt_admin.html" style="margin-left:0.5%;margin-bottom:0.2%;font-size: large;" class="btn btn-link" data-dismiss="modal"><i class="fa fa-angle-double-left"></i> 返回</a>
 								<div class="box border purple">
 									<div class="box-title">
-										<h4 id="CPCEP_id"><i class="fa fa-table"></i>某个节点（动态显示）任务列表</h4>
+										<h4 id="task_list"><i class="fa fa-table"></i>某个节点（动态显示）任务列表</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -427,14 +401,14 @@
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatableTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableForTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
-                                                    <th>编号</th>
-													<th>任务名称</th>
-													<th>任务模式</th>
-													<th>时间信息</th>
-													<th class="hidden-xs">资源信息</th>
+                                                    <th id="number">编号</th>
+													<th id="task_name">任务名称</th>
+													<th id="task_type">任务模式</th>
+													<th id="time_info">时间信息</th>
+													<th class="hidden-xs" id="resource_info">资源信息</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -473,7 +447,7 @@
                     <div id="threeCharts" style="width:100%;display:none;">
 						<div class="box border orange">
 									<div class="box-title">
-										<h4><i class="fa fa-signal"></i>CPU曲线图</h4>
+										<h4 id="cup_graph"><i class="fa fa-signal"></i>CPU曲线图</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -495,7 +469,7 @@
 								</div>
 						<div class="box border orange">
 									<div class="box-title">
-									<h4><i class="fa fa-signal"></i>内存曲线图</h4>	
+									<h4 id="ram_graph"><i class="fa fa-signal"></i>内存曲线图</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -517,7 +491,7 @@
 								</div>
 						<div class="box border orange">
 									<div class="box-title">
-										<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>
+										<h4 id="net_graph"><i class="fa fa-signal"></i>网络带宽曲线图</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>

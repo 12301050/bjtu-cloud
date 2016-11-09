@@ -69,14 +69,14 @@ function change_ch(){//变为中文
     $("#date_id").html("日期");
     $("#details_id").html("详情");
     $("#datatableForLog").dataTable().fnDestroy();
-    $("#datatableForTask").dataTable().fnDestroy();
+    //$("#datatableForTask").dataTable().fnDestroy();
     var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: ["copy",  "csv", "pdf" ],
+            aButtons: [ "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -101,40 +101,7 @@ function change_ch(){//变为中文
 }
 
 jQuery(document).ready(function() {	//首先渲染
-//    $.ajax({
-//        type: "GET",
-//        url: "http://localhost:8080/api/node/getAllNode",//接口名字
-//        dataType: "json",
-//        success: function (data) {
-//            var stringfortrlist = "";
-//            for (var i = 0; i < data.data.length; i++) {
-//                var idforlog=i+1;
-//                var stringfortr ="<tr class=\"gradeX\">"+
-//                    "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-//                    "<td>"+idforlog+"</td>"+
-//                    "<td>"+data.data[i].nodeId+"</td>"+
-//                    "<td class=\"center\">"+data.data[i].type+"</td>"+
-//                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-//                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-//                    "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-//                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-//                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
-//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
-//                    "</tr>";
-//                stringfortrlist = stringfortrlist + stringfortr;
-//            }
-//            //$("#datatableForLog").dataTable().fnDestroy();
-//            //$('#tbodyfornodelist').html(stringfortrlist);
-//
-//        }
-//    });
-    
-    AutoCheckLang();
-    App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
-    App.init(); //Initialise plugins and elements
+
 
     $("#langli").click(function(){//点击选择更换语言
         if(localStorage.lang){ //缓存 1代表中文，2代表英文
@@ -156,4 +123,40 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
+    $.ajax({
+       type: "GET",
+       url: "http://localhost:8080/api/node/getAllNode",//接口名字
+       dataType: "json",
+       success: function (data) {
+           var stringfortrlist = "";
+           for (var i = 0; i < data.data.length; i++) {
+               var idforlog=i+1;
+               var stringfortr ="<tr class=\"gradeX\">"+
+                   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                   "<td>"+idforlog+"</td>"+
+                   "<td>"+data.data[i].nodeId+"</td>"+
+                   "<td class=\"center\">"+data.data[i].type+"</td>"+
+                   "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                   "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                   "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+                   "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+                   "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+                   "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
+                   "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
+                   "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
+                   "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                   "</tr>";
+               stringfortrlist = stringfortrlist + stringfortr;
+           }
+           $("#datatableForLog").dataTable().fnDestroy();
+           //$('#tbodyfornodelist').html(stringfortrlist);
+           AutoCheckLang();
+
+       }
+   });
+    
+    App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
+    App.init(); //Initialise plugins and elements
+
+
 });
