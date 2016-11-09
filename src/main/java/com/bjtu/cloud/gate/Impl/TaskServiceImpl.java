@@ -200,10 +200,21 @@ public class TaskServiceImpl implements TaskService{
   }
 
     @Override
-    public List<TaskInfo> getPerformance(String nodeId, Integer taskId) throws Exception {
+    public TaskInfo getPerformance(String nodeId, Integer taskId, String pid) throws Exception {
       try {
-        List<TaskInfo> taskInfos = taskInfoMapper.getPerformance(nodeId, taskId);
-        return taskInfos;
+        boolean checkTask = Cmds.checkTaskRunning(nodeId, pid);
+        if(checkTask == true){
+          TaskInfo taskInfo = taskInfoMapper.getPerformance(nodeId, taskId);
+          float cpu = Cmds.taskCpuUsage(nodeId, pid);
+          float[] memory = Cmds.taskMemoryUsage(nodeId, pid);
+          float[] net = Cmds.taskNetUsage(nodeId, pid);
+          taskInfo.setCpu((int)cpu);
+          taskInfo.setMemory((int)memory[1]);
+          taskInfo.setNetSpeed((int)net[1]);
+          return taskInfo;
+        }else{
+          return null;
+        }
       }catch (Exception e) {
         e.printStackTrace();
         return null;

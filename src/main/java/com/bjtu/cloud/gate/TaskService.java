@@ -20,7 +20,7 @@ public interface TaskService {
                       Integer mode, Integer times, String startTime) throws Exception;
 
   //查询某个任务的三个性能数值
-  List<TaskInfo> getPerformance(String nodeId, Integer taskId) throws Exception;
+  TaskInfo getPerformance(String nodeId, Integer taskId, String pid) throws Exception;
   //根据用户名查询任务
   List<TaskInfo> getTaskByUserName(String userName, Integer status) throws Exception;
   //查询所有任务日志

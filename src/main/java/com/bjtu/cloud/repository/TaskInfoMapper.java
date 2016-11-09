@@ -31,7 +31,7 @@ public interface TaskInfoMapper {
     TaskInfo queryTimeInfo(@Param("nodeId")String nodeId, @Param("taskId")Integer taskId);
 
     //查询某个任务的三个性能数值
-    List<TaskInfo> getPerformance(@Param("nodeId")String nodeId, @Param("taskId")Integer taskId);
+    TaskInfo getPerformance(@Param("nodeId")String nodeId, @Param("taskId")Integer taskId);
 
     //根据用户名查询任务
     List<TaskInfo> getTaskByUserName(@Param("nodeId")String nodeId, @Param("status") Integer status);

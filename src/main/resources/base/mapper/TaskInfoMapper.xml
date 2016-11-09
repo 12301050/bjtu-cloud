@@ -63,7 +63,7 @@
   </select>
   <select id="getPerformance" resultMap="BaseResultMap">
     select
-    cpu, memory, net_speed
+    <include refid="Base_Column_List" />
     from task_info
     where  node_id = #{nodeId,jdbcType=VARCHAR} and id = #{taskId,jdbcType=INTEGER}
   </select>

@@ -33,10 +33,10 @@ public class TaskController {
   }
   //查询某个任务的三个性能数值
   @RequestMapping(value = "api/task/getPerformance", method = RequestMethod.GET)
-  public RestResult<List<TaskInfo>> getPerformance(String nodeId, Integer taskId) {
+  public RestResult<TaskInfo> getPerformance(String nodeId, Integer taskId, String pid) {
     try {
-      List<TaskInfo> taskInfos = taskService.getPerformance(nodeId, taskId);
-      return RestResult.succ().data(taskInfos).build();
+      TaskInfo taskInfo = taskService.getPerformance(nodeId, taskId, pid);
+      return RestResult.succ().data(taskInfo).build();
     }catch (Exception e){
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();
