@@ -19,7 +19,7 @@ public class Cmds {
 		ArrayList<String> outPuts = executeCmds(cmds);
 		// 创建失败
 		if (outPuts.size() == 0)
-			return null;
+			return "";
 		return outPuts.get(0);
 	}
 

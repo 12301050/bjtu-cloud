@@ -85,29 +85,31 @@ public class NodeServiceImpl implements NodeService {
     else if(type == 2)
       imageTag = "python";
     else
-      imageTag = null;
+      imageTag = "";
     try {
-      System.out.println(imageTag);
       //TODO docker上进行节点创建
-      nodeId = Cmds.createNode("ubuntu:14.04").substring(0, 12);
-      System.out.println(nodeId);
-      NodeInfo nodeInfo = new NodeInfo();
-      if(!nodeId.isEmpty()){
-        nodeInfo.setNodeName(nodeId);
-        nodeInfo.setNodeId(nodeId);
-        nodeInfo.setStatus(0);
-        nodeInfo.setType(type);
-        nodeInfo.setTaskAmount(0);
-        nodeInfo.setHistoryTaskAmount(0);
-        Integer flag = nodeInfoMapper.addNodeInNodeInfo(nodeInfo);
-        if(flag != 0){
-          return nodeId;
+      if(!imageTag.isEmpty()){
+        String returnId = Cmds.createNode(imageTag);
+        if(!returnId.isEmpty()){
+          nodeId = returnId.substring(0, 12);
+          NodeInfo nodeInfo = new NodeInfo();
+          nodeInfo.setNodeName(nodeId);
+          nodeInfo.setNodeId(nodeId);
+          nodeInfo.setStatus(0);
+          nodeInfo.setType(type);
+          nodeInfo.setTaskAmount(0);
+          nodeInfo.setHistoryTaskAmount(0);
+          Integer flag = nodeInfoMapper.addNodeInNodeInfo(nodeInfo);
+          if (flag != 0) {
+            return nodeId;
+          } else {
+            return "";
+          }
         }else {
-          //Todo 大奶说这个地方可能需要改
-          return nodeId;
+          return "";
         }
       }else {
-        return nodeId;
+        return "";
       }
     }catch (Exception e){
       e.printStackTrace();
