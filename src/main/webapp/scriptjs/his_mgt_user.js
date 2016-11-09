@@ -12,15 +12,16 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
 }
 function change_en(){//变为英文
 
-    $("#Dtask").html("TASK MANAGEMENT");
+    $("#DHis").html("HISTORY TASK");
     $("#Skins_id").html("skins");
     $("#langli").html("language");
-    $("#logout_id").html("log out");
-    $("#CPCEP_id").html("node list");
-    $("#user_mangid").html("USER MANAGEMENT");
-    $("#task_mangid").html("TASK MANAGEMENT");
-    $("#log_mangid").html("LOG MANAGEMENT");
+    $("#logout_id").html("logout");
+    $("#CPCEP_id").html("task list");
+    $("#node_mgt_id").html("NODE MANAGEMENT");
+    $("#task_mgt_id").html("TASK MANAGEMENT");
+    $("#his_mgt_id").html("HISTORY MANAGEMENT");
     $("#home_id").html("Home");
+    $("#task_list").html("task list");
     $("#number_id").html("number");
     $("#node_id").html("nodeID");
     $("#node_state").html("node state");
@@ -36,6 +37,8 @@ function change_en(){//变为英文
     $("#his_number").html("number");
     $("#task_name").html("task name");
     $("#task_type").html("task type");
+    $("#task_state").html("task state");
+    $("#node").html("Subordinate node");
     $("#time_info").html("time information");
     $("#close_button").html("close");
     $("#task_number1").html("number");
@@ -54,28 +57,15 @@ function change_en(){//变为英文
     $("#start_time").html("start time");
     $("#end_time").html("end time");
     $("#sure_time").html("sure");
-    $("#time_text").html("time information");
+    $("#time_text").html("task time information");
     $("#tips").html("tips");
     $("#cpu_info").html("cpu information");
     $("#cpu_sure").html("sure");
-    $("#datatableForNode").dataTable().fnDestroy();
-    $("#datatableForTask").dataTable().fnDestroy();
-    var table=$('#datatableForNode').dataTable({
-        "sPaginationType": "bs_full",
-        "sPaginate": false,
-        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-        select:true,
-        oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
-            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-        }
-
-    });
-    $('#datatableForTask').dataTable({
+    $("#cpu_graph").html("CPU line chart");
+    $("#ram_graph").html("Memory line chart");
+    $("#net_graph").html("Net line chart");
+    $("#datatableTaskUser").dataTable().fnDestroy();
+    var table=$('#datatableTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -86,19 +76,20 @@ function change_en(){//变为英文
         }
 
     });
+
     App.setPage("index");  //Set current page
 }
 function change_ch(){//变为中文
-    $("#Dtask").html("任务管理");
+    $("#DHis").html("历史任务");
     $("#Skins_id").html("皮肤");
     $("#logout_id").html("注销");
     $("#langli").html("更换语言");
-    $("#CPCEP_id").html("节点列表");
-    $("#user_mangid").html("用户管理");
-    $("#task_mangid").html("任务管理");
-    $("#log_mangid").html("日志管理");
-
+    $("#CPCEP_id").html("任务列表");
+    $("#node_mgt_id").html("节点管理");
+    $("#task_mgt_id").html("任务管理");
+    $("#his_mgt_id").html("历史任务");
     $("#home_id").html("主页");
+    $("#task_list").html("任务列表");
     $("#number_id").html("编号");
     $("#node_id").html("节点ID");
     $("#node_state").html("节点状态");
@@ -113,6 +104,7 @@ function change_ch(){//变为中文
     $("#operate").html("操作");
     $("#his_number").html("编号");
     $("#task_name").html("任务名称");
+    $("#node").html("所在节点");
     $("#task_type").html("任务类型");
     $("#time_info").html("时间信息");
     $("#close_button").html("关闭");
@@ -121,31 +113,28 @@ function change_ch(){//变为中文
     $("#task_type1").html("任务类型");
     $("#time_info1").html("时间信息");
     $("#resource_info").html("资源信息");
-     $("#button_close_id").html("关闭");
-     $("#his_text").html("历史任务");
-     $("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
-     $("#sure").html("确定");
-     $("#cancel").html("取消");
-     $("#back").html("返回");
-     $("#node_list").html("任务列表");
-     $("#sure_time").html("确认");
-     $("#time_text").html("时间信息");
-     $("#tips").html("提示");
-     $("#cpu_info").html("cpu 动态信息");
-     $("#cpu_sure").html("确定");
-    $("#datatableForNode").dataTable().fnDestroy();
-    $("#datatableForTask").dataTable().fnDestroy();
-    var table=$('#datatableForNode').dataTable({
+    $("#button_close_id").html("关闭");
+    $("#his_text").html("历史任务");
+    $("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
+    $("#sure").html("确定");
+    $("#cancel").html("取消");
+    $("#node_list").html("任务列表");
+    $("#sure_time").html("确认");
+    $("#time_text").html("任务时间信息");
+    $("#tips").html("提示");
+    $("#cpu_info").html("cpu 动态信息");
+    $("#cpu_sure").html("确定");
+    $("#cpu_graph").html("cpu曲线图");
+    $("#ram_graph").html("内存曲线图");
+    $("#net_graph").html("网络带宽曲线图");
+    $("#datatableTaskUser").dataTable().fnDestroy();
+    var table=$('#datatableTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            aButtons: [ "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -195,12 +184,13 @@ jQuery(document).ready(function() {	//首先渲染
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            $("#datatableForNode").dataTable().fnDestroy();
+            //  $("#datatableTaskUser").dataTable().fnDestroy();
+
             $('#tbodyfornodelist').html(stringfortrlist);
             AutoCheckLang();
+
         }
     });
-
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 

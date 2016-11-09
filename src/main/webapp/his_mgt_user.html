@@ -83,6 +83,7 @@
 	<!-- CUSTOM SCRIPT -->
 	<script src="js/script.js"></script>
 	<script src="js/charts.js"></script>
+	<script src="scriptjs/his_mgt_user.js"></script>
 </head>
     <!-- JAVASCRIPTS-->
 	<script>
@@ -94,21 +95,7 @@
 			App.init(); //Initialise plugins and elements 
             Charts.initCharts();
 			Charts.initPieCharts();
-           
-            /*更换语言包，后期需要捕获cookie中的语言标识，用if做判断*/
-             $("#langli").click(function(){
-//                   var result = setEnglish($("body").html());
-//                 $("body").html(result);
-                 $("#Dashboard_h3").html("仪表板");
-                 $("#TS_id").html("团队状态");
-                 $("#Skins_id").html("皮肤");
-                 $("#langli").html("更换语言");
-                 $("#CPCEP_id").html("复制，打印，CSV，PDF");
-                 
-                 App.setPage("index");  //Set current page
-                 //App.init(); //Initialise plugins and elements 
-             }); 	
-           
+
 		});  
         function change(){
                 //alert("change");TODO修改图标属性
@@ -122,21 +109,7 @@
         function showThreeChartsWhenViewTask(){
             $("#threeCharts").css("display","block");
         }
-//        function setEnglish(bodyString) {
-//            var result = bodyString;  
-//                                                   
-//		    result = result.replaceAll('Dashboard','仪表板');
-//			result = result.replaceAll('INBOX','收件箱');
-//			result = result.replaceAll('Overview','预览');
-//			result = result.replaceAll('Statistics','数据');
-//			result = result.replaceAll('Home','主页');
-//                                          
-//            return result;
-//}
-//        String.prototype.replaceAll = function(oldStr, newStr) {
-//            return this.replace(new RegExp(oldStr,"gm"),newStr);    
-//                              
-// }                              
+
 	</script>                                  
 	<!-- /JAVASCRIPTS -->    
 <body id="bodyid">
@@ -177,7 +150,7 @@
 							<!--<li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>-->
 							<li><a  id="langli" ><i class="fa fa-cog"></i> 更换语言</a></li>
 							<!--<li><a href=""><i class="fa fa-eye"></i> Privacy Settings</a></li>-->
-							<li><a href="login.html"><i class="fa fa-power-off"></i> 注销</a></li>
+							<li><a id="logout_id" href="/api/user/logout"><i class="fa fa-power-off"></i>注销</a></li>
 						</ul>
 					</li>
 					<!-- END USER LOGIN DROPDOWN -->
@@ -225,19 +198,19 @@
 						<ul>
                             <li class="">
 								<a href="node_mgt_user.html">
-								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">节点管理</span>
+								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text" id="node_mgt_id">节点管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
                             <li class="">
 								<a href="task_mgt_user.html" >
-								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text"> 任务管理</span>
+								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text" id="task_mgt_id"> 任务管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
                             <li class="active">
 								<a href="his_mgt_user.html">
-								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text"> 历史任务</span>
+								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text" id="his_mgt_id"> 历史任务</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
@@ -280,13 +253,13 @@
 									<ul class="breadcrumb">
 										<li>
 											<i class="fa fa-home"></i>
-											<a href="node_mgt_user.html">主页</a>
+											<a href="node_mgt_user.html" id="home_id">主页</a>
 										</li>
 										
 									</ul>
 									<!-- /BREADCRUMBS -->
 									<div class="clearfix">
-										<h3 class="content-title pull-left" id="Dashboard_h3">历史任务</h3>
+										<h3 class="content-title pull-left" id="DHis">历史任务</h3>
 									</div>
 								</div>
 							</div>
@@ -302,7 +275,7 @@
 								<!-- BOX -->
 								<div class="box border purple">
 									<div class="box-title">
-										<h4 id="CPCEP_id"><i class="fa fa-table"></i>历史任务</h4>
+										<h4 id="task_list"><i class="fa fa-table"></i>任务列表</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -319,15 +292,15 @@
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableTaskUser" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
-                                                    <th>编号</th>
-													<th>任务名称</th>
-													<th>任务模式</th>
-                                                    <th>任务类型</th>
-													<th>所在节点</th>
-													<th>时间信息</th>
+													<th id="number_id">编号</th>
+													<th id="task_name">任务名称</th>
+													<th id="task_type">任务类型</th>
+													<th id="node">所在节点</th>
+													<th id="task_state">任务状态</th>
+													<th id="time_info">时间信息</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -387,7 +360,7 @@
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatableTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableTask1" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
                                                     <th>编号</th>
@@ -430,74 +403,74 @@
 						</div>
 						<!-- /EXPORT TABLES-TaskView -->
                     <!-- AUTO UPDATING CURVE-查看任务三种折线图 -->
-                    <div id="threeCharts" style="width:100%;display:none;">
-						<div class="box border orange">
-									<div class="box-title">
-										<h4><i class="fa fa-signal"></i>CPU曲线图</h4>
-										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
-										</div>
-									</div>
-									<div class="box-body">
-										<div id="chart_4_1" class="chart" style="width: 100%;"></div>
-									</div>
-								</div>
-						<div class="box border orange">
-									<div class="box-title">
-									<h4><i class="fa fa-signal"></i>内存曲线图</h4>	
-										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
-										</div>
-									</div>
-									<div class="box-body">
-										<div id="chart_4_2" class="chart" style="width: 100%;"></div>
-									</div>
-								</div>
-						<div class="box border orange">
-									<div class="box-title">
-										<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>
-										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
-										</div>
-									</div>
-									<div class="box-body">
-										<div id="chart_4_3" class="chart" style="width: 100%;"></div>
-									</div>
-								</div>
-                    </div>
+                    <!--<div id="threeCharts" style="width:100%;display:none;">-->
+						<!--<div class="box border orange">-->
+									<!--<div class="box-title">-->
+										<!--<h4><i class="fa fa-signal"></i>CPU曲线图</h4>-->
+										<!--<div class="tools hidden-xs">-->
+											<!--<a href="#box-config" data-toggle="modal" class="config">-->
+												<!--<i class="fa fa-cog"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="reload">-->
+												<!--<i class="fa fa-refresh"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="collapse">-->
+												<!--<i class="fa fa-chevron-up"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="remove">-->
+												<!--<i class="fa fa-times"></i>-->
+											<!--</a>-->
+										<!--</div>-->
+									<!--</div>-->
+									<!--<div class="box-body">-->
+										<!--<div id="chart_4_1" class="chart" style="width: 100%;"></div>-->
+									<!--</div>-->
+								<!--</div>-->
+						<!--<div class="box border orange">-->
+									<!--<div class="box-title">-->
+									<!--<h4><i class="fa fa-signal"></i>内存曲线图</h4>	-->
+										<!--<div class="tools hidden-xs">-->
+											<!--<a href="#box-config" data-toggle="modal" class="config">-->
+												<!--<i class="fa fa-cog"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="reload">-->
+												<!--<i class="fa fa-refresh"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="collapse">-->
+												<!--<i class="fa fa-chevron-up"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="remove">-->
+												<!--<i class="fa fa-times"></i>-->
+											<!--</a>-->
+										<!--</div>-->
+									<!--</div>-->
+									<!--<div class="box-body">-->
+										<!--<div id="chart_4_2" class="chart" style="width: 100%;"></div>-->
+									<!--</div>-->
+								<!--</div>-->
+						<!--<div class="box border orange">-->
+									<!--<div class="box-title">-->
+										<!--<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>-->
+										<!--<div class="tools hidden-xs">-->
+											<!--<a href="#box-config" data-toggle="modal" class="config">-->
+												<!--<i class="fa fa-cog"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="reload">-->
+												<!--<i class="fa fa-refresh"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="collapse">-->
+												<!--<i class="fa fa-chevron-up"></i>-->
+											<!--</a>-->
+											<!--<a href="javascript:;" class="remove">-->
+												<!--<i class="fa fa-times"></i>-->
+											<!--</a>-->
+										<!--</div>-->
+									<!--</div>-->
+									<!--<div class="box-body">-->
+										<!--<div id="chart_4_3" class="chart" style="width: 100%;"></div>-->
+									<!--</div>-->
+								<!--</div>-->
+                    <!--</div>-->
 					<!-- /AUTO UPDATING CURVE -->
 						<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
 						<div class="modal fade" id="table-modal-current" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -564,7 +537,7 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">历史任务</h4>
+								  <h4 class="modal-title" >历史任务</h4>
 								</div>
 								<div class="modal-body">
 								  
@@ -633,7 +606,7 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">任务时间信息</h4>
+								  <h4 class="modal-title"  id="time_text">任务时间信息</h4>
 								</div>
 								<div class="modal-body">
 								  
@@ -654,7 +627,7 @@
 										</table>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+								  <button type="button" class="btn btn-danger" data-dismiss="modal" id="close_button">关闭</button>
 								</div>
 							  </div>
 							</div>
