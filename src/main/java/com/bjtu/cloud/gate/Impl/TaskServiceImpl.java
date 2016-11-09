@@ -78,20 +78,32 @@ public class TaskServiceImpl implements TaskService{
       String[] taskPath = targetPaths.split(",");
       String[] taskpid = pids.split(",");
       for (int i = 0; i < taskPath.length; i++) {
-        boolean kill = Cmds.killTask(nodeId, taskpid[i]);
-        if(kill == true){
-          boolean delete = Cmds.deleteTask(nodeId, taskPath[i]);
-          if(delete == true){
-            Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
-            if(flag == 1){
-              taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
-              continue;
-            }else{
-              taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
-              return taskInfos;
+        if(!taskpid[i].equals("-1")){
+          boolean kill = Cmds.killTask(nodeId, taskpid[i]);
+          if(kill == true){
+            boolean delete = Cmds.deleteTask(nodeId, taskPath[i]);
+            if(delete == true){
+              Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
+              if(flag == 1){
+                taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+                continue;
+              }else{
+                taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+                return taskInfos;
+              }
             }
           }
-        }
+        }else if(taskpid[i].equals("-1")){
+          Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
+          if(flag == 1){
+            taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+            continue;
+          }else{
+            taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+            return taskInfos;
+          }
+        }else
+          return taskInfos;
       }
       return taskInfos;
     } catch (Exception e) {
