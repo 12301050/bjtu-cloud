@@ -79,44 +79,11 @@
 	<script type="text/javascript" src="js/gritter/js/jquery.gritter.min.js"></script>
 	<!-- CUSTOM SCRIPT -->
 	<script src="js/script.js"></script>
+    <script src="scriptjs/log_mgt_admin.js"></script>
 </head>
     <!-- JAVASCRIPTS-->
-	<script>
-		jQuery(document).ready(function() {	
-            
-            App.setPage("index");  //Set current page
-			App.init(); //Initialise plugins and elements 
-            
-            /*更换语言包，后期需要捕获cookie中的语言标识，用if做判断*/
-             $("#langli").click(function(){
-//                   var result = setEnglish($("body").html());
-//                 $("body").html(result);
-                 $("#Dashboard_h3").html("仪表板");
-                 $("#TS_id").html("团队状态");
-                 $("#Skins_id").html("皮肤");
-                 $("#langli").html("更换语言");
-                 $("#CPCEP_id").html("复制，打印，CSV，PDF");
-                 
-                 App.setPage("index");  //Set current page
-                 //App.init(); //Initialise plugins and elements 
-             }); 			
-		});                               
-//        function setEnglish(bodyString) {
-//            var result = bodyString;  
-//                                                   
-//		    result = result.replaceAll('Dashboard','仪表板');
-//			result = result.replaceAll('INBOX','收件箱');
-//			result = result.replaceAll('Overview','预览');
-//			result = result.replaceAll('Statistics','数据');
-//			result = result.replaceAll('Home','主页');
-//                                          
-//            return result;
-//}
-//        String.prototype.replaceAll = function(oldStr, newStr) {
-//            return this.replace(new RegExp(oldStr,"gm"),newStr);    
-//                              
-// }                              
-	</script>                                  
+                            
+	                                  
 	<!-- /JAVASCRIPTS -->    
 <body id="bodyid">
 	<!-- HEADER -->
@@ -156,7 +123,7 @@
 							<!--<li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>-->
 							<li><a  id="langli" ><i class="fa fa-cog"></i> 更换语言</a></li>
 							<!--<li><a href=""><i class="fa fa-eye"></i> Privacy Settings</a></li>-->
-							<li><a href="login.html"><i class="fa fa-power-off"></i> 注销</a></li>
+							<li><a id="logout_id" href="/api/user/logout"><i class="fa fa-power-off"></i>注销</a></li>
 						</ul>
 					</li>
 					<!-- END USER LOGIN DROPDOWN -->
@@ -200,19 +167,19 @@
 						<ul>
                             <li class="">
 								<a href="user_mgt_admin.html" >
-								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text"> 用户管理</span>
+								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text" id="user_mangid"> 用户管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
 							<li class="">
 								<a href="task_mgt_admin.html">
-								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">任务管理</span>
+								<i class="fa fa-tachometer fa-fw" ></i> <span class="menu-text" id="task_mangid">任务管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
                             <li class="active">
 								<a href="log_mgt_admin.html">
-								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text"> 日志管理</span>
+								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text" id="log_mangid"> 日志管理</span>
 								<span class="selected"></span>
 								</a>					
 							</li>
@@ -255,7 +222,7 @@
 									<ul class="breadcrumb">
 										<li>
 											<i class="fa fa-home"></i>
-											<a href="user_mgt_admin.html">主页</a>
+											<a href="user_mgt_admin.html" id="home_id">主页</a>
 										</li>
 									</ul>
 									<!-- /BREADCRUMBS -->
@@ -276,7 +243,7 @@
 								<!-- BOX -->
 								<div class="box border purple">
 									<div class="box-title">
-										<h4 id="CPCEP_id"><i class="fa fa-table"></i>日志列表</h4>
+										<i class="fa fa-table"></i><h4 id="CPCEP_id"> 日志列表</h4>
 										<div class="tools hidden-xs">
 											<a href="#box-config" data-toggle="modal" class="config">
 												<i class="fa fa-cog"></i>
@@ -296,9 +263,9 @@
 										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
-													<th>编号</th>
-													<th>日期</th>
-													<th class="hidden-xs">详情</th>
+													<th id="number_id">编号</th>
+													<th id="date_id">日期</th>
+													<th class="hidden-xs" id="details_id">详情</th>
 													
 												</tr>
 											</thead>
@@ -345,16 +312,18 @@
 							  <div class="modal-content modal-table">
 								<div class="modal-header">
 								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">XXX日志</h4>
+								  <h4 class="modal-title" id="log_text">XXX日志</h4>
 								</div>
 								<div class="modal-body" style="margin-left: 2%;margin-right: 2%;">
 								  
 										<table id="datatableForLog" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
+<!--
 												<tr>
 													<th></th>
 													<th></th>
 												</tr>
+-->
 											</thead>
 											<tbody>
 												
@@ -377,7 +346,7 @@
 										</table>
 								</div>
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+								  <button type="button" class="btn btn-success" data-dismiss="modal" id="Sure_id">确定</button>
 								</div>
 							  </div>
 							</div>

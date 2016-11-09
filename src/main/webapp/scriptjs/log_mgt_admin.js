@@ -12,53 +12,24 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
 }
 function change_en(){//变为英文
 
-    $("#Dashboard_h3").html("USER MANAGEMENT");
+    $("#Dashboard_h3").html("LOG MANAGEMENT");
     $("#Skins_id").html("skins");
     $("#langli").html("language");
     $("#logout_id").html("log out");
-    $("#CPCEP_id").html("user list");
+    $("#CPCEP_id").html("log list");
     $("#user_mangid").html("USER MANAGEMENT");
     $("#task_mangid").html("TASK MANAGEMENT");
     $("#log_mangid").html("LOG MANAGEMENT");
     $("#home_id").html("Home");
     $("#number_id").html("number");
-    $("#user_id").html("user id");
-    $("#user_nameid").html("user name");
-    $("#nodes_id").html("number of node");
-    $("#change_id").html("change the number of node");
-    $("#delete_id").html("delete user");
-    $("#del_butid").html("delete");
-    $("#choose_id").html("Please select the type of node you need ");
-    $("#type_id").html("type of node");
-    $("#create_id").html("create and distribute");
-    $("#deleteTetx_id").html("Delete the node");
-    $("#delNumber_id").html("number");
-    $("#delNodeName_id").html("name of node");
-    $("#delNode_id").html("node ID");
-    $("#delNodeBut_id").html("Delete");
-    $("#delNodeState_id").html("state");
-    $("#delUserText_id").html("Delete the user");
-    $("#delSureText_id").html("The user has the task being performed, are you confirm the deletion of the user？");
-    $("#delSure_id").html("Sure");
-    $("#delCancel_id").html("Cancel");
-    $("#datatableForNode").dataTable().fnDestroy();
-    $("#datatableForTask").dataTable().fnDestroy();
-    var table=$('#datatableForNode').dataTable({
-        "sPaginationType": "bs_full",
-        "sPaginate": false,
-        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-        select:true,
-        oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
-            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-        }
-
-    });
-    $('#datatableForTask').dataTable({
+    $("#log_text").html("log list");
+    $("#Sure_id").html("Sure");
+   // $("#delCancel_id").html("Cancel");
+    $("#date_id").html("date");
+    $("#details_id").html("details");
+    $("#datatableForLog").dataTable().fnDestroy();
+  //  $("#datatableForTask").dataTable().fnDestroy();
+    var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -69,51 +40,43 @@ function change_en(){//变为英文
         }
 
     });
+//    $('#datatableForTask').dataTable({
+//        "sPaginationType": "bs_full",
+//        "sPaginate": false,
+//        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+//        select:true,
+//        oTableTools: {
+//            aButtons: [ "copy",  "csv", "pdf" ],
+//            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+//        }
+//
+//    });
     App.setPage("index");  //Set current page
 }
 function change_ch(){//变为中文
-    $("#Dashboard_h3").html("用户管理");
+    $("#Dashboard_h3").html("日志管理");
     $("#Skins_id").html("皮肤");
     $("#logout_id").html("注销");
     $("#langli").html("更换语言");
-    $("#CPCEP_id").html("用户列表");
+    $("#CPCEP_id").html("日志列表");
     $("#user_mangid").html("用户管理");
     $("#task_mangid").html("任务管理");
     $("#log_mangid").html("日志管理");
     $("#home_id").html("主页");
     $("#number_id").html("编号");
-    $("#node_id").html("节点ID");
-    $("#node_type").html("节点类型");
-    $("#node_state").html("节点状态");
-    $("#user_name").html("用户名");
-    $("#number_task").html("正在执行的任务数");
-    $("#his_number").html("历史执行任务书");
-    $("#cpu").html("cpu占用率");
-    $("#ram").html("内存占用率");
-    $("#net").html("带宽占用率");
-    $("#operate").html("删除节点");
-    $("#delNumber_id").html("编号");
-    $("#delNodeName_id").html("节点名称");
-    $("#delNode_id").html("节点 ID");
-    $("#delNodeBut_id").html("删除");
-    $("#delNodeState_id").html("状态");
-    $("#delUserText_id").html("删除用户");
-    $("#delSureText_id").html("该用户有正在执行的任务,你确认删除该用户？");
-    $("#delSure_id").html("确定");
-    $("#delCancel_id").html("取消");
-    $("#datatableForNode").dataTable().fnDestroy();
+    $("#log_text").html("日志列表");
+    $("#Sure_id").html("确定");
+    $("#date_id").html("日期");
+    $("#details_id").html("详情");
+    $("#datatableForLog").dataTable().fnDestroy();
     $("#datatableForTask").dataTable().fnDestroy();
-    var table=$('#datatableForNode').dataTable({
+    var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            aButtons: ["copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -138,37 +101,38 @@ function change_ch(){//变为中文
 }
 
 jQuery(document).ready(function() {	//首先渲染
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/node/getAllNode",//接口名字
-        dataType: "json",
-        success: function (data) {
-            var stringfortrlist = "";
-            for (var i = 0; i < data.data.length; i++) {
-                var idforlog=i+1;
-                var stringfortr ="<tr class=\"gradeX\">"+
-                    "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-                    "<td>"+idforlog+"</td>"+
-                    "<td>"+data.data[i].nodeId+"</td>"+
-                    "<td class=\"center\">"+data.data[i].type+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
-                    "</tr>";
-                stringfortrlist = stringfortrlist + stringfortr;
-            }
-            $("#datatableForNode").dataTable().fnDestroy();
-            $('#tbodyfornodelist').html(stringfortrlist);
-            AutoCheckLang();
-        }
-    });
-
+//    $.ajax({
+//        type: "GET",
+//        url: "http://localhost:8080/api/node/getAllNode",//接口名字
+//        dataType: "json",
+//        success: function (data) {
+//            var stringfortrlist = "";
+//            for (var i = 0; i < data.data.length; i++) {
+//                var idforlog=i+1;
+//                var stringfortr ="<tr class=\"gradeX\">"+
+//                    "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+//                    "<td>"+idforlog+"</td>"+
+//                    "<td>"+data.data[i].nodeId+"</td>"+
+//                    "<td class=\"center\">"+data.data[i].type+"</td>"+
+//                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+//                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+//                    "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+//                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+//                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
+//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
+//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
+//                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+//                    "</tr>";
+//                stringfortrlist = stringfortrlist + stringfortr;
+//            }
+//            //$("#datatableForLog").dataTable().fnDestroy();
+//            //$('#tbodyfornodelist').html(stringfortrlist);
+//
+//        }
+//    });
+    
+    AutoCheckLang();
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 
