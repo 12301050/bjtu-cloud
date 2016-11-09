@@ -7,9 +7,10 @@ import java.util.ArrayList;
 public class Cmds {
 	private final static boolean DEBUG = false;
 	private final static String sudoPwd = "1";
-//	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
-	private final static String basecmd = "docker ";
-	private static String cmds[] = { "/bin/bash", "-c", basecmd };
+//	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker "; //for just linux
+	private final static String basecmd = "docker ";//for mac && windows
+//	private static String cmds[] = { "cmd.exe", "/c", basecmd };//for windows
+	private static String cmds[] = { "/bin/bash", "-c", basecmd };//for linux && mac
 	public final static int BINTASK = 0;
 	public final static int JAVATASK = 1;
 	public final static int PYTHONTASK = 2;
@@ -65,7 +66,7 @@ public class Cmds {
 	public static String runTask(String nodeId, int taskType,String targetPath, String targetFileName) {
 		String pid = null;
 		ArrayList<String> outPuts ;
-		switch (taskType) { 
+		switch (taskType) {
 		case BINTASK:
 			cmds[2] = basecmd + "exec " + nodeId + " start-stop-daemon -b -d /"+targetPath+" --start --quiet --pidfile ../xx.pid -m --exec  " + targetFileName+"\"";
 			outPuts = executeCmds(cmds);
@@ -143,7 +144,7 @@ public class Cmds {
 				if(line.contains("%Cpu(s):")){
 					i++;
 					if(i==2)
-						return Float.valueOf(line.substring(8,line.lastIndexOf(" us,")));  
+						return Float.valueOf(line.substring(8,line.lastIndexOf(" us,")));
 				}
 			}
 		}
