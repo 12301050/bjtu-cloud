@@ -17,6 +17,9 @@ public interface TaskInfoMapper {
     //可删除任务列表
     List<TaskInfo> getDeleteByNode(@Param("nodeId")String nodeId);
 
+    //获取所有正在运行任务列表
+    List<TaskInfo> getTaskByStatus(Integer status);
+
     int insert(TaskInfo record);
 
     int insertSelective(TaskInfo record);

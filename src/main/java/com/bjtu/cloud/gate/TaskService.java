@@ -27,4 +27,7 @@ public interface TaskService {
   List<TaskRecord> getAllTaskRecord() throws Exception;
   //删除某个(些)任务
   List<TaskInfo> deleteTask(String nodeId, String targetPaths) throws Exception;
+
+  //删除某个(些)任务
+  List<TaskInfo> getTaskByStatus(Integer status) throws Exception;
 }

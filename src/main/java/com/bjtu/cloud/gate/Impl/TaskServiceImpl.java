@@ -94,6 +94,17 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
+  public List<TaskInfo> getTaskByStatus(Integer status) throws Exception {
+    try {
+      List<TaskInfo> taskInfos = taskInfoMapper.getTaskByStatus(status);
+      return taskInfos;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public TaskInfo queryTimeInfo(String nodeId, Integer taskId) throws Exception {
     try {
       TaskInfo taskInfo = taskInfoMapper.queryTimeInfo(nodeId, taskId);
@@ -112,6 +123,7 @@ public class TaskServiceImpl implements TaskService{
     //根据模式创建任务
     if (mode == 0) {
       String nodePath = df.format(new Date());// new Date()为获取当前系统时间
+      Cmds.runNode(nodeId);
       Boolean flag = Cmds.uploadTask(nodeId, hostPath, nodePath, fileName);
       if (flag == true) {
         String pid = Cmds.runTask(nodeId, type, nodePath, fileName);
@@ -141,6 +153,7 @@ public class TaskServiceImpl implements TaskService{
       }
     } else {
       String nodePath = df.format(new Date());// new Date()为获取当前系统时间
+      Cmds.runNode(nodeId);
       Boolean flag = Cmds.uploadTask(nodeId, hostPath, nodePath, fileName);
       if (flag == true) {
         TaskInfo taskInfo = new TaskInfo();

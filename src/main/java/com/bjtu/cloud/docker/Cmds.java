@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Cmds {
 	private final static boolean DEBUG = false;
 	private final static String sudoPwd = "1";
-	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
-//	private final static String basecmd = "docker ";
+//	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
+	private final static String basecmd = "docker ";
 	private static String cmds[] = { "/bin/bash", "-c", basecmd };
 	public final static int BINTASK = 0;
 	public final static int JAVATASK = 1;
@@ -97,7 +97,6 @@ public class Cmds {
 		case PYTHONTASK:
 			//TODO:python path
 			cmds[2] = basecmd + "exec " + nodeId + " start-stop-daemon -b -d /"+targetPath+" --start --quiet --pidfile ../xx.pid -m --exec  /usr/bin/python " + targetFileName;
-			System.out.println(cmds[2]);
 			outPuts = executeCmds(cmds);
 			if(outPuts.size()!=0&&outPuts.get(0).contains("no such file or directory"))
 				return null;

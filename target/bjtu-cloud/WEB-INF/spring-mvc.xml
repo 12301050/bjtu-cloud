@@ -48,6 +48,7 @@
         <property name="prefix" value="/order/html/" />
         <property name="suffix" value=".html"></property>
     </bean>
+  <bean id="beanDefineConfigue" class="com.bjtu.cloud.docker.BeanDefineConfigue"></bean>
 
     <mvc:resources mapping="/**" location="/"/>
 

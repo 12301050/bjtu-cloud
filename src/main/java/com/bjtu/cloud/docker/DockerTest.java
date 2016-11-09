@@ -2,15 +2,15 @@ package com.bjtu.cloud.docker;
 
 
 public class DockerTest {
-		 static String cmds[] = {"/bin/bash", "-c","echo \"1\" | sudo -S docker run -i -d docker/whalesay"};
+		 static String cmds[] = {"/bin/bash", "-c","docker run -i -d docker/whalesay"};
 	public static void main(String[] args) {
 //		System.out.println("Docker output " + Cmds.createNode("docker/whalesay"));
 
 		//上传任务
-		Boolean flag = Cmds.uploadTask("a5fb2f94a076","/home/xzp/hello.py","111","hello.py");
-		System.out.println(flag);
+		Boolean flag234 = Cmds.uploadTask("a0d48e07c4fb","/Users/Kafukaaa/Downloads/test.java","234","test.java");
+		System.out.println(flag234);
 		//开始运行任务
-		String pid = Cmds.runTask("a5fb2f94a076",2,"111","hello.py");
+		String pid = Cmds.runTask("a0d48e07c4fb",1,"234","test.java");
 		System.out.println(pid);
 		//检查运行状态
 //		System.out.println(pid+Cmds.checkTaskRunning("a5fb2f94a076",pid));

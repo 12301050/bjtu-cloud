@@ -12,7 +12,7 @@ public class LoadTaskStatus implements ApplicationListener<ContextRefreshedEvent
     @Override
     public void onApplicationEvent(ContextRefreshedEvent evt) {
         if (evt.getApplicationContext().getParent() == null) {
-
+            System.out.println("GG");
         }
     }
 
