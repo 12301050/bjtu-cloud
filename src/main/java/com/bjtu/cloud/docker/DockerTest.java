@@ -7,20 +7,20 @@ public class DockerTest {
 //		System.out.println("Docker output " + Cmds.createNode("docker/whalesay"));
 
 		//上传任务
-//		Boolean flag = Cmds.uploadTask("d0e36f37bd60","/home/xzp/test.java","111","test.java");
-//		System.out.println(flag);
+		Boolean flag = Cmds.uploadTask("a5fb2f94a076","/home/xzp/hello.py","111","hello.py");
+		System.out.println(flag);
 		//开始运行任务
-//		String pid = Cmds.runTask("d0e36f37bd60",1,"111","test.java");
-//		System.out.println(pid);
+		String pid = Cmds.runTask("a5fb2f94a076",2,"111","hello.py");
+		System.out.println(pid);
 		//检查运行状态
-//		System.out.println(pid+Cmds.checkTaskRunning("585aec47c343",pid));
+//		System.out.println(pid+Cmds.checkTaskRunning("a5fb2f94a076",pid));
 		//打印任务下载速度.节点下载速度（2s延迟）
-		System.out.println(Cmds.taskNetUsage("d0e36f37bd60","2373")[1]+" "+Cmds.nodeNetUsage("d0e36f37bd60")[1]);
+//		System.out.println(Cmds.taskNetUsage("a5fb2f94a076","73")[1]+" "+Cmds.nodeNetUsage("5cb8a761c44f")[1]);
 		//杀任务进程
-//		Cmds.killTask("d0e36f37bd60","2445");
-//		System.out.println(pid+Cmds.checkTaskRunning("585aec47c343",pid));
+//		Cmds.killTask("a5fb2f94a076","2445");
+//		System.out.println(pid+Cmds.checkTaskRunning("a5fb2f94a076",pid));
 		//删除任务
-//		 Cmds.deleteTask("d0e36f37bd60","111");
+//		 Cmds.deleteTask("a5fb2f94a076","111");
 
 
 
