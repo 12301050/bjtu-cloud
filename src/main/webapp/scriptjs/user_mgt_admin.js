@@ -122,6 +122,35 @@ function showtheaddnodemodal(obj){//给用户添加节点时给模态框传值
     var test=$(this);
     $('#idForUsernameWhenAddOneNode').val(obj.id);
 }
+function showtheDeletenodemodal(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
+    var username=obj.id;
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        data:{username:username},
+        success: function (data) {
+            console.log(data.data);
+            var stringfortrlist = "";
+            for(var i=0;i<data.data.length;i++){
+                var idforlog=i+1;//逻辑编号
+                var max = (status==1)?"关闭":"开启";
+                console.log(max);
+                var stringfortr="<tr class=\"gradeA\">"+
+                    "<td style=\"text-align:center;\"><input type=\"checkbox\" name=\"checkList\"></td>"+
+                    "<td>"+idforlog+"</td>"+
+                    "<td class=\"hidden-xs\">"+data.data[i].nodeId+"</td>"+
+                    "<td >"+data.data[i].nodeName+"</td>"+
+                    "<td >"+max+"</td>"+
+                    "</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $('#showNodeListWhenDeleteNode').html(stringfortrlist);
+        }
+    });
+
+}
 function deleteUserByUsername(username){//当用户名下没有正在运行的任务时，删除该用户
     $.ajax({
         type: "POST",
@@ -167,14 +196,8 @@ function showthedeleteusermodal(obj){//删除某个用户时给模态框传值�
                 deleteUserByUsername(username);
                 //alert("删除成功");//重新请求数据
             }
-            //var newnodeAmount=data.data;
-            //if(newnodeAmount=="null"||newnodeAmount==""||newnodeAmount==null)
-            //    alert("不知道为什么服务器炸掉了，不过你不要着急，给王文博打电话！");
-            //else
-            //    $('#wangyunodeAmount').text(data.data);//给节点数加1
         }
     });
-    $('#idForUsernameWhenAddOneNode').val(obj.id);
 }
 function deleteWhenConfirm(){
     var readytodelete=$('#hiddenforusername').val();//获取提前准备好的数据
@@ -246,7 +269,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\">" + data.data[i].userName+"</td>"+
                     "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                     "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
-                    "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
+                    "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>"+
                     "</td><td class=\"center\"><a id=\""+data.data[i].userName+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;

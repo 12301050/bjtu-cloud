@@ -7,6 +7,7 @@ import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.gate.NodeService;
 import com.bjtu.cloud.gate.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +38,11 @@ public class NodeController {
     }
   }
   //获取某个用户下所有节点
-  @RequestMapping(value = "api/node/getNodeByUser", method = RequestMethod.GET)
-  public RestResult<List<NodeInfo>> getAllNodeByUserName(String userName) {
+  @RequestMapping(value = "api/node/getNodeByUser", method = RequestMethod.POST)
+  public RestResult<List<NodeInfo>> getAllNodeByUserName(@RequestBody String userName) {
     try{
-      List<NodeInfo> nodeInfos = nodeService.getNodeByUser(userName);
+      String usernameforquery=userName.split("=")[1];
+      List<NodeInfo> nodeInfos = nodeService.getNodeByUser(usernameforquery);
       return  RestResult.succ().data(nodeInfos).build();
     }catch (Exception e){
       e.printStackTrace();
