@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -70,9 +71,10 @@ public class TaskController {
   //创建任务
   @RequestMapping(value = "api/task/create", method = RequestMethod.GET)
   public RestResult<TaskInfo> create(String nodeId, String hostPath, Integer type,
-                                     Integer mode, Integer times, String startTime) {
+                                     Integer mode, Integer times, String startTime, HttpSession session) {
     try {
-      TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, mode, times, startTime);
+      String operatorName = session.getAttribute("userName").toString();
+      TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, mode, times, startTime, operatorName);
       return RestResult.succ().data(taskInfo).build();
     }catch (Exception e){
       e.printStackTrace();

@@ -17,7 +17,7 @@ public interface TaskService {
 
   //创建任务
   TaskInfo createTask(String nodeId, String hostPath, Integer type,
-                      Integer mode, Integer times, String startTime) throws Exception;
+                      Integer mode, Integer times, String startTime, String operatorName) throws Exception;
 
   //查询某个任务的三个性能数值
   TaskInfo getPerformance(String nodeId, Integer taskId, String pid) throws Exception;

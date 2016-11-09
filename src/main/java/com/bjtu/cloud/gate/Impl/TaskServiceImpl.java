@@ -123,7 +123,8 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public TaskInfo createTask(String nodeId, String hostPath, Integer type, Integer mode, Integer times, String startTime) throws Exception {
+  public TaskInfo createTask(String nodeId, String hostPath, Integer type, Integer mode,
+                             Integer times, String startTime, String operatorName) throws Exception {
     String[] fileNames = hostPath.split("/");
     String fileName = fileNames[fileNames.length];
 
@@ -148,6 +149,14 @@ public class TaskServiceImpl implements TaskService{
 
           Integer result = taskInfoMapper.insertSelective(taskInfo);
           if (result == 1) {
+            TaskRecord taskRecord = new TaskRecord();
+            taskRecord.setTaskId(pid);
+            taskRecord.setMode(mode);
+            taskRecord.setStatus(1);
+            taskRecord.setOperateName(operatorName);
+            taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
+            taskRecordMapper.insertSelective(taskRecord);
+
             return taskInfo;
           } else {
             return null;
@@ -189,6 +198,8 @@ public class TaskServiceImpl implements TaskService{
         //定时循环执行任务
         RunTask task = new RunTask();
         task.setTimes(times);
+        task.setMode(mode);
+        task.setOperatorName(operatorName);
         Timer timer = new Timer();
         timer.schedule(task, df1.parse(startTime), period);
 
