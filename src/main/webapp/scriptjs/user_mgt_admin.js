@@ -259,18 +259,18 @@ jQuery(document).ready(function() {	//首先渲染
         type: "GET",
         url: "http://localhost:8080/api/user/getAllUserInfo",//接口名字
         dataType: "json",
-        success: function (data){
+        success: function (data) {
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
-                var idforlog=i+1;
-                var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
+                var idforlog = i + 1;
+                var idforNodeAmount = data.data[i].userName + "nodeAmount";//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
-                    "<td class=\"center\">" + data.data[i].userName+"</td>"+
-                    "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
-                    "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
-                    "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>"+
-                    "</td><td class=\"center\"><a id=\""+data.data[i].userName+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
+                    "<td class=\"center\">" + data.data[i].userName + "</td>" +
+                    "<td class=\"center\"><a id=\"" + idforNodeAmount + "\" href=\"task_mgt_admin.html?username=" + data.data[i].userName + " \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount + "</a></td>" +
+                    "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">" +
+                    "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>" +
+                    "</td><td class=\"center\"><a id=\"" + data.data[i].userName + "\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
@@ -283,24 +283,73 @@ jQuery(document).ready(function() {	//首先渲染
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 
-    $("#langli").click(function(){//点击选择更换语言
-        if(localStorage.lang){ //缓存 1代表中文，2代表英文
-            if(localStorage.lang==1){
-                localStorage.lang=2;
-                localStorage.langclose=2;
+    $("#langli").click(function () {//点击选择更换语言
+        if (localStorage.lang) { //缓存 1代表中文，2代表英文
+            if (localStorage.lang == 1) {
+                localStorage.lang = 2;
+                localStorage.langclose = 2;
                 change_en();
             }
-            else if(localStorage.lang==2){
-                localStorage.lang=1;
-                localStorage.langclose=1;
+            else if (localStorage.lang == 2) {
+                localStorage.lang = 1;
+                localStorage.langclose = 1;
                 change_ch();
             }
         }
-        else{
-            localStorage.lang=2;
-            localStorage.langclose=2;
+        else {
+            localStorage.lang = 2;
+            localStorage.langclose = 2;
             change_en();
 
         }
+    });
+    $('#datatableForDeleteNode tbody').on('click', 'tr input[name="checkList"]', function () {//删除选中行
+        var $tr = $(this).parents('tr');
+        $tr.toggleClass('selected');
+        var $tmp = $('[name=checkList]:checkbox');
+        $('#checkAll').prop('checked', $tmp.length == $tmp.filter(':checked').length);
+
+    });
+    $("#delNodeBut_id").on("click", function () {//点击删除按钮时，删除选中的行
+        // table.row('.selected').remove().draw(false);
+        var nodeIds="";
+        var indexfordelete=new Array();
+        $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+            n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+            var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+            nodeIds=nodeIds+nodeId+",";
+            indexfordelete.push(n);
+            //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
+        });
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/user/deleteNode",//接口名字
+            dataType: "json",
+            data:nodeIds,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {//删除成功
+                alert("删除成功了！");
+                for(var j=0;j<indexfordelete.length;j++){
+                    //$("table#datatableForDeleteNode tbody").find("tr:eq(" + indexfordelete[j] + ")").remove();
+                }
+                //var stringfortrlist = "";
+                //for (var i = 0; i < data.data.length; i++) {
+                //    var idforlog = i + 1;
+                //    var idforNodeAmount = data.data[i].userName + "nodeAmount";//设置表示节点个数的id号
+                //    var stringfortr = "<tr class=\"gradeX\">" +
+                //        "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
+                //        "<td class=\"center\">" + data.data[i].userName + "</td>" +
+                //        "<td class=\"center\"><a id=\"" + idforNodeAmount + "\" href=\"task_mgt_admin.html?username=" + data.data[i].userName + " \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount + "</a></td>" +
+                //        "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">" +
+                //        "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>" +
+                //        "</td><td class=\"center\"><a id=\"" + data.data[i].userName + "\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
+                //        " </tr>";
+                //    stringfortrlist = stringfortrlist + stringfortr;
+                //}
+                //$("#datatable2").dataTable().fnDestroy();
+                //$('#tableforusernode').html(stringfortrlist);
+                //AutoCheckLang();
+            }
+        });
     });
 });

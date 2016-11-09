@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -109,10 +110,12 @@ public class UserController {
   }
 
   //删除节点
-  @RequestMapping(value = "api/user/deleteNode", method = RequestMethod.GET)
-  public RestResult<List<UserInfo>> deleteNode(String nodeIds) {
+  @RequestMapping(value = "api/user/deleteNode", method = RequestMethod.POST)
+  public RestResult<List<UserInfo>> deleteNode(@RequestBody String nodeIds) {
     try {
+
       List<UserInfo> userInfos = userService.deleteNode(nodeIds);
+      //List<UserInfo> userInfos = null;
       return RestResult.succ().data(userInfos).build();
     }catch (Exception e) {
       e.printStackTrace();

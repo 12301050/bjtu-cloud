@@ -94,17 +94,18 @@ public class UserServiceImpl implements UserService{
       List<UserInfo> userInfos = userInfoMapper.getAllUserInfo();
       String[] nodeId = nodeIds.split(",");
       for(int i = 0; i < nodeId.length; i++) {
+        //Todo 跳过docker
         boolean delete, stop;
-        stop = Cmds.stopNode(nodeId[i]);
-        delete = Cmds.deleteNode(nodeId[i]);
-        if (stop == true && delete == true) {
+        //stop = Cmds.stopNode(nodeId[i]);
+        //delete = Cmds.deleteNode(nodeId[i]);
+        //if (stop == true && delete == true) {
           taskInfoMapper.deleteByNodeId(nodeId[i]);
           nodeInfoMapper.deleteByNodeId(nodeId[i]);
-          continue;
-        }
-        else {
-          return null;
-        }
+          //continue;
+        //}
+//        else {
+//          return null;
+//        }
       }
       for (int i = 0; i < userInfos.size(); i++){
         String[] nodeIdByUser = userInfos.get(i).getNodeIds().split(",");
