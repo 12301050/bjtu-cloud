@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +26,8 @@ public class BeanDefineConfigue implements ApplicationListener<ContextRefreshedE
   @Autowired
   private TaskInfoMapper taskInfoMapper;
 
+  SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
     new Thread() {
@@ -38,6 +42,7 @@ public class BeanDefineConfigue implements ApplicationListener<ContextRefreshedE
               Boolean flag = Cmds.checkTaskRunning(nodeId, pid.toString());
               if (flag == false){
                 taskInfos.get(i).setStatus(0);
+                taskInfos.get(i).setEndTime(df1.parse(df1.format(new Date())));
                 taskInfoMapper.updateByPrimaryKeySelective(taskInfos.get(i));
               }
             }
