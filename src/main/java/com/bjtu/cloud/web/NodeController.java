@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kafukaaa on 16/10/23.
@@ -52,11 +53,12 @@ public class NodeController {
   }
 
   //获取某节点下的某个状态的任务
-  @RequestMapping(value = "api/node/getTaskByNode", method = RequestMethod.GET)
-  public RestResult<List<TaskInfo>> getTaskByNode(String nodeId, Integer status) {
+  @RequestMapping(value = "api/node/getTaskByNode", method = RequestMethod.POST)
+  public RestResult<List<TaskInfo>> getTaskByNode(@RequestBody Map<String,String> map) {
     try{
-      List<TaskInfo> taskInfos = taskService.getTaskByNode(nodeId, status);
+      List<TaskInfo> taskInfos = taskService.getTaskByNode("00"+map.get("nodeId"), Integer.valueOf(map.get("status")));
       return  RestResult.succ().data(taskInfos).build();
+
     }catch (Exception e){
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();

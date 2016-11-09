@@ -86,6 +86,7 @@ function change_en(){//变为英文
         }
 
     });
+    $("#datatableForTask").css("width","100%");
     App.setPage("index");  //Set current page
 }
 function change_ch(){//变为中文
@@ -171,11 +172,7 @@ function change_ch(){//变为中文
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            aButtons: ["copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -195,10 +192,46 @@ function change_ch(){//变为中文
         }
 
     });
-
+    $("#datatableForTask").css("width","100%");
     App.setPage("index");
 }
+function changeToTaskView(nodeid){//用户点击”正在执行的任务“时显示任务列表
+    //alert("!!");
+    //alert(nodeid);
+    var nodeidAndStatus=JSON.stringify({nodeId:nodeid,status:"1"});
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getTaskByNode",//接口名字，根据状态和节点id获取任务列表
+        dataType: "json",
+        data:nodeidAndStatus,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog=i+1;
+                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
 
+                var stringfortr ="<tr class=\"gradeX\">"+
+                    "<td>"+idforlog+"</td>"+
+                    "<td>"+data.data[i].taskName+"</td>"+
+                    "<td class=\"hidden-xs\">"+mode+"</td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                "+</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $("#datatableForTask").dataTable().fnDestroy();
+            $('#tbodyforTaskList').html(stringfortrlist);
+            AutoCheckLang();
+        }
+    });
+    $("#nodeView").css("display","none");
+    $("#taskView").css("display","block");
+    $("#datatableForTask").css("width","100%");
+}
+function showThreeChartsWhenViewTask(){
+    $("#threeCharts").css("display","block");
+}
 jQuery(document).ready(function() {	//首先渲染
     $.ajax({
         type: "GET",
@@ -216,7 +249,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                     "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
@@ -229,6 +262,7 @@ jQuery(document).ready(function() {	//首先渲染
             $("#datatableForTask").dataTable().fnDestroy();
             $('#tbodyfornodelist').html(stringfortrlist);
             AutoCheckLang();
+            $("#datatableForTask").css("width","100%");
         }
     });
 

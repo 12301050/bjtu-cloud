@@ -135,7 +135,7 @@ function showtheDeletenodemodal(obj){//删除节点时首先获取当前时间�
             var stringfortrlist = "";
             for(var i=0;i<data.data.length;i++){
                 var idforlog=i+1;//逻辑编号
-                var max = (status==1)?"关闭":"开启";
+                var max = (data.data[i].status==1)?"开启":"关闭";
                 console.log(max);
                 var stringfortr="<tr class=\"gradeA\">"+
                     "<td style=\"text-align:center;\"><input type=\"checkbox\" name=\"checkList\"></td>"+

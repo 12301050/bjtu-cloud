@@ -86,15 +86,7 @@
 <!-- JAVASCRIPTS-->
 <script>
 
-	function changeToTaskView(){
-		//alert("!!");
-		$("#nodeView").css("display","none");
-		$("#taskView").css("display","block");
-		$("#datatableForTask").css("width","100%");
-	}
-	function showThreeChartsWhenViewTask(){
-		$("#threeCharts").css("display","block");
-	}
+
 </script>
 <!-- /JAVASCRIPTS -->
 <body id="bodyid">
@@ -348,25 +340,11 @@
 												<th class="hidden-xs" id="resource_info">资源信息</th>
 											</tr>
 											</thead>
-											<tbody>
+											<tbody id="tbodyforTaskList">
 											<tr class="gradeX">
 												<td>1</td>
 												<td>跑个登录程序</td>
 												<td class="hidden-xs">即时任务</td>
-												<td class="center hidden-xs"><a href="#table-modal-showTaskSchedual" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-												<td class="center hidden-xs"><a onclick="showThreeChartsWhenViewTask()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-											</tr>
-											<tr class="gradeC">
-												<td>2</td>
-												<td>跑个支付程序</td>
-												<td class="hidden-xs">定时任务</td>
-												<td class="center hidden-xs"><a href="#table-modal-showTaskSchedual" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-												<td class="center hidden-xs"><a onclick="showThreeChartsWhenViewTask()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-											</tr>
-											<tr class="gradeA">
-												<td>3</td>
-												<td>跑个数据库任务</td>
-												<td class="hidden-xs">定时任务</td>
 												<td class="center hidden-xs"><a href="#table-modal-showTaskSchedual" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
 												<td class="center hidden-xs"><a onclick="showThreeChartsWhenViewTask()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
 											</tr>
