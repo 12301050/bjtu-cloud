@@ -11,7 +11,9 @@ import com.bjtu.cloud.repository.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public class NodeServiceImpl implements NodeService {
   @Autowired
   private NodeRecordMapper nodeRecordMapper;
 
+  SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
   @Override
   public List<NodeInfo> getAll() throws Exception {
     try {
@@ -41,12 +45,19 @@ public class NodeServiceImpl implements NodeService {
   }
 
   @Override
-  public Integer closeNode(String nodeId) throws Exception {
+  public Integer closeNode(String nodeId, String operatorName) throws Exception {
     try {
       //调用docker关闭节点
       Boolean result = Cmds.stopNode(nodeId);
       if (result == true) {
         Integer flag = nodeInfoMapper.closeNode(nodeId);
+
+        NodeRecord nodeRecord = new NodeRecord();
+        nodeRecord.setNodeId(nodeId);
+        nodeRecord.setStatus(0);
+        nodeRecord.setOperateName(operatorName);
+        nodeRecord.setOperateTime(df1.parse(df1.format(new Date())));
+        nodeRecordMapper.insertSelective(nodeRecord);
         return flag;
       }else {
         return 0;
@@ -58,12 +69,19 @@ public class NodeServiceImpl implements NodeService {
   }
 
   @Override
-  public Integer startNode(String nodeId) throws Exception {
+  public Integer startNode(String nodeId, String operatorName) throws Exception {
     try {
       //调用docker开启节点
       Boolean result = Cmds.runNode(nodeId);
       if (result == true) {
         Integer flag = nodeInfoMapper.startNode(nodeId);
+
+        NodeRecord nodeRecord = new NodeRecord();
+        nodeRecord.setNodeId(nodeId);
+        nodeRecord.setStatus(1);
+        nodeRecord.setOperateName(operatorName);
+        nodeRecord.setOperateTime(df1.parse(df1.format(new Date())));
+        nodeRecordMapper.insertSelective(nodeRecord);
         return flag;
       }else {
         return 0;

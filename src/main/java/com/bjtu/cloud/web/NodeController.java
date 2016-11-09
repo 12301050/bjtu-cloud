@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -64,9 +65,10 @@ public class NodeController {
 
   //关闭某个节点
   @RequestMapping(value = "api/node/closeNode", method = RequestMethod.POST)
-  public RestResult<List<NodeInfo>> closeNode(String nodeId) {
+  public RestResult<List<NodeInfo>> closeNode(String nodeId, HttpSession session) {
     try{
-      Integer flag = nodeService.closeNode(nodeId);
+      String operatorName = session.getAttribute("userName").toString();
+      Integer flag = nodeService.closeNode(nodeId, operatorName);
       if (flag == 1){
         List<NodeInfo> nodeInfos = nodeService.getAll();
         return RestResult.succ().data(nodeInfos).build();
@@ -81,9 +83,10 @@ public class NodeController {
 
   //开启某个节点
   @RequestMapping(value = "api/node/startNode", method = RequestMethod.POST)
-  public RestResult<List<NodeInfo>> startNode(String nodeId) {
+  public RestResult<List<NodeInfo>> startNode(String nodeId, HttpSession session) {
     try{
-      Integer flag = nodeService.startNode(nodeId);
+      String operatorName = session.getAttribute("userName").toString();
+      Integer flag = nodeService.startNode(nodeId, operatorName);
       if (flag == 1){
         List<NodeInfo> nodeInfos = nodeService.getAll();
         return RestResult.succ().data(nodeInfos).build();

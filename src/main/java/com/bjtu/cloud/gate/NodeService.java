@@ -13,10 +13,10 @@ public interface NodeService {
   List<NodeInfo> getAll() throws Exception;
 
   //关闭某个节点
-  Integer closeNode(String nodeId) throws Exception;
+  Integer closeNode(String nodeId, String operatorName) throws Exception;
 
   //开启某个节点
-  Integer startNode(String nodeId) throws Exception;
+  Integer startNode(String nodeId, String operatorName) throws Exception;
 
   //获取某个用户下所有节点
   List<NodeInfo> getNodeByUser(String userName) throws Exception;
