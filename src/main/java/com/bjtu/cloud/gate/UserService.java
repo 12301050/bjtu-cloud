@@ -27,7 +27,7 @@ public interface UserService {
   List<UserInfo> deleteUser(String userName) throws Exception;
 
   //删除节点
-  List<UserInfo> deleteNode(String nodeIds) throws Exception;
+  UserInfo deleteNode(String nodeIds, String userName) throws Exception;
 
   //查询用户节点下有无正在运行任务
   Integer queryTaskStatusByUser(String userName) throws Exception;

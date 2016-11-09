@@ -111,12 +111,11 @@ public class UserController {
 
   //删除节点
   @RequestMapping(value = "api/user/deleteNode", method = RequestMethod.POST)
-  public RestResult<List<UserInfo>> deleteNode(@RequestBody String nodeIds) {
+  public RestResult<Integer> deleteNode(@RequestBody String nodeIds, String userName) {
     try {
-
-      List<UserInfo> userInfos = userService.deleteNode(nodeIds);
+      UserInfo userInfo = userService.deleteNode(nodeIds, userName);
       //List<UserInfo> userInfos = null;
-      return RestResult.succ().data(userInfos).build();
+      return RestResult.succ().data(userInfo.getNodeAmount()).build();
     }catch (Exception e) {
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();

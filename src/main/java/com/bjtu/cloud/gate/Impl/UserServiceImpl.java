@@ -89,9 +89,9 @@ public class UserServiceImpl implements UserService{
     }
   }
   @Override
-  public List<UserInfo> deleteNode(String nodeIds) throws Exception{
+  public UserInfo deleteNode(String nodeIds, String userName) throws Exception{
     try {
-      List<UserInfo> userInfos = userInfoMapper.getAllUserInfo();
+      UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       String[] nodeId = nodeIds.split(",");
       for(int i = 0; i < nodeId.length; i++) {
         //Todo 跳过docker
@@ -107,18 +107,14 @@ public class UserServiceImpl implements UserService{
 //          return null;
 //        }
       }
-      for (int i = 0; i < userInfos.size(); i++){
-        String[] nodeIdByUser = userInfos.get(i).getNodeIds().split(",");
-        String[] newNodeId = arrContrast(nodeIdByUser,nodeId);
-        String newNodeIds = converToString(newNodeId);
-        UserInfo ui = new UserInfo();
-        ui.setUserName(userInfos.get(i).getUserName());
-        ui.setNodeAmount(newNodeId.length);
-        ui.setNodeIds(newNodeIds);
-        userInfoMapper.updateDeleteNodeIds(ui);
-      }
-      userInfos = userInfoMapper.getAllUserInfo();
-      return userInfos;
+      String[] nodeIdByUser = userInfo.getNodeIds().split(",");
+      String[] newNodeId = arrContrast(nodeIdByUser,nodeId);
+      String newNodeIds = converToString(newNodeId);
+      userInfo.setUserName(userInfo.getUserName());
+      userInfo.setNodeAmount(newNodeId.length);
+      userInfo.setNodeIds(newNodeIds);
+      userInfoMapper.updateDeleteNodeIds(userInfo);
+      return userInfo;
     }catch (Exception e){
       e.printStackTrace();
       return null;
