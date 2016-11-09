@@ -57,9 +57,9 @@ public class TaskController {
 
   //删除任务
   @RequestMapping(value = "api/task/delete", method = RequestMethod.GET)
-  public RestResult<List<TaskInfo>> delete(String nodeId, String taskPaths) {
+  public RestResult<List<TaskInfo>> delete(String nodeId, String pids, String taskPaths) {
     try {
-      List<TaskInfo> taskInfos = taskService.deleteTask(nodeId, taskPaths);
+      List<TaskInfo> taskInfos = taskService.deleteTask(nodeId, pids, taskPaths);
       return RestResult.succ().data(taskInfos).build();
     }catch (Exception e){
       e.printStackTrace();
