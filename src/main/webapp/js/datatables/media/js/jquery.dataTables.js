@@ -2097,7 +2097,7 @@
 				/* Update all other filter input elements for the new display */
 				var n = oSettings.aanFeatures.f;
 				var val = this.value==="" ? "" : this.value; // mental IE8 fix :-(
-		
+		        console.log(val);
 				for ( var i=0, iLen=n.length ; i<iLen ; i++ )
 				{
 					if ( n[i] != $(this).parents('div.dataTables_filter')[0] )
@@ -2121,11 +2121,11 @@
 			jqFilter
 				.attr('aria-controls', oSettings.sTableId)
 				.bind( 'keypress.DT', function(e) {
-					/* Prevent form submission */
-					if ( e.keyCode == 13 )
-					{
-						return false;
-					}
+					///* Prevent form submission */
+					//if ( e.keyCode == 13 )
+					//{
+					//	return false;
+					//}
 				}
 			);
 			
