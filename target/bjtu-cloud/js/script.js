@@ -797,18 +797,18 @@ var App = function () {
      /*-----------------------------------------------------------------------------------*/
     var handleDateColorpicker = function () {
         $(".datepicker").datepicker();
-        $(".inlinepicker").datepicker({
-            inline: true,
-            showOtherMonths: true
-        });
-        $(".datepicker-fullscreen").pickadate();
-        $(".timepicker-fullscreen").pickatime();
-        //Color picker
-        $('.colorpicker').colorpicker();
-        var a = $("#color-pickers")[0].style;
-        $("#colorpicker-event").colorpicker().on("changeColor", function (b) {
-            a.backgroundColor = b.color.toHex()
-        });
+        //$(".inlinepicker").datepicker({
+        //    inline: true,
+        //    showOtherMonths: true
+        //});
+        //$(".datepicker-fullscreen").pickadate();
+        //$(".timepicker-fullscreen").pickatime();
+        ////Color picker
+        //$('.colorpicker').colorpicker();
+        //var a = $("#color-pickers")[0].style;
+        //$("#colorpicker-event").colorpicker().on("changeColor", function (b) {
+        //    a.backgroundColor = b.color.toHex()
+        //});
     }
     /*-----------------------------------------------------------------------------------*/
     /*	Raty
@@ -3261,6 +3261,7 @@ var App = function () {
         init: function () {
 
             if (App.isPage("index")) {
+                handleDateColorpicker(); //Function to handle date and time picker
                 //handleXcharts();	//Function to display xcharts
                 handleSparkline();		//Function to display Sparkline charts
                 handleDashFlotCharts(); //Function to display flot charts in dashboard

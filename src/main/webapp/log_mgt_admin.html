@@ -29,17 +29,17 @@
 	<link rel="stylesheet" type="text/css" href="js/datatables/extras/TableTools/media/css/TableTools.min.css" />
 	<!-- FONTS -->
     <!-- Placed at the end of the document so the pages load faster -->
-	<!-- JQUERY --> 
+	<!-- JQUERY -->
 	<script src="js/jquery/jquery-2.0.3.min.js"></script>
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<!-- BOOTSTRAP -->
 	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
-	
-		
+
+
 	<!-- DATE RANGE PICKER -->
 	<script src="js/bootstrap-daterangepicker/moment.min.js"></script>
-	
+
 	<script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
 	<!-- SLIMSCROLL -->
 	<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
@@ -69,7 +69,7 @@
 	<script type="text/javascript" src="js/datatables/media/assets/js/datatables.min.js"></script>
 	<script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
 	<script type="text/javascript" src="js/datatables/extras/TableTools/media/js/ZeroClipboard.min.js"></script>
-	<!-- TODO -->  
+	<!-- TODO -->
 	<script type="text/javascript" src="js/jquery-todo/js/paddystodolist.js"></script>
 	<!-- TIMEAGO -->
 	<script type="text/javascript" src="js/timeago/jquery.timeago.min.js"></script>
@@ -82,9 +82,9 @@
     <script src="scriptjs/log_mgt_admin.js"></script>
 </head>
     <!-- JAVASCRIPTS-->
-                            
-	                                  
-	<!-- /JAVASCRIPTS -->    
+
+
+	<!-- /JAVASCRIPTS -->
 <body id="bodyid">
 	<!-- HEADER -->
 	<header class="navbar clearfix" id="header">
@@ -104,13 +104,13 @@
 					<!-- /TEAM STATUS FOR MOBILE -->
 					<!-- SIDEBAR COLLAPSE -->
 					<div id="sidebar-collapse" class="sidebar-collapse btn">
-						<i class="fa fa-bars" 
-							data-icon1="fa fa-bars" 
+						<i class="fa fa-bars"
+							data-icon1="fa fa-bars"
 							data-icon2="fa fa-bars" ></i>
 					</div>
 					<!-- /SIDEBAR COLLAPSE -->
 				</div>
-            <!-- BEGIN TOP NAVIGATION MENU -->					
+            <!-- BEGIN TOP NAVIGATION MENU -->
 				<ul class="nav navbar-nav pull-right" style="min-width:30px;">
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<li class="dropdown user" id="header-user">
@@ -148,12 +148,12 @@
 							<li><a href="#" data-skin="graphite">Graphite</a></li>
 						 </ul>
 					</li>
-                   
+
 				</ul>
 				<!-- /NAVBAR LEFT -->
 				<!-- END TOP NAVIGATION MENU -->
 		</div>
-		
+
 	</header>
 	<!--/HEADER -->
 	<!-- PAGE -->
@@ -162,26 +162,26 @@
 				<div id="sidebar" class="sidebar">
 					<div class="sidebar-menu nav-collapse">
 						<div class="divide-20"></div>
-						
+
 						<!-- SIDEBAR MENU -->
 						<ul>
                             <li class="">
 								<a href="user_mgt_admin.html" >
 								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text" id="user_mangid"> 用户管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
 							<li class="">
 								<a href="task_mgt_admin.html">
 								<i class="fa fa-tachometer fa-fw" ></i> <span class="menu-text" id="task_mangid">任务管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
                             <li class="active">
 								<a href="log_mgt_admin.html">
 								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text" id="log_mangid"> 日志管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
 						</ul>
 						<!-- /SIDEBAR MENU -->
@@ -216,7 +216,7 @@
 							<div class="col-sm-12">
 								<div class="page-header">
 									<!-- STYLER -->
-									
+
 									<!-- /STYLER -->
 									<!-- BREADCRUMBS -->
 									<ul class="breadcrumb">
@@ -233,10 +233,44 @@
 							</div>
 						</div>
 						<!-- /PAGE HEADER -->
+					<!-- DATE PICKER -->
+					<div class="box border blue">
+						<!--<div class="box-title">-->
+						<!--<h4><i class="fa fa-calendar"></i>Date & Time Picker</h4>-->
+						<!--<div class="tools">-->
+						<!--<a href="#box-config" data-toggle="modal" class="config">-->
+						<!--<i class="fa fa-cog"></i>-->
+						<!--</a>-->
+						<!--<a href="javascript:;" class="reload">-->
+						<!--<i class="fa fa-refresh"></i>-->
+						<!--</a>-->
+						<!--<a href="javascript:;" class="collapse">-->
+						<!--<i class="fa fa-chevron-up"></i>-->
+						<!--</a>-->
+						<!--<a href="javascript:;" class="remove">-->
+						<!--<i class="fa fa-times"></i>-->
+						<!--</a>-->
+						<!--</div>-->
+					</div>
+					<div class="box-body">
+						<form class="form-horizontal " action="#">
+							<div class="form-group">
+								<label class="col-md-4 control-label" style="font-size: large;padding-top: 3px;">选择开始和结束时间</label>
+								<div class="col-md-3">
+									<input  class="form-control datepicker" type="text" name="regular" size="10">
+								</div>
+								<div class="col-md-3">
+									<input  class="form-control datepicker" type="text" name="regular" size="10">
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- /DATE PICKER -->
+
 						<!-- DASHBOARD CONTENT -->
 						<div class="row">
 							<!-- COLUMN 1 -->
-                            
+
                 <!-- EXPORT TABLES -->
 						<div class="row">
 							<div class="col-md-12">
@@ -245,28 +279,28 @@
 									<div class="box-title">
 										<i class="fa fa-table"></i><h4 id="CPCEP_id"> 日志列表</h4>
 										<div class="tools hidden-xs">
-											<!--<a href="#box-config" data-toggle="modal" class="config">-->
-												<!--<i class="fa fa-cog"></i>-->
-											<!--</a>-->
+											<a href="#box-config" data-toggle="modal" class="config">
+												<i class="fa fa-cog"></i>
+											</a>
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
-											<!--<a href="javascript:;" class="collapse">-->
-												<!--<i class="fa fa-chevron-up"></i>-->
-											<!--</a>-->
-											<!--<a href="javascript:;" class="remove">-->
-												<!--<i class="fa fa-times"></i>-->
-											<!--</a>-->
+											<a href="javascript:;" class="collapse">
+												<i class="fa fa-chevron-up"></i>
+											</a>
+											<a href="javascript:;" class="remove">
+												<i class="fa fa-times"></i>
+											</a>
 										</div>
 									</div>
 									<div class="box-body">
-										<table id="datatableforloglist" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableForLog" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 												<tr>
 													<th id="number_id">编号</th>
 													<th id="date_id">日期</th>
 													<th class="hidden-xs" id="details_id">详情</th>
-													
+
 												</tr>
 											</thead>
 											<tbody>
@@ -276,7 +310,7 @@
 														2016/10/28
 														</td>
 													<td class="hidden-xs"><a href="#table-modal-showlog" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-													
+
 												</tr>
 												<tr class="gradeC">
 													<td>2</td>
@@ -288,7 +322,7 @@
 													<td>2016/9/8</td>
 													<td class="hidden-xs"><a href="#table-modal-showlog" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
 												</tr>
-												
+
 											</tbody>
 										</table>
 									</div>
@@ -299,11 +333,11 @@
 						<!-- /EXPORT TABLES -->
 							<div class="col-md-6">
 								<div class="row">
-								  
-								  
+
+
 								</div>
 								<div class="row">
-									
+
 							   </div>
 							</div>
 							<!-- /COLUMN 1 -->
@@ -315,8 +349,8 @@
 								  <h4 class="modal-title" id="log_text">XXX日志</h4>
 								</div>
 								<div class="modal-body" style="margin-left: 2%;margin-right: 2%;">
-								  
-										<table id="datatableForLog" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+
+										<table id="datatableforloglist" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 <!--
 												<tr>
@@ -326,12 +360,12 @@
 -->
 											</thead>
 											<tbody>
-												
+
 												<tr class="gradeA">
                                                      <td> 00:01:12</td>
 													<td>user12_node3_startTask_taskName1</td>
 												</tr>
-												
+
 												<tr class="gradeA">
                                                      <td> 2</td>
 													<td>Opera 8.5</td>
@@ -340,9 +374,9 @@
                                                      <td> 3</td>
 													<td>Opera 9.0</td>
 												</tr>
-												
+
 											</tbody>
-								
+
 										</table>
 								</div>
 								<div class="modal-footer">
@@ -360,18 +394,18 @@
 											<span class="label label-danger">
 												20% <i class="fa fa-arrow-up"></i>
 											</span>
-											<!--<a href="#box-config" data-toggle="modal" class="config">-->
-												<!--<i class="fa fa-cog"></i>-->
-											<!--</a>-->
+											<a href="#box-config" data-toggle="modal" class="config">
+												<i class="fa fa-cog"></i>
+											</a>
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
-											<!--<a href="javascript:;" class="collapse">-->
-												<!--<i class="fa fa-chevron-up"></i>-->
-											<!--</a>-->
-											<!--<a href="javascript:;" class="remove">-->
-												<!--<i class="fa fa-times"></i>-->
-											<!--</a>-->
+											<a href="javascript:;" class="collapse">
+												<i class="fa fa-chevron-up"></i>
+											</a>
+											<a href="javascript:;" class="remove">
+												<i class="fa fa-times"></i>
+											</a>
 										</div>
 									</div>
 									<div class="box-body">
@@ -386,7 +420,7 @@
                         						<div class="row" style="visibility:hidden;">
 							<div class="col-md-12">
 								<!-- BOX -->
-                                
+
 								<div class="box border green">
 									<div class="box-title">
 										<h4><i class="fa fa-bars"></i> <span class="hidden-inline-mobile">Traffic & Sales</span></h4>
@@ -432,19 +466,19 @@
 								</div>
 								<!-- /BOX -->
 							</div>
-						</div> 
+						</div>
 						<!-- /HERO GRAPH -->
 						<!-- NEW ORDERS & STATISTICS -->
 						<div class="row">
 							<!-- NEW ORDERS -->
-							
+
 							<!-- /NEW ORDERS -->
 							<!-- STATISTICS -->
-							
+
 						<!-- /NEW ORDERS & STATISTICS -->
 						<!-- CALENDAR & CHAT -->
 						<div class="row">
-							
+
 						<div class="footer-tools">
 							<span class="go-top">
 								<i class="fa fa-chevron-up"></i> Top
@@ -456,6 +490,6 @@
 		</div>
 	</section>
 	<!--/PAGE -->
-</body> 
-              
+</body>
+
 </html>
