@@ -15,11 +15,13 @@ if (url.indexOf("?") != -1) {//链接中有值
     strs = str.split("&");
 
     if(strs[0].split("=")[0]=="username"){//检查是否是
+        var username=strs[0].split("=")[1];
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/task/getTaskByUserName",//接口名字
+            url: "http://localhost:8080/task/getAllTaskByUserName",//接口名字
             dataType: "json",
-            data:strs[0].split("=")[1],
+            contentType: "application/json; charset=utf-8",
+            data:username,
             success: function (data) {
                 var stringfortrlist = "";
                 for (var i = 0; i < data.data.length; i++) {

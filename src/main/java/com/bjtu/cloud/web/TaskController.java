@@ -6,6 +6,7 @@ import com.bjtu.cloud.common.webDao.RestResult;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.gate.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,9 +59,9 @@ public class TaskController {
 
   //根据用户名查询所有任务
   @RequestMapping(value = "api/task/getAllTaskByUserName", method = RequestMethod.POST)
-  public RestResult<List<TaskInfo>> getAllTaskByUserName(String userName) {
+  public RestResult<List<TaskInfo>> getAllTaskByUserName(String username) {
     try {
-      List<TaskInfo> taskInfos = taskService.getAllTaskByUserName(userName);
+      List<TaskInfo> taskInfos = taskService.getAllTaskByUserName(username);
       return RestResult.succ().data(taskInfos).build();
     }catch (Exception e){
       e.printStackTrace();
