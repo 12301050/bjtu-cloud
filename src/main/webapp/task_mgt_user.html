@@ -28,21 +28,21 @@
 	<link rel="stylesheet" type="text/css" href="js/datatables/media/assets/css/datatables.min.css" />
 	<link rel="stylesheet" type="text/css" href="js/datatables/extras/TableTools/media/css/TableTools.min.css" />
 	<!-- FONTS -->
-	<!-- JQUERY --> 
+	<!-- JQUERY -->
 	<script src="js/jquery/jquery-2.0.3.min.js"></script>
     <script src="js/flot/jquery.min.js"></script>
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<!-- BOOTSTRAP -->
 	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
-	
-	
+
+
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
-		
+
 	<!-- DATE RANGE PICKER -->
 	<script src="js/bootstrap-daterangepicker/moment.min.js"></script>
-	
+
 	<script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
 	<!-- SLIMSCROLL -->
 	<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
@@ -72,7 +72,7 @@
 	<script type="text/javascript" src="js/datatables/media/assets/js/datatables.min.js"></script>
 	<script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
 	<script type="text/javascript" src="js/datatables/extras/TableTools/media/js/ZeroClipboard.min.js"></script>
-	<!-- TODO -->  
+	<!-- TODO -->
 	<script type="text/javascript" src="js/jquery-todo/js/paddystodolist.js"></script>
 	<!-- TIMEAGO -->
 	<script type="text/javascript" src="js/timeago/jquery.timeago.min.js"></script>
@@ -87,23 +87,23 @@
 </head>
     <!-- JAVASCRIPTS-->
 	<script>
-		jQuery(document).ready(function() {	
-            
+		jQuery(document).ready(function() {
+
             $("td").css("text-align","center");
-            
+
             App.setPage("index");  //Set current page
-			App.init(); //Initialise plugins and elements 
+			App.init(); //Initialise plugins and elements
             Charts.initCharts();
 			Charts.initPieCharts();
 
-           
-		});  
+
+		});
         function change(){
                 //alert("change");TODO修改图标属性
             }
         function changeToTaskView(){
             //alert("!!");
-            
+
             $("#nodeView").css("display","none");
             $("#taskView").css("display","block");
         }
@@ -111,8 +111,8 @@
             $("#threeCharts").css("display","block");
         }
 
-	</script>                                  
-	<!-- /JAVASCRIPTS -->    
+	</script>
+	<!-- /JAVASCRIPTS -->
 <body id="bodyid">
 	<!-- HEADER -->
 	<header class="navbar clearfix" id="header">
@@ -132,13 +132,13 @@
 					<!-- /TEAM STATUS FOR MOBILE -->
 					<!-- SIDEBAR COLLAPSE -->
 					<div id="sidebar-collapse" class="sidebar-collapse btn">
-						<i class="fa fa-bars" 
-							data-icon1="fa fa-bars" 
+						<i class="fa fa-bars"
+							data-icon1="fa fa-bars"
 							data-icon2="fa fa-bars" ></i>
 					</div>
 					<!-- /SIDEBAR COLLAPSE -->
 				</div>
-            <!-- BEGIN TOP NAVIGATION MENU -->					
+            <!-- BEGIN TOP NAVIGATION MENU -->
 				<ul class="nav navbar-nav pull-right" style="min-width:30px;">
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<li class="dropdown user" id="header-user" >
@@ -176,12 +176,12 @@
 							<li><a href="#" data-skin="graphite">Graphite</a></li>
 						 </ul>
 					</li>
-                   
+
 				</ul>
 				<!-- /NAVBAR LEFT -->
 				<!-- END TOP NAVIGATION MENU -->
 		</div>
-		
+
 	</header>
 	<!--/HEADER -->
 	<!-- PAGE -->
@@ -190,28 +190,28 @@
 				<div id="sidebar" class="sidebar">
 					<div class="sidebar-menu nav-collapse">
 						<div class="divide-20"></div>
-						
-						
-					
+
+
+
 						<!-- SIDEBAR MENU -->
 						<ul>
                             <li class="">
 								<a href="node_mgt_user.html">
 								<i class="fa fa-tachometer fa-fw"></i> <span class="menu-text" id="node_mgt_id">节点管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
                             <li class="active">
 								<a href="task_mgt_user.html" >
 								<i class="fa fa-users" style="margin-right:11px;"></i> <span class="menu-text" id="task_mgt_id"> 任务管理</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
                             <li class="">
 								<a href="his_mgt_user.html">
 								<i class="fa fa-book" style="margin-right:11px;"></i> <span class="menu-text" id="his_mgt_id"> 历史任务</span>
 								<span class="selected"></span>
-								</a>					
+								</a>
 							</li>
 						</ul>
 						<!-- /SIDEBAR MENU -->
@@ -246,7 +246,7 @@
 							<div class="col-sm-12">
 								<div class="page-header">
 									<!-- STYLER -->
-									
+
 									<!-- /STYLER -->
 									<!-- BREADCRUMBS -->
 									<ul class="breadcrumb">
@@ -266,7 +266,7 @@
 						<!-- DASHBOARD CONTENT -->
 						<div class="row">
 							<!-- COLUMN 1 -->
-                            
+
                         <!-- EXPORT TABLES-NodeView -->
 						<div id="nodeView" class="row">
 							<div class="col-md-12">
@@ -278,6 +278,7 @@
 											<!--<a href="#box-config" data-toggle="modal" class="config">-->
 												<!--<i class="fa fa-cog"></i>-->
 											<!--</a>-->
+											<a href="#table-modal-new-task" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">创建</a>
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
@@ -296,6 +297,7 @@
                                                     <th id="nosort" style="text-align:center;padding:3px 3px 3px 3px;" class="" onclick="change()"><input type="checkbox" id="checkAll"></th>
                                                     <th id="number_id">编号</th>
 													<th id="task_name">任务名称</th>
+													<th id="task_model">任务模式</th>
 													<th id="task_type">任务类型</th>
 													<th id="node">所在节点</th>
 													<th id="task_state">任务状态</th>
@@ -308,6 +310,7 @@
                                                      <td ><input type="checkbox" name="checkList"></td>
 													<td>1</td>
 													<td>XX</td>
+													<td class="hidden-xs">定时</td>
 													<td class="hidden-xs">java</td>
 													<td class="center hidden-xs">第一个节点</td>
                                                     <td class="hidden-xs"><i class="fa  fa-star-half-full"></i></td>
@@ -318,6 +321,7 @@
 													 <td ><input type="checkbox" name="checkList"></td>
                                                     <td>2</td>
 													<td>YY</td>
+                                                    <td class="hidden-xs">定时</td>
                                                     <td class="hidden-xs">Python</td>
                                                     <td class="hidden-xs">第二个节点</td>
 													<td class="center hidden-xs"><i class="fa  fa-star-half-full"></i></td>
@@ -328,6 +332,7 @@
                                                      <td ><input type="checkbox" name="checkList"></td>
 													<td>3</td>
 													<td>ZZZ</td>
+                                                    <td class="hidden-xs">即时</td>
                                                     <td class="hidden-xs">PHP</td>
                                                     <td class="hidden-xs">第三个节点</td>
 													<td class="center hidden-xs"><i class="fa  fa-star-o"></i></td>
@@ -335,13 +340,81 @@
 													<td class="center hidden-xs">0%</td>
 												</tr>
 											</tbody>
-					
+
 										</table>
 									</div>
 								</div>
 								<!-- /BOX -->
 							</div>
 						</div>
+
+							<div class="modal fade" id="table-modal-new-task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content modal-table">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="create_text">创建任务</h4>
+										</div>
+										<div class="modal-body">
+
+											<table  cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+												<tbody>
+
+												<tr class="gradeA">
+													<td> 任务名称</td>
+													<td><input type="text"></td>
+												</tr>
+
+												<tr class="gradeA">
+													<td> 任务执行节点</td>
+													<td><select class='choose-node' id='choose-node' onchange='chooseNode()'>
+														<option value=''>--节点1--</option>
+														<option value=''>--节点2--</option>
+														<option value=''>--节点3--</option>
+													</select></td>
+												</tr>
+												<tr class="gradeA">
+													<td> 任务模式</td>
+													<td><select class='task-type' id='task-type' onchange='chooseNode()'>
+														<option value=''>--定时任务--</option>
+														<option value=''>--即时任务--</option>
+													</select></td>
+
+												</tr><tr class="gradeA">
+													<td> 定时模式</td>
+													<td><select class='chose-time' id='choose-time' onchange='chooseNode()'>
+														<option value=''>--按时--</option>
+														<option value=''>--按天--</option>
+														<option value=''>--按周--</option>
+														<option value=''>--按月--</option>
+														<option value=''>--按年--</option>
+													</select></td>
+												</tr>
+													<tr class="gradeA">
+													<td> 任务开始时间</td>
+													<td><input  class="form-control datepicker" type="text" name="regular" size="10">
+													</td>
+
+												</tr></tr></tr><tr class="gradeA">
+													<td> 执行任务次数</td>
+													<td><input type="text"></td>
+
+												</tr></tr></tr></tr><tr class="gradeA">
+													<td> 任务文件</td>
+													<td><span class="up-btn" id="selectFile">请选择文件</span>
+														<input type="file" name="fileupload" style="FILTER: alpha(opacity=0); moz-opacity: 0; opacity: 0;" /></td>
+
+												</tr>
+
+												</tbody>
+											</table>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-danger" data-dismiss="modal" id="create_button">创建</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						<!-- /EXPORT TABLES-NodeView -->
                             <!-- EXPORT TABLES-TaskView -->
 						<!--<div id="taskView" style="display:none;" class="row">-->
@@ -477,118 +550,8 @@
 										<div id="chart_4_3" class="chart" style="width: 100%;"></div>
 									</div>
 								</div>
-                    </div>
-					<!-- /AUTO UPDATING CURVE -->
-						<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
-						<!--<div class="modal fade" id="table-modal-current" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-							<!--<div class="modal-dialog">-->
-							  <!--<div class="modal-content modal-table">-->
-								<!--<div class="modal-header">-->
-								  <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-								  <!--<h4 class="modal-title">成功任务</h4>-->
-								<!--</div>-->
-								<!--<div class="modal-body">-->
-
-										<!--<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">-->
-											<!--<thead>-->
-												<!--<tr>-->
-													<!--<th>编号</th>-->
-													<!--<th>任务名称</th>-->
-													<!--<th class="hidden-xs">所在节点</th>-->
-													<!--<th>状态</th>-->
-													<!--<th>时间信息</th>-->
-													<!--<th>资源信息</th>-->
-												<!--</tr>-->
-											<!--</thead>-->
-											<!--<tbody>-->
-
-												<!--<tr class="gradeA">-->
-                                                     <!--<td> 1</td>-->
-													<!--<td>Gecko</td>-->
-													<!--<td class="hidden-xs">Win 95+ / OSX.1+</td>-->
-													<!--<td class="center"><i class="fa fa-star-o"/></td>-->
-													<!--<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-                                                    <!--<td class="hidden-xs"><a href="#table-modal-showresource" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-												<!--</tr>-->
-
-												<!--<tr class="gradeA">-->
-                                                     <!--<td> 2</td>-->
-													<!--<td>Opera 8.5</td>-->
-													<!--<td class="hidden-xs">Win 95+ / OSX.2+</td>-->
-													<!--<td class="center"><i class="fa fa-star"/></td>-->
-													<!--<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-                                                    <!--<td class="hidden-xs"><a href="#table-modal-showresource" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-												<!--</tr>-->
-												<!--<tr class="gradeA">-->
-                                                     <!--<td> 3</td>-->
-													<!--<td>Opera 9.0</td>-->
-													<!--<td class="hidden-xs">Win 95+ / OSX.3+</td>-->
-													<!--<td class="center"><i class="fa fa-star-half"/></td>-->
-													<!--<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-                                                    <!--<td class="hidden-xs"><a href="#table-modal-showresource" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-
-												<!--</tr>-->
-
-											<!--</tbody>-->
-
-										<!--</table>-->
-								<!--</div>-->
-								<!--<div class="modal-footer">-->
-								  <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-								<!--</div>-->
-							  <!--</div>-->
-							<!--</div>-->
-						  <!--</div>-->
-						<!--<div class="modal fade" id="table-modal-his" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-							<!--<div class="modal-dialog">-->
-							  <!--<div class="modal-content modal-table">-->
-								<!--<div class="modal-header">-->
-								  <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-								  <!--<h4 class="modal-title">历史任务</h4>-->
-								<!--</div>-->
-								<!--<div class="modal-body">-->
-								  <!---->
-										<!--<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">-->
-											<!--<thead>-->
-												<!--<tr>-->
-													<!--<th>编号</th>-->
-													<!--<th>任务名称</th>-->
-													<!--<th>任务模式</th>-->
-													<!--<th>时间信息</th>-->
-												<!--</tr>-->
-											<!--</thead>-->
-											<!--<tbody>-->
-
-												<!--<tr class="gradeA">-->
-                                                    <!--<td> 1</td>-->
-                                                    <!--<td> 第一个历史任务</td>-->
-													<!--<td>即时任务</td>-->
-													<!--<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-												<!--</tr>-->
-
-												<!--<tr class="gradeA">-->
-                                                    <!--<td> 2</td>-->
-													<!--<td>第二个历史任务</td>-->
-													<!--<td class="hidden-xs">定时任务</td>-->
-													<!--<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-												<!--</tr>-->
-												<!--<tr class="gradeA">-->
-                                                    <!--<td> 3</td>-->
-													<!--<td>第三个历史任务</td>-->
-													<!--<td class="hidden-xs">定时任务</td>-->
-													<!--<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-
-												<!--</tr>-->
-
-											<!--</tbody>-->
-
-										<!--</table>-->
-								<!--</div>-->
-								<!--<div class="modal-footer">-->
-								  <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-								<!--</div>-->
-							  <!--</div>-->
-							</div>
+					</div>
+						</div>
 						  </div>
 						<!--<div class="modal fade" id="table-modal-closeNode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
 							<!--<div class="modal-dialog">-->
@@ -616,16 +579,16 @@
 								  <h4 class="modal-title" id="time_text">任务时间信息</h4>
 								</div>
 								<div class="modal-body">
-								  
+
 										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
-											
+
 											<tbody>
-												
+
 												<tr class="gradeA">
                                                     <td> 开始时间</td>
 													<td>2016-09-25 11:12</td>
 												</tr>
-												
+
 												<tr class="gradeA">
                                                     <td> 执行时间</td>
 													<td>1d 2h 3m 44s</td>
@@ -802,7 +765,7 @@
 							  <!--</div>-->
 							<!--</div>-->
 						<!--</div>-->
-						<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->	
+						<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
 							<div class="col-md-6" style="visibility:hidden;">
 								<div class="box solid grey" style="visible:disabled;">
 									<div class="box-title">
@@ -885,10 +848,10 @@
 						</div>
 						<!-- /HERO GRAPH -->
 						<!-- NEW ORDERS & STATISTICS -->
-						
+
 						<!-- /NEW ORDERS & STATISTICS -->
 						<!-- CALENDAR & CHAT -->
-						
+
 						<div class="footer-tools">
 							<span class="go-top">
 								<i class="fa fa-chevron-up"></i> Top
@@ -900,19 +863,19 @@
 		</div>
 	</section>
 	<!--/PAGE -->
-</body> 
+</body>
   <script>
-		jQuery(document).ready(function() {	
-            
+		jQuery(document).ready(function() {
+
             $("#nosort").removeClass("sorting_asc");
             App.setPage("index");  //Set current page
-			App.init(); //Initialise plugins and elements 
+			App.init(); //Initialise plugins and elements
             Charts.initCharts();
 			Charts.initPieCharts();
              $('#datatable2 tbody').on( 'click', 'tr', function () {
                 $(this).toggleClass('selected');
             } );
         });
-                 
-	</script>               
+
+	</script>
 </html>

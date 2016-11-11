@@ -63,6 +63,7 @@ function change_en(){//变为英文
     $("#cpu_graph").html("CPU line chart");
     $("#ram_graph").html("Memory line chart");
     $("#net_graph").html("Net line chart");
+    $("#create_button").html("create");
     $("#datatableTaskUser").dataTable().fnDestroy();
     var table=$('#datatableTaskUser').dataTable({
         "sPaginationType": "bs_full",
@@ -125,6 +126,7 @@ function change_ch(){//变为中文
      $("#cpu_graph").html("cpu曲线图");
      $("#ram_graph").html("内存曲线图");
      $("#net_graph").html("网络带宽曲线图");
+     $("#create_button").html("创建");
     $("#datatableTaskUser").dataTable().fnDestroy();
     var table=$('#datatableTaskUser').dataTable({
         "sPaginationType": "bs_full",
@@ -135,6 +137,10 @@ function change_ch(){//变为中文
             aButtons: [ {
                 "sExtends": "select",
                 "sButtonText": "删除" ,
+                //"id":"deletebutton",
+            },{
+                "sExtends": "select",
+                "sButtonText": "创建" ,
                 //"id":"deletebutton",
             },"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
