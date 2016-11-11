@@ -59,9 +59,9 @@ public class TaskController {
 
   //根据用户名查询所有任务
   @RequestMapping(value = "api/task/getAllTaskByUserName", method = RequestMethod.POST)
-  public RestResult<List<TaskInfo>> getAllTaskByUserName(String username) {
+  public RestResult<List<TaskInfo>> getAllTaskByUserName(String userName) {
     try {
-      List<TaskInfo> taskInfos = taskService.getAllTaskByUserName(username);
+      List<TaskInfo> taskInfos = taskService.getAllTaskByUserName(userName);
       return RestResult.succ().data(taskInfos).build();
     }catch (Exception e){
       e.printStackTrace();
