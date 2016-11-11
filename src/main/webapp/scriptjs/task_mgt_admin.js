@@ -48,6 +48,8 @@ if (url.indexOf("?") != -1) {//链接中有值
                 $('#tbodyfornodelist').html(stringfortrlist);
                 AutoCheckLang();
                 $("#datatableForTask").css("width","100%");
+                $("#CPCEP_id").text(userName+"的节点列表信息");
+
             }
         });
 
