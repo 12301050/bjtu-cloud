@@ -1,3 +1,67 @@
+var i=0;
+var stringarray={};//定义一个全局变量，也是没办法的办法
+setTimeout("modify()",1);
+function modify(){
+
+    $("datatableForTask").removeAttr("style");
+}
+//function modify(){
+//    alert("过来了！");
+
+var url = location.search; //获取url中"?"符后的字串，只用来控制显示
+//alert($("#datatableForNode_filter").innerHTML);
+if (url.indexOf("?") != -1) {//链接中有值
+    var str = url.substr(1);
+    strs = str.split("&");
+
+    if(strs[0].split("=")[0]=="username"){//检查是否是
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/task/getTaskByUserName",//接口名字
+            dataType: "json",
+            data:strs[0].split("=")[1],
+            success: function (data) {
+                var stringfortrlist = "";
+                for (var i = 0; i < data.data.length; i++) {
+                    var idforlog=i+1;
+                    var stringfortr ="<tr class=\"gradeX\">"+
+                        "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                        "<td>"+idforlog+"</td>"+
+                        "<td>"+data.data[i].nodeId+"</td>"+
+                        "<td class=\"center\">"+data.data[i].type+"</td>"+
+                        "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                        "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                        "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+                        "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+                        "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
+                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
+                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
+                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                        "</tr>";
+                    stringfortrlist = stringfortrlist + stringfortr;
+                }
+                $("#datatableForNode").dataTable().fnDestroy();
+                $("#datatableForTask").dataTable().fnDestroy();
+                $('#tbodyfornodelist').html(stringfortrlist);
+                AutoCheckLang();
+                $("#datatableForTask").css("width","100%");
+            }
+        });
+
+        App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
+        App.init(); //Initialise plugins and elements
+        //alert("您输入的账号密码有误，请重新输入！");
+        //$("#datatableForNode_filter").children("lable").children(0).val(strs[0].split("=")[1]);
+        console.log($('#datatableForNode_filter label').children());
+        $("#datatableForNode_filter label").children().val("!!");
+        $("#datatableForNode_filter label").children().text("!!");
+        $("#datatableForNode_filter label").children().html("!!");
+        console.log($("[aria-controls='datatableForNode']"));
+        $("input[aria-controls='datatableForNode']").css("background","red");
+    }
+}
+//}
 function AutoCheckLang(){ //检查缓存中之前所设置的语言
     if(localStorage.langclose==1){
         change_ch();
@@ -60,6 +124,7 @@ function change_en(){//变为英文
     $("#cpu_sure").html("sure");
     $("#datatableForNode").dataTable().fnDestroy();
     $("#datatableForTask").dataTable().fnDestroy();
+    $("#datatableForHisTask").dataTable().fnDestroy();
     var table=$('#datatableForNode').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -86,7 +151,19 @@ function change_en(){//变为英文
         }
 
     });
+    $('#datatableForHisTask').dataTable({
+        "sPaginationType": "bs_full",
+        "sPaginate": false,
+        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        select:true,
+        oTableTools: {
+            aButtons: [ "copy",  "csv", "pdf" ],
+            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        }
+    });
     $("#datatableForTask").css("width","100%");
+    $("#datatableForHisTask_wrapper").css({"width":"90%","margin-left":"5%"});
+    $("#datatableForHisTask").css("width","100%");
     App.setPage("index");  //Set current page
 }
 function change_ch(){//变为中文
@@ -124,7 +201,7 @@ function change_ch(){//变为中文
     $("#resource_info").html("资源信息");
     $("#button_close_id").html("关闭");
     $("#his_text").html("历史任务");
-    $("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
+    //$("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
     $("#sure").html("确定");
     $("#cancel").html("取消");
     $("#back").html("返回");
@@ -136,6 +213,7 @@ function change_ch(){//变为中文
     $("#cpu_sure").html("确定");
     $("#datatableForNode").dataTable().fnDestroy();
     $("#datatableForTask").dataTable().fnDestroy();
+    $("#datatableForHisTask").dataTable().fnDestroy();
     var table=$('#datatableForNode').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -192,8 +270,90 @@ function change_ch(){//变为中文
         }
 
     });
+    $('#datatableForHisTask').dataTable({
+        "sPaginationType": "bs_full",
+        "sPaginate": false,
+        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        select:true,
+        oTableTools: {
+            aButtons: ["copy",  "csv", "pdf" ],
+            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        },
+        "oLanguage": {//国际语言转化
+            "sLengthMenu": "显示 _MENU_ 记录",
+            "sZeroRecords": "对不起，查询不到任何相关数据",
+            "sEmptyTable": "未有相关数据",
+            "sLoadingRecords": "正在加载数据-请等待...",
+            "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoEmpty":"当前显示 0 到 0 条，共 0 条记录。",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页"
+            }
+        }
+
+    });
     $("#datatableForTask").css("width","100%");
+    $("#datatableForHisTask_wrapper").css({"width":"90%","margin-left":"5%"});
+    $("#datatableForHisTask").css("width","100%");
+
     App.setPage("index");
+}
+function showtheHisTask(id){//展示历史任务
+    //alert(id);
+    var nodeidAndStatus=JSON.stringify({nodeId:id,status:"2"});
+    $('#table-modal-his').modal('show');
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getTaskByNode",//接口名字
+        dataType: "json",
+        data:nodeidAndStatus,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog=i+1;
+                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+
+                var stringfortr ="<td>"+idforlog+"</td>"+
+                    "<td>"+data.data[i].taskName+"</td>"+
+                    "<td>"+mode+"</td>"+
+                    "<td class='center hidden-xs'><a href='#table-modal-showtime' data-toggle='modal' class='btn btn-info' style='font-size:4px;padding:0px 8px;'>查看</a></td>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+
+
+            $("#datatableForTask").dataTable().fnDestroy();
+
+            $('#tbodyforHisTask').html(stringfortrlist);
+            AutoCheckLang();
+            //$("#datatableForNode").dataTable().fnDestroy();
+            //$("#datatableForTask").dataTable().fnDestroy();
+            //$('#tbodyforHisTask').html(stringfortrlist);
+            //AutoCheckLang();
+            //$("#datatableForTask").css("width","100%");
+        }
+    });
+}
+function showTheWarnModal(obj){//删除用户时先提检查节点上的任务运行情况
+    //var nodeidAndStatus=JSON.stringify({nodeId:id});
+    var stringingret=obj.id;
+    strs = stringingret.split("&");
+    var nodeId=strs[0];
+    var amount=strs[1];
+    var index=strs[2];
+    //if(strs[0].split("=")[0]=="username"){//检查是否是
+    $("#spanForActiveTask").val(amount);
+    $("#spanForActiveTask").text(amount);
+    $("#hiddenforDeleteOneNode").val(nodeId);
+    $("#hiddenforIndex").val(index);
+
+    $("#table-modal-closeNode").modal('show');
+
+
 }
 function showTheTimeInfo(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
     var username=obj.id;
@@ -272,6 +432,9 @@ jQuery(document).ready(function() {	//首先渲染
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
+                //stringarray[0]=data.data[i].nodeId;
+                //stringarray[1]=data.data[i].historyTaskAmount;
+                var stringForConvert=data.data[i].nodeId+"&"+data.data[i].historyTaskAmount+"&"+idforlog;
                 var stringfortr ="<tr class=\"gradeX\">"+
                     "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
@@ -281,11 +444,11 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
                     "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+                    "<td class=\"center\"><a onclick='showtheHisTask("+data.data[i].nodeId+")'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                    "<td class=\"center hidden-xs\"><a onclick='showTheWarnModal(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
@@ -319,5 +482,29 @@ jQuery(document).ready(function() {	//首先渲染
             change_en();
 
         }
+    });
+    $("#sureForDeleteOneNode").click(function () {//点击删除此节点
+        //alert("!!#");
+        index=index-1;
+        var index=$("#hiddenforIndex").val();
+        var nodeIds=$("#hiddenforDeleteOneNode").val();
+        var dataforUserDeleteNode= JSON.stringify({
+            username:"wangyu",
+            nodeIds:nodeIds
+        });
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/user/deleteNode",//接口名字
+            dataType: "json",
+            data:dataforUserDeleteNode,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {//删除成功
+                alert("删除成功了！");
+                console.log(data.data);
+                $('#wangyunodeAmount').text(data.data);//给节点数减1
+                $("table#datatableForNode tbody").find("tr:eq("+index+")").remove();
+
+            }
+        });
     });
 });

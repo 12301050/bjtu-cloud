@@ -494,9 +494,9 @@
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 										<h4 class="modal-title" id="his_text">历史任务</h4>
 									</div>
-									<div class="modal-body">
+									<div class="modal-body" style="margin-top: 1%;">
 
-										<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+										<table id="datatableForHisTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 											<tr>
 												<th id="his_number">编号</th>
@@ -505,27 +505,13 @@
 												<th id="time_info">时间信息</th>
 											</tr>
 											</thead>
-											<tbody>
+											<tbody id="tbodyforHisTask">
 
 											<tr class="gradeA">
 												<td> 1</td>
 												<td> 第一个历史任务</td>
 												<td>即时任务</td>
 												<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-											</tr>
-
-											<tr class="gradeA">
-												<td> 2</td>
-												<td>第二个历史任务</td>
-												<td class="hidden-xs">定时任务</td>
-												<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-											</tr>
-											<tr class="gradeA">
-												<td> 3</td>
-												<td>第三个历史任务</td>
-												<td class="hidden-xs">定时任务</td>
-												<td class="center hidden-xs"><a href="#table-modal-showtime" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-
 											</tr>
 
 											</tbody>
@@ -545,12 +531,13 @@
 										<h4 class="modal-title" id="tips">提示</h4>
 									</div>
 									<div class="modal-body" style="text-align: center;">
-
-										<p style="font-size: larger;" id="sureText_id">正在执行6个任务，确定关闭该节点？</p>
+                                        <input class="hidden" id="hiddenforDeleteOneNode"/>
+                                        <input class="hidden" id="hiddenforIndex"/>
+										<label style="font-size: larger;" id="sureText_id" text="在执行"/>正在执行</label><span id="spanForActiveTask"/>3</span><label style="font-size: larger;">个任务，确定关闭该节点？</label>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-danger" data-dismiss="modal" id="sure">确定</button>
-										<button type="button" class="btn btn-inverse" data-dismiss="modal" id="cancel">取消</button>
+										<input type="button" class="btn btn-danger" data-dismiss="modal" id="sureForDeleteOneNode" value="确定"></input>
+										<input type="button" class="btn btn-inverse" data-dismiss="modal" id="cancelForDeleteOneNode" value="取消"></input>
 									</div>
 								</div>
 							</div>
@@ -853,31 +840,5 @@
 </script>
 </html>
 <script>
-	var i=0;
-	setTimeout("modify()",2000);
-	function modify(){
 
-		$("datatableForTask").removeAttr("style");
-	}
-	function search(){
-		alert("过来了！");
-
-		var url = location.search; //获取url中"?"符后的字串，只用来控制显示
-		//alert($("#datatableForNode_filter").innerHTML);
-		if (url.indexOf("?") != -1) {//链接中有值
-			var str = url.substr(1);
-			strs = str.split("&");
-
-			if(strs[0].split("=")[0]=="username"){
-				//alert("您输入的账号密码有误，请重新输入！");
-				//$("#datatableForNode_filter").children("lable").children(0).val(strs[0].split("=")[1]);
-				console.log($('#datatableForNode_filter label').children());
-				$("#datatableForNode_filter label").children().val("!!");
-				$("#datatableForNode_filter label").children().text("!!");
-				$("#datatableForNode_filter label").children().html("!!");
-				console.log($("[aria-controls='datatableForNode']"));
-				$("input[aria-controls='datatableForNode']").css("background","red");
-			}
-		}
-	}
 </script>
