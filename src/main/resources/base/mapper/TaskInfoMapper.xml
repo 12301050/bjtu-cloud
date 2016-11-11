@@ -36,6 +36,13 @@
     where node_id = #{nodeId,jdbcType=VARCHAR} and status = #{status,jdbcType=INTEGER}
   </select>
 
+  <select id="getAllTaskByNode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task_info
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </select>
+
   <select id="getTaskByStatus" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

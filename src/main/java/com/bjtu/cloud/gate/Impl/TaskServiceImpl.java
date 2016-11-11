@@ -61,6 +61,24 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
+  public List<TaskInfo> getAllTaskByUserName(String userName) throws Exception {
+    List<TaskInfo> taskInfos = new ArrayList<TaskInfo>();
+    try {
+      UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
+      System.out.println(userInfo.getNodeIds());
+      String[] nodeIds = userInfo.getNodeIds().split(",");
+      for (int i = 0; i < nodeIds.length; i++) {
+        List<TaskInfo> taskInfo = taskInfoMapper.getAllTaskByNode(nodeIds[i]);
+        taskInfos.addAll(taskInfo);
+      }
+      return taskInfos;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public List<TaskRecord> getAllTaskRecord() throws Exception {
     try {
       List<TaskRecord> taskRecords = taskRecordMapper.getAllTaskRecord();

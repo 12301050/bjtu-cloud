@@ -23,6 +23,9 @@ public interface TaskService {
   TaskInfo getPerformance(String nodeId, Integer taskId, String pid) throws Exception;
   //根据用户名查询任务
   List<TaskInfo> getTaskByUserName(String userName, Integer status) throws Exception;
+
+  //根据用户名查询所有任务
+  List<TaskInfo> getAllTaskByUserName(String userName) throws Exception;
   //查询所有任务日志
   List<TaskRecord> getAllTaskRecord() throws Exception;
   //删除某个(些)任务
