@@ -24,12 +24,12 @@ function change_en(){//变为英文
     $("#number_id").html("number");
     $("#log_text").html("log list");
     $("#Sure_id").html("Sure");
-   // $("#delCancel_id").html("Cancel");
+    // $("#delCancel_id").html("Cancel");
     $("#date_id").html("date");
     $("#details_id").html("details");
     $("#datatableForLog").dataTable().fnDestroy();
     $("#datatableforloglist").dataTable().fnDestroy();
-  //  $("#datatableForTask").dataTable().fnDestroy();
+    //  $("#datatableForTask").dataTable().fnDestroy();
 
     var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
@@ -139,7 +139,15 @@ function change_ch(){//变为中文
 
     App.setPage("index");
 }
+function changeTimeForStart(){//当用户同时选择开始和结束时间后方可向后台请求数据
+    if($('#timeForEnd').val()!="")
+    alert("开始调用后台");
 
+
+}function changeTimeForEnd(){//当用户同时选择开始和结束时间后方可向后台请求数据
+    if($('#timeForStart').val()!="")
+    alert("开始调用后台");
+}
 jQuery(document).ready(function() {	//首先渲染
 
 
@@ -166,35 +174,35 @@ jQuery(document).ready(function() {	//首先渲染
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
     AutoCheckLang();
-   // $.ajax({
-   //    type: "GET",
-   //    url: "http://localhost:8080/api/log/getAllTaskRecord",//接口名字
-   //    dataType: "json",
-   //    success: function (data) {
-   //        var stringfortrlist = "";
-   //        for (var i = 0; i < data.data.length; i++) {
-   //            var idforlog=i+1;
-   //            var stringfortr ="<tr class=\"gradeX\">"+
-   //                "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-   //                "<td>"+idforlog+"</td>"+
-   //                "<td>"+data.data[i].nodeId+"</td>"+
-   //                "<td class=\"center\">"+data.data[i].type+"</td>"+
-   //                "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-   //                "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-   //                "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-   //                "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-   //                "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
-   //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-   //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-   //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-   //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
-   //                "</tr>";
-   //            stringfortrlist = stringfortrlist + stringfortr;
-   //        }
-   //        //$("#datatableForLog").dataTable().fnDestroy();
-   //        //$('#tbodyfornodelist').html(stringfortrlist);
-   //        AutoCheckLang();
-   //    }
-   //});
+    // $.ajax({
+    //    type: "GET",
+    //    url: "http://localhost:8080/api/log/getAllTaskRecord",//接口名字
+    //    dataType: "json",
+    //    success: function (data) {
+    //        var stringfortrlist = "";
+    //        for (var i = 0; i < data.data.length; i++) {
+    //            var idforlog=i+1;
+    //            var stringfortr ="<tr class=\"gradeX\">"+
+    //                "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+    //                "<td>"+idforlog+"</td>"+
+    //                "<td>"+data.data[i].nodeId+"</td>"+
+    //                "<td class=\"center\">"+data.data[i].type+"</td>"+
+    //                "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+    //                "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+    //                "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+    //                "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+    //                "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+    //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
+    //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
+    //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
+    //                "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+    //                "</tr>";
+    //            stringfortrlist = stringfortrlist + stringfortr;
+    //        }
+    //        //$("#datatableForLog").dataTable().fnDestroy();
+    //        //$('#tbodyfornodelist').html(stringfortrlist);
+    //        AutoCheckLang();
+    //    }
+    //});
 
 });
