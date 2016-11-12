@@ -64,8 +64,8 @@ function change_en(){//变为英文
     $("#cpu_graph").html("CPU line chart");
     $("#ram_graph").html("Memory line chart");
     $("#net_graph").html("Net line chart");
-    $("#datatableTaskUser").dataTable().fnDestroy();
-    var table=$('#datatableTaskUser').dataTable({
+    $("#datatableHisTaskUser").dataTable().fnDestroy();
+    var table=$('#datatableHisTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -127,8 +127,8 @@ function change_ch(){//变为中文
     $("#cpu_graph").html("cpu曲线图");
     $("#ram_graph").html("内存曲线图");
     $("#net_graph").html("网络带宽曲线图");
-    $("#datatableTaskUser").dataTable().fnDestroy();
-    var table=$('#datatableTaskUser').dataTable({
+    $("#datatableHisTaskUser").dataTable().fnDestroy();
+    var table=$('#datatableHisTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
@@ -159,34 +159,32 @@ function change_ch(){//变为中文
 }
 
 jQuery(document).ready(function() {	//首先渲染
+    var username = "wangdanai";
+    var status = 2;
     $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/node/getAllNode",//接口名字
+        type: "POST",
+        url: "http://localhost:8080/api/task/getTaskByUserName",//接口名字
         dataType: "json",
+        data:{"userName":username,"status":status},
         success: function (data) {
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var stringfortr ="<tr class=\"gradeX\">"+
-                    "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                    //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
-                    "<td>"+data.data[i].nodeId+"</td>"+
+                    "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"center\">"+data.data[i].type+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                    "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
+                    //"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTheTimeInfo("+data.data[i].taskName+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
             //  $("#datatableTaskUser").dataTable().fnDestroy();
 
-            $('#tbodyfornodelist').html(stringfortrlist);
+            $('#tbodyforhistasklist').html(stringfortrlist);
             AutoCheckLang();
 
         }

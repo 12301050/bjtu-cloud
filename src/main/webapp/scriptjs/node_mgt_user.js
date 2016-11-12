@@ -12,7 +12,6 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
 
 }
 
-
 function change_en(){//变为英文
 
     $("#Dnode").html("NODE MANAGEMENT");
@@ -190,7 +189,7 @@ function change_ch(){//变为中文
 
     App.setPage("index");
 }
-    function getTaskByNode(nodeid){//用户点击”正在执行的任务“时显示任务列表
+    function getTaskByNode(nodeid){//获取正在执行的任务
         var nodeidAndStatus=JSON.stringify({nodeId:nodeid,status:"1"});
         $.ajax({
             type: "POST",
@@ -222,7 +221,9 @@ function change_ch(){//变为中文
         $("#taskView").css("display","block");
         $("#datatableForTask").css("width","100%");
     }
-
+function showTimeInfoByTask() {
+    
+}
 jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";
     $.ajax({
