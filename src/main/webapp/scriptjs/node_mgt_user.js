@@ -202,12 +202,11 @@ function change_ch(){//变为中文
                 for (var i = 0; i < data.data.length; i++) {
                     var idforlog=i+1;
                     var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
-
                     var stringfortr ="<tr class=\"gradeX\">"+
                         "<td>"+idforlog+"</td>"+
                         "<td>"+data.data[i].taskName+"</td>"+
                         "<td class=\"hidden-xs\">"+mode+"</td>"+
-                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTheTimeInfo("+data.data[i].taskName+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                         "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                         "+</tr>";
                     stringfortrlist = stringfortrlist + stringfortr;
@@ -221,9 +220,30 @@ function change_ch(){//变为中文
         $("#taskView").css("display","block");
         $("#datatableForTask").css("width","100%");
     }
-function showTimeInfoByTask() {
-    
+function showTimeInfoByTask(taskId) {  //获取时间信息，需要改表格
+    $.ajax({
+        type:"GET",
+        dataType: "json",
+        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据节点id和任务id获取时间信息
+        data:{"taskId":taskId},
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var stringfortr = "<tr class=\"gradeX\">" +
+                    "<td>" + data.data[i].startTime + "</td>" +
+                    "<td>" + data.data[i].endTime + "</td>" +
+                    "+</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $('#timelist').html(stringfortrlist);
+            AutoCheckLang();
+        }
+    });
+
+
 }
+
+
 jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";
     $.ajax({

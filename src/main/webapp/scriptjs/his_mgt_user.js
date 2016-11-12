@@ -158,6 +158,31 @@ function change_ch(){//变为中文
     App.setPage("index");
 }
 
+function showTimeInfoByTask(taskId) {  //需改
+     taskid = parseInt(taskId);
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
+        data: {"taskId": taskid},
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var stringfortr ="<tr class=\"gradeX\">"+
+                    //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                    "<td>"+idforlog+"</td>"+
+                    "<td>"+data.data[i].taskId+"</td>"+
+                    "</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+                //alert(node_taskid);
+            }
+            //  $("#datatableTaskUser").dataTable().fnDestroy();
+            $('#gettimelist').html(stringfortrlist);
+            AutoCheckLang();
+
+        }
+    });
+}
 jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";
     var status = 2;
@@ -170,6 +195,18 @@ jQuery(document).ready(function() {	//首先渲染
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
+                var status="";
+                switch (data.data[i].status){
+                    case 0:
+                        status="等待";
+                        break;
+                    case 1:
+                        status="运行";
+                        break;
+                    case 2:
+                        status="结束"
+
+                }
                 var stringfortr ="<tr class=\"gradeX\">"+
                     //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
@@ -178,15 +215,14 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
                     //"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTheTimeInfo("+data.data[i].taskName+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
+                //alert(node_taskid);
             }
             //  $("#datatableTaskUser").dataTable().fnDestroy();
-
             $('#tbodyforhistasklist').html(stringfortrlist);
             AutoCheckLang();
-
         }
     });
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
