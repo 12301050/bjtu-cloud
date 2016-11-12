@@ -13,7 +13,7 @@ public interface TaskService {
   //获取某个节点下某个状态的任务
   List<TaskInfo> getTaskByNode(String nodeId, Integer status) throws Exception;
   //查询某个节点的某个任务的时间信息
-  TaskInfo queryTimeInfo(String nodeId, Integer taskId) throws Exception;
+  TaskInfo queryTimeInfo(Integer taskId) throws Exception;
 
   //创建任务
   TaskInfo createTask(String nodeId, String hostPath, Integer type,

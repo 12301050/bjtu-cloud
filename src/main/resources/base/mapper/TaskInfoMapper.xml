@@ -66,7 +66,7 @@
     select
     <include refid="Base_Column_List" />
     from task_info
-    where  node_id = #{nodeId,jdbcType=VARCHAR} and id = #{taskId,jdbcType=INTEGER}
+    where id = #{taskId,jdbcType=INTEGER}
   </select>
   <select id="getPerformance" resultMap="BaseResultMap">
     select

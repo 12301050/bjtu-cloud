@@ -31,7 +31,7 @@ public interface TaskInfoMapper {
     List<TaskInfo> getAllTaskByNode(String nodeId);
 
     //查询某个节点的某个任务的时间信息
-    TaskInfo queryTimeInfo(@Param("nodeId")String nodeId, @Param("taskId")Integer taskId);
+    TaskInfo queryTimeInfo(@Param("taskId")Integer taskId);
 
     //查询某个任务的三个性能数值
     TaskInfo getPerformance(@Param("nodeId")String nodeId, @Param("taskId")Integer taskId);

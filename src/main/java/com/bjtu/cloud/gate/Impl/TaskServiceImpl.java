@@ -142,9 +142,9 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public TaskInfo queryTimeInfo(String nodeId, Integer taskId) throws Exception {
+  public TaskInfo queryTimeInfo(Integer taskId) throws Exception {
     try {
-      TaskInfo taskInfo = taskInfoMapper.queryTimeInfo(nodeId, taskId);
+      TaskInfo taskInfo = taskInfoMapper.queryTimeInfo(taskId);
       return taskInfo;
     }catch (Exception e) {
       e.printStackTrace();
