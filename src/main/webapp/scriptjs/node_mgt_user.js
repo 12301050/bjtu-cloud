@@ -10,6 +10,8 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
     }
 
 }
+
+
 function change_en(){//变为英文
 
     $("#Dnode").html("NODE MANAGEMENT");
@@ -97,6 +99,7 @@ function change_ch(){//变为中文
     $("#task_mgt_id").html("任务管理");
     $("#his_mgt_id").html("历史任务");
     $("#home_id").html("主页");
+    $("#node_list_id").html("节点列表");
     $("#number_id").html("编号");
     $("#node_id").html("节点ID");
     $("#node_state").html("节点状态");
@@ -159,28 +162,27 @@ function change_ch(){//变为中文
 }
 
 jQuery(document).ready(function() {	//首先渲染
+    var username = "wangdanai";
     $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/node/getAllNode",//接口名字
+        type: "POST",
+        url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
         dataType: "json",
+        data:{"userName":username},
         success: function (data) {
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var stringfortr ="<tr class=\"gradeX\">"+
-                    "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                 //   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].nodeId+"</td>"+
                     "<td class=\"center\">"+data.data[i].type+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
+                    "<td class=\"center hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }

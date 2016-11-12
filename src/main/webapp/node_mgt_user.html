@@ -278,19 +278,13 @@
 								<!-- BOX -->
 								<div class="box border purple">
 									<div class="box-title">
-										<h4 id="node_list_id"><i class="fa fa-table"></i>节点列表</h4>
+										<i class="fa fa-table"></i><h4 id="node_list_id">节点列表</h4>
 										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
+
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
+
 											</a>
 										</div>
 									</div>
@@ -309,65 +303,8 @@
 													<th class="hidden-xs" id="net">带宽占用率</th>
 												</tr>
 											</thead>
-											<tbody>
-												<tr class="gradeX">
-													<td>1</td>
-													<td>332</td>
-													<td class="hidden-xs">这是第一个节点名</td>
-                                                    <td class="hidden-xs">java</td>
-													<td class="center hidden-xs">关闭</td>
-                                                    <td class="hidden-xs"><a href="task_mgt_user.html" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">56%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>
-												</tr>
-												<tr class="gradeC">
-                                                    <td>2</td>
-													<td>432</td>
-													<td class="hidden-xs">这是第二个节点名</td>
-                                                    <td class="hidden-xs">Python</td>
-													<td class="center hidden-xs">关闭</td>
-                                                    <td class="hidden-xs"><a onclick="changeToTaskView()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">46%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">78%</a></td>
-                                                    
-												</tr>
-												<tr class="gradeA">
-                                                    <td>3</td>
-													<td>32</td>
-													<td class="hidden-xs">这是第三个节点名</td>
-                                                    <td class="hidden-xs">PHP</td>
-													<td class="center hidden-xs">关闭</td>
-                                                    <td class="hidden-xs"><a onclick="changeToTaskView()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">8</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">48%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">26%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38%</a></td>
-												</tr>
-												
-												<tr class="gradeA">
-                                                    <td>4</td>
-													<td>222</td>
-													<td class="hidden-xs">这是第一个节点名</td>
-                                                    <td class="hidden-xs">java</td>
-													<td class="center hidden-xs">关闭</td>
-                                                    <td class="hidden-xs"><a onclick="changeToTaskView()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">56%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>
-												</tr>
-												<tr class="gradeA">
-                                                    <td>5</td>
-													<td>332</td>
-													<td class="hidden-xs">这是第五个节点名</td>
-                                                    <td class="hidden-xs">java</td>
-													<td class="center hidden-xs">关闭</td>
-                                                    <td class="hidden-xs"><a onclick="changeToTaskView()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">6</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">38%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">56%</a></td>
-													<td class="center hidden-xs"><a href="#table-modal-showVelocity" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">28%</a></td>
-												</tr>
-												
+											<tbody id="tbodyfornodelist">
+
 											</tbody>
 		
 										</table>
@@ -381,7 +318,7 @@
 						<div id="taskView" style="display:none;" class="row">
 							<div class="col-md-12">
 								<!-- BOX -->
-                                <a type="button" href="/task_mgt_admin.html" style="margin-left:0.5%;margin-bottom:0.2%;font-size: large;" class="btn btn-link" data-dismiss="modal"><i class="fa fa-angle-double-left"></i> 返回</a>
+                                <a type="button" href="/node_mgt_user.html" style="margin-left:0.5%;margin-bottom:0.2%;font-size: large;" class="btn btn-link" data-dismiss="modal"><i class="fa fa-angle-double-left"></i> 返回</a>
 								<div class="box border purple">
 									<div class="box-title">
 										<h4 id="task_list"><i class="fa fa-table"></i>某个节点（动态显示）任务列表</h4>

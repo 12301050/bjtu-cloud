@@ -71,7 +71,13 @@ function change_en(){//变为英文
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ "copy",  "csv", "pdf" ],
+            aButtons: [
+                {
+                    "sExtends": "select",
+                    "sButtonText": "删除" ,
+                    //"id":"deletebutton",
+                },
+                "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         }
 
@@ -138,11 +144,13 @@ function change_ch(){//变为中文
                 "sExtends": "select",
                 "sButtonText": "删除" ,
                 //"id":"deletebutton",
-            },{
-                "sExtends": "select",
-                "sButtonText": "创建" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            }
+            // ,{
+            //     "sExtends": "select",
+            //     "sButtonText": "创建" ,
+            //     //"id":"deletebutton",
+            // }
+            ,"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
