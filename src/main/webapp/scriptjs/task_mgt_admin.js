@@ -18,7 +18,7 @@ if (url.indexOf("?") != -1) {//链接中有值
         var userName=strs[0].split("=")[1];
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/task/getAllTaskByUserName",//接口名字
+            url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
             dataType: "json",
             //contentType: "application/json; charset=utf-8",
             data:{userName:userName},
