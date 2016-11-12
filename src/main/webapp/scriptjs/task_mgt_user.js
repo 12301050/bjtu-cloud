@@ -112,21 +112,21 @@ function change_ch(){//变为中文
     $("#task_type1").html("任务类型");
     $("#time_info1").html("时间信息");
     $("#resource_info").html("资源信息");
-     $("#button_close_id").html("关闭");
-     $("#his_text").html("历史任务");
-     $("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
-     $("#sure").html("确定");
-     $("#cancel").html("取消");
-     $("#node_list").html("任务列表");
-     $("#sure_time").html("确认");
-     $("#time_text").html("任务时间信息");
-     $("#tips").html("提示");
-     $("#cpu_info").html("cpu 动态信息");
-     $("#cpu_sure").html("确定");
-     $("#cpu_graph").html("cpu曲线图");
-     $("#ram_graph").html("内存曲线图");
-     $("#net_graph").html("网络带宽曲线图");
-     $("#create_button").html("创建");
+    $("#button_close_id").html("关闭");
+    $("#his_text").html("历史任务");
+    $("#sureText_id").html("正在执行6个任务，确定关闭该节点？");
+    $("#sure").html("确定");
+    $("#cancel").html("取消");
+    $("#node_list").html("任务列表");
+    $("#sure_time").html("确认");
+    $("#time_text").html("任务时间信息");
+    $("#tips").html("提示");
+    $("#cpu_info").html("cpu 动态信息");
+    $("#cpu_sure").html("确定");
+    $("#cpu_graph").html("cpu曲线图");
+    $("#ram_graph").html("内存曲线图");
+    $("#net_graph").html("网络带宽曲线图");
+    $("#create_button").html("创建");
     $("#datatableTaskUser").dataTable().fnDestroy();
     var table=$('#datatableTaskUser').dataTable({
         "sPaginationType": "bs_full",
@@ -165,7 +165,18 @@ function change_ch(){//变为中文
 
     App.setPage("index");
 }
-
+function showTheInputForTimerTask(){
+    var tasktype=$("#tasktype").val();
+    if(tasktype=="定时任务"){
+        $('#displayForTimerMode').css("display","block")
+        $('#displayForTimerStartTime').css("display","block")
+        $('#displayForTimerTimes').css("display","block")
+    }else{
+        $('#displayForTimerMode').css("display","none")
+        $('#displayForTimerStartTime').css("display","none")
+        $('#displayForTimerTimes').css("display","none")
+    }
+}
 jQuery(document).ready(function() {	//首先渲染
     $.ajax({
         type: "GET",
@@ -192,7 +203,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-          //  $("#datatableTaskUser").dataTable().fnDestroy();
+            //  $("#datatableTaskUser").dataTable().fnDestroy();
 
             $('#tbodyfornodelist').html(stringfortrlist);
             AutoCheckLang();
