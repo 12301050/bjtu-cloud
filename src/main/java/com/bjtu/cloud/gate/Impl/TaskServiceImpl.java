@@ -230,6 +230,7 @@ public class TaskServiceImpl implements TaskService{
         task.setTimes(times);
         task.setMode(mode);
         task.setOperatorName(operatorName);
+        task.setTaskInfo(taskInfo);
         Timer timer = new Timer();
         timer.schedule(task, df1.parse(startTime), period);
 

@@ -1,6 +1,8 @@
 package com.bjtu.cloud.docker;
 
+import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.TaskRecord;
+import com.bjtu.cloud.repository.TaskInfoMapper;
 import com.bjtu.cloud.repository.TaskRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +18,11 @@ public class RunTask extends TimerTask {
   @Autowired
   private TaskRecordMapper taskRecordMapper;
 
+  @Autowired
+  private TaskInfoMapper taskInfoMapper;
+
   private String nodeId;
+  private TaskInfo taskInfo;
   private Integer type;
   private Integer mode;
   private String nodePath;
@@ -30,17 +36,19 @@ public class RunTask extends TimerTask {
   public void run() {
     if (flag < times) {
       String pid = Cmds.runTask(nodeId, type, nodePath, fileName);
-
       TaskRecord taskRecord = new TaskRecord();
       taskRecord.setTaskId(pid);
       taskRecord.setMode(mode);
       taskRecord.setStatus(1);
       taskRecord.setOperateName(operatorName);
+
+      taskInfo.setExecTimes(times);
       try {
         taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
       }catch (Exception e){
         e.printStackTrace();
       }
+      taskInfoMapper.updateByPrimaryKey(taskInfo);
       taskRecordMapper.insertSelective(taskRecord);
 
       flag++;
@@ -102,4 +110,13 @@ public class RunTask extends TimerTask {
   public void setOperatorName(String operatorName) {
     this.operatorName = operatorName;
   }
+
+  public TaskInfo getTaskInfo() {
+    return taskInfo;
+  }
+
+  public void setTaskInfo(TaskInfo taskInfo) {
+    this.taskInfo = taskInfo;
+  }
+
 }
