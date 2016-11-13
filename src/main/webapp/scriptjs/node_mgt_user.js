@@ -239,8 +239,6 @@ function showTimeInfoByTask(taskId) {  //获取时间信息，需要改表格
             AutoCheckLang();
         }
     });
-
-
 }
 
 

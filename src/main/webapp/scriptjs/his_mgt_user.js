@@ -65,6 +65,7 @@ function change_en(){//变为英文
     $("#ram_graph").html("Memory line chart");
     $("#net_graph").html("Net line chart");
     $("#datatableHisTaskUser").dataTable().fnDestroy();
+    $("#datatableForHisTask").dataTable().fnDestroy();
     var table=$('#datatableHisTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -76,6 +77,7 @@ function change_en(){//变为英文
         }
 
     });
+
 
     App.setPage("index");  //Set current page
 }
@@ -128,6 +130,7 @@ function change_ch(){//变为中文
     $("#ram_graph").html("内存曲线图");
     $("#net_graph").html("网络带宽曲线图");
     $("#datatableHisTaskUser").dataTable().fnDestroy();
+   // $("#datatableForHisTask").dataTable().fnDestroy();
     var table=$('#datatableHisTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -154,7 +157,6 @@ function change_ch(){//变为中文
         }
 
     });
-
     App.setPage("index");
 }
 
@@ -163,26 +165,31 @@ function showTimeInfoByTask(taskId) {  //需改
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
+         url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
         data: {"taskId": taskid},
         success: function (data) {
             var stringfortrlist = "";
+            var starttime="开始时间";
+            var endtime="结束时间";
             for (var i = 0; i < data.data.length; i++) {
                 var stringfortr ="<tr class=\"gradeX\">"+
-                    //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-                    "<td>"+idforlog+"</td>"+
-                    "<td>"+data.data[i].taskId+"</td>"+
-                    "</tr>";
+                        //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                        "<td>"+starttime+"</td>"+
+                        "<td>"+data.data[i].startTime+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+endtime+"</td>"+
+                        "<td>"+data.data[i].endTime+"</td>"+
+                        "</tr>"
+                    ;
                 stringfortrlist = stringfortrlist + stringfortr;
-                //alert(node_taskid);
             }
-            //  $("#datatableTaskUser").dataTable().fnDestroy();
             $('#gettimelist').html(stringfortrlist);
             AutoCheckLang();
-
         }
     });
 }
+
 jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";
     var status = 2;
@@ -196,29 +203,17 @@ jQuery(document).ready(function() {	//首先渲染
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var status="";
-                switch (data.data[i].status){
-                    case 0:
-                        status="等待";
-                        break;
-                    case 1:
-                        status="运行";
-                        break;
-                    case 2:
-                        status="结束"
-
-                }
                 var stringfortr ="<tr class=\"gradeX\">"+
                     //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"center\">"+data.data[i].type+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
-                    //"<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                  //  "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
-                //alert(node_taskid);
             }
             //  $("#datatableTaskUser").dataTable().fnDestroy();
             $('#tbodyforhistasklist').html(stringfortrlist);

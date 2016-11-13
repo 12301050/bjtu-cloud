@@ -277,18 +277,9 @@
 									<div class="box-title">
 										<h4 id="task_list"><i class="fa fa-table"></i>任务列表</h4>
 										<div class="tools hidden-xs">
-											<!--<a href="#box-config" data-toggle="modal" class="config">-->
-												<!--<i class="fa fa-cog"></i>-->
-											<!--</a>-->
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
-											<!--<a href="javascript:;" class="collapse">-->
-												<!--<i class="fa fa-chevron-up"></i>-->
-											<!--</a>-->
-											<!--<a href="javascript:;" class="remove">-->
-												<!--<i class="fa fa-times"></i>-->
-											<!--</a>-->
 										</div>
 									</div>
 									<div class="box-body">
@@ -450,32 +441,57 @@
                     <!--</div>-->
 					<!-- /AUTO UPDATING CURVE -->
 						<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
-
-
-						<div class="modal fade" id="table-modal-showTaskSchedual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-							  <div class="modal-content modal-table">
-								<div class="modal-header">
-								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title"  id="time_text">任务时间信息</h4>
+							<div class="modal fade" id="table-modal-showTaskSchedual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content modal-table">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="time_text">时间信息</h4>
+										</div>
+										<div class="modal-body">
+											<table id="datatableForHisTask" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover" style="padding-left: 10cm">
+												<tbody id="gettimelist">
+												</tbody>
+											</table>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-danger" data-dismiss="modal" id="close_button">关闭</button>
+										</div>
+									</div>
 								</div>
-								<div class="modal-body">
-								  
-										<table id="datatableHisTaskTime" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
-											<tbody id="gettimelist">
-
-											</tbody>
-											</tbody>
-										</table>
-								</div>
-								<div class="modal-footer">
-								  <button type="button" class="btn btn-danger" data-dismiss="modal" id="close_button">关闭</button>
-								</div>
-							  </div>
 							</div>
-						  </div>
 
-						<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->	
+						<!--<div class="modal fade" id="table-modal-showTaskSchedual1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+							<!--<div class="modal-dialog">-->
+							  <!--<div class="modal-content modal-table">-->
+								<!--<div class="modal-header">-->
+								  <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+								  <!--<h4 class="modal-title"  id="time_text">任务时间信息</h4>-->
+								<!--</div>-->
+								<!--<div class="modal-body">-->
+
+										<!--<table id="datatableHisTaskTime" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">-->
+											<!--<thead>-->
+											<!--<tr>-->
+												<!--<th>test</th>-->
+												<!--<th>test2</th>-->
+											<!--</tr>-->
+
+											<!--</thead>-->
+
+											<!--<tbody id="gettimelist">-->
+
+											<!--</tbody>-->
+											<!--</tbody>-->
+										<!--</table>-->
+								<!--</div>-->
+								<!--<div class="modal-footer">-->
+								  <!--<button type="button" class="btn btn-danger" data-dismiss="modal" id="close_button">关闭</button>-->
+								<!--</div>-->
+							  <!--</div>-->
+							<!--</div>-->
+						  <!--</div>-->
+						<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
 							<div class="col-md-6" style="visibility:hidden;">
 								<div class="box solid grey" style="visible:disabled;">
 									<div class="box-title">

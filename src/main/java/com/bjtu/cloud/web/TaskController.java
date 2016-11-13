@@ -26,7 +26,7 @@ public class TaskController {
   @RequestMapping(value = "api/task/queryTimeInfo", method = RequestMethod.GET)
   public RestResult<List<TaskInfo>> queryTimeInfo(Integer taskId) {
     try{
-      TaskInfo taskInfo = taskService.queryTimeInfo(taskId);
+      List<TaskInfo> taskInfo = taskService.queryTimeInfo(taskId);
       return  RestResult.succ().data(taskInfo).build();
     }catch (Exception e){
       e.printStackTrace();

@@ -9,6 +9,7 @@ import com.bjtu.cloud.repository.TaskInfoMapper;
 import com.bjtu.cloud.repository.UserInfoMapper;
 import com.bjtu.cloud.common.entity.TaskRecord;
 import com.bjtu.cloud.repository.TaskRecordMapper;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -142,10 +143,10 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public TaskInfo queryTimeInfo(Integer taskId) throws Exception {
+  public List<TaskInfo> queryTimeInfo(Integer taskId) throws Exception {
     try {
-      TaskInfo taskInfo = taskInfoMapper.queryTimeInfo(taskId);
-      return taskInfo;
+      List<TaskInfo> taskInfos = taskInfoMapper.queryTimeInfo(taskId);
+      return taskInfos;
     }catch (Exception e) {
       e.printStackTrace();
       return null;
