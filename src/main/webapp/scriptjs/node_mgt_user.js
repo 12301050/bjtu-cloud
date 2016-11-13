@@ -220,27 +220,39 @@ function change_ch(){//变为中文
         $("#taskView").css("display","block");
         $("#datatableForTask").css("width","100%");
     }
-function showTimeInfoByTask(taskId) {  //获取时间信息，需要改表格
+function showTimeInfoByTask(taskId) {  //需改
+    taskid = parseInt(taskId);
     $.ajax({
-        type:"GET",
+        type: "GET",
         dataType: "json",
-        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据节点id和任务id获取时间信息
-        data:{"taskId":taskId},
+        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
+        data: {"taskId": taskid},
         success: function (data) {
             var stringfortrlist = "";
+            var starttimeText="开始时间";
+            var endtimeText="结束时间";
             for (var i = 0; i < data.data.length; i++) {
-                var stringfortr = "<tr class=\"gradeX\">" +
-                    "<td>" + data.data[i].startTime + "</td>" +
-                    "<td>" + data.data[i].endTime + "</td>" +
-                    "+</tr>";
+                var starttime=data.data[i].startTime;
+                var endtime=data.data[i].endTime;
+                if(endtime==null){
+                    endtime="运行中";
+                }
+                var stringfortr ="<tr class=\"gradeX\">"+
+                        "<td>"+starttimeText+"</td>"+
+                        "<td>"+starttime+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+endtimeText+"</td>"+
+                        "<td>"+endtime+"</td>"+
+                        "</tr>"
+                    ;
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            $('#timelist').html(stringfortrlist);
+            $('#gettimelist').html(stringfortrlist);
             AutoCheckLang();
         }
     });
 }
-
 
 jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";

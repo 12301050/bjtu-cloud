@@ -169,10 +169,21 @@ function showTimeInfoByTask(taskId) {  //需改
         data: {"taskId": taskid},
         success: function (data) {
             var stringfortrlist = "";
+<<<<<<< Updated upstream
             var starttime="开始时间";
             var endtime="结束时间";
+=======
+            var starttimeText="开始时间";
+            var endtimeText="结束时间";
+>>>>>>> Stashed changes
             for (var i = 0; i < data.data.length; i++) {
+                var starttime=data.data[i].startTime;
+                var endtime=data.data[i].endTime;
+                if(endtime==null){
+                    endtime="运行中";
+                }
                 var stringfortr ="<tr class=\"gradeX\">"+
+<<<<<<< Updated upstream
                         //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                         "<td>"+starttime+"</td>"+
                         "<td>"+data.data[i].startTime+"</td>"+
@@ -180,6 +191,14 @@ function showTimeInfoByTask(taskId) {  //需改
                         "<tr class=\"gradeX\">"+
                         "<td>"+endtime+"</td>"+
                         "<td>"+data.data[i].endTime+"</td>"+
+=======
+                        "<td>"+starttimeText+"</td>"+
+                        "<td>"+starttime+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+endtimeText+"</td>"+
+                        "<td>"+endtime+"</td>"+
+>>>>>>> Stashed changes
                         "</tr>"
                     ;
                 stringfortrlist = stringfortrlist + stringfortr;

@@ -309,40 +309,40 @@
 												<th id="resource_info">资源信息</th>
 											</tr>
 											</thead>
-											<tbody>
-											<tr class="gradeX">
-												<td ><input type="checkbox" name="checkList"></td>
-												<td>1</td>
-												<td>XX</td>
-												<td class="hidden-xs">定时</td>
-												<td class="hidden-xs">java</td>
-												<td class="center hidden-xs">第一个节点</td>
-												<td class="hidden-xs"><i class="fa  fa-star-half-full"></i></td>
-												<td class="center hidden-xs"><a href="#table-modal-showTaskSchedual" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-												<td class="center hidden-xs"><a onclick="showThreeChartsWhenViewTask()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>
-											</tr>
-											<tr class="gradeC">
-												<td ><input type="checkbox" name="checkList"></td>
-												<td>2</td>
-												<td>YY</td>
-												<td class="hidden-xs">定时</td>
-												<td class="hidden-xs">Python</td>
-												<td class="hidden-xs">第二个节点</td>
-												<td class="center hidden-xs"><i class="fa  fa-star-half-full"></i></td>
-												<td class="center hidden-xs">66%</td>
-												<td class="center hidden-xs">48%</td>
-											</tr>
-											<tr class="gradeA">
-												<td ><input type="checkbox" name="checkList"></td>
-												<td>3</td>
-												<td>ZZZ</td>
-												<td class="hidden-xs">即时</td>
-												<td class="hidden-xs">PHP</td>
-												<td class="hidden-xs">第三个节点</td>
-												<td class="center hidden-xs"><i class="fa  fa-star-o"></i></td>
-												<td class="center hidden-xs">0%</td>
-												<td class="center hidden-xs">0%</td>
-											</tr>
+											<tbody id="datatableForTaskUser">
+											<!--<tr class="gradeX">-->
+												<!--<td ><input type="checkbox" name="checkList"></td>-->
+												<!--<td>1</td>-->
+												<!--<td>XX</td>-->
+												<!--<td class="hidden-xs">定时</td>-->
+												<!--<td class="hidden-xs">java</td>-->
+												<!--<td class="center hidden-xs">第一个节点</td>-->
+												<!--<td class="hidden-xs"><i class="fa  fa-star-half-full"></i></td>-->
+												<!--<td class="center hidden-xs"><a href="#table-modal-showTaskSchedual" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
+												<!--<td class="center hidden-xs"><a onclick="showThreeChartsWhenViewTask()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
+											<!--</tr>-->
+											<!--<tr class="gradeC">-->
+												<!--<td ><input type="checkbox" name="checkList"></td>-->
+												<!--<td>2</td>-->
+												<!--<td>YY</td>-->
+												<!--<td class="hidden-xs">定时</td>-->
+												<!--<td class="hidden-xs">Python</td>-->
+												<!--<td class="hidden-xs">第二个节点</td>-->
+												<!--<td class="center hidden-xs"><i class="fa  fa-star-half-full"></i></td>-->
+												<!--<td class="center hidden-xs">66%</td>-->
+												<!--<td class="center hidden-xs">48%</td>-->
+											<!--</tr>-->
+											<!--<tr class="gradeA">-->
+												<!--<td ><input type="checkbox" name="checkList"></td>-->
+												<!--<td>3</td>-->
+												<!--<td>ZZZ</td>-->
+												<!--<td class="hidden-xs">即时</td>-->
+												<!--<td class="hidden-xs">PHP</td>-->
+												<!--<td class="hidden-xs">第三个节点</td>-->
+												<!--<td class="center hidden-xs"><i class="fa  fa-star-o"></i></td>-->
+												<!--<td class="center hidden-xs">0%</td>-->
+												<!--<td class="center hidden-xs">0%</td>-->
+											<!--</tr>-->
 											</tbody>
 
 										</table>
@@ -652,17 +652,8 @@
 
 								<table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 
-									<tbody>
+									<tbody id="gettimelist">
 
-									<tr class="gradeA">
-										<td> 开始时间</td>
-										<td>2016-09-25 11:12</td>
-									</tr>
-
-									<tr class="gradeA">
-										<td> 执行时间</td>
-										<td>1d 2h 3m 44s</td>
-									</tr>
 									</tbody>
 								</table>
 							</div>

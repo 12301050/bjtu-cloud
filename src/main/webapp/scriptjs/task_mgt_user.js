@@ -185,35 +185,72 @@ function showTheInputForTimerTask(){
         $('#displayForTimerTimes').css("display","none")
     }
 }
-jQuery(document).ready(function() {	//首先渲染
+function showTimeInfoByTask(taskId) {  //获取任务时间信息
+    taskid = parseInt(taskId);
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/node/getAllNode",//接口名字
         dataType: "json",
+        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
+        data: {"taskId": taskid},
+        success: function (data) {
+            var stringfortrlist = "";
+            var starttimeText="开始时间";
+            var endtimeText="结束时间";
+            for (var i = 0; i < data.data.length; i++) {
+                var starttime=data.data[i].startTime;
+                var endtime=data.data[i].endTime;
+                if(endtime==null){
+                    endtime="运行中";
+                }
+                var stringfortr ="<tr class=\"gradeX\">"+
+                        "<td>"+starttimeText+"</td>"+
+                        "<td>"+starttime+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+endtimeText+"</td>"+
+                        "<td>"+endtime+"</td>"+
+                        "</tr>"
+                    ;
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $('#gettimelist').html(stringfortrlist);
+            AutoCheckLang();
+        }
+    });
+}
+
+jQuery(document).ready(function() {	//首先渲染
+    var username = "wangdanai";
+    var status = 1;
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/task/getTaskByUserName",//接口名字
+        dataType: "json",
+        data:{"userName":username,"status":status},
         success: function (data) {
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
+                var status="";
+                var taskstatus=(data.data[i].status=-1)?"等待":((data.data[i].status=0)?"结束":"运行");
+                var tasktype=(data.data[i].type=0)?"Binary":((data.data[i].type=1)?"Java":"Python");
+                var taskmode=(data.data[i].mode=0)?"即时":"定时";
                 var stringfortr ="<tr class=\"gradeX\">"+
                     "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
-                    "<td>"+data.data[i].nodeId+"</td>"+
-                    "<td class=\"center\">"+data.data[i].type+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
-                    "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                    "<td>"+data.data[i].taskName+"</td>"+
+                    "<td class=\"center\">"+taskmode+"</td>"+
+                    "<td class=\"center\">"+tasktype+"</td>"+
+                    "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
+                    "<td class=\"center hidden-xs\">"+taskstatus+"</td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            //  $("#datatableTaskUser").dataTable().fnDestroy();
+              $("#datatableTaskUser").dataTable().fnDestroy();
 
-            $('#tbodyfornodelist').html(stringfortrlist);
+            $('#datatableForTaskUser').html(stringfortrlist);
             AutoCheckLang();
 
         }
