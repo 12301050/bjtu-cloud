@@ -12,6 +12,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="mode" jdbcType="INTEGER" property="mode" />
     <result column="times" jdbcType="INTEGER" property="times" />
+    <result column="exec_times" jdbcType="INTEGER" property="execTimes" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="cpu" jdbcType="INTEGER" property="cpu" />
@@ -19,7 +20,7 @@
     <result column="net_speed" jdbcType="INTEGER" property="netSpeed" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, pid, task_name, node_id, host_path, node_path, type, status, mode, times, start_time,
+    id, pid, task_name, node_id, host_path, node_path, type, status, mode, exec_times, times, start_time,
     end_time, cpu, memory, net_speed
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -89,12 +90,12 @@
   <insert id="insert" parameterType="com.bjtu.cloud.common.entity.TaskInfo">
     insert into task_info (id, pid, task_name, node_id,
       host_path, node_path, type, 
-      status, mode, times, 
+      status, mode, exec_times, times,
       start_time, end_time, cpu, 
       memory, net_speed)
     values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{nodeId,jdbcType=VARCHAR},
       #{hostPath,jdbcType=VARCHAR}, #{nodePath,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{mode,jdbcType=INTEGER}, #{times,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{mode,jdbcType=INTEGER}, #{times,jdbcType=INTEGER}, #{execTimes,jdbcType=INTEGER},
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{cpu,jdbcType=INTEGER}, 
       #{memory,jdbcType=INTEGER}, #{netSpeed,jdbcType=INTEGER})
   </insert>
@@ -130,6 +131,9 @@
       </if>
       <if test="times != null">
         times,
+      </if>
+      <if test="execTimes != null">
+        exec_times,
       </if>
       <if test="startTime != null">
         start_time,
@@ -178,6 +182,9 @@
       <if test="times != null">
         #{times,jdbcType=INTEGER},
       </if>
+      <if test="execTimes != null">
+        #{execTimes,jdbcType=INTEGER},
+      </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
       </if>
@@ -225,6 +232,9 @@
       <if test="times != null">
         times = #{times,jdbcType=INTEGER},
       </if>
+      <if test="execTimes != null">
+        exec_times = #{execTimes,jdbcType=INTEGER},
+      </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
@@ -254,6 +264,7 @@
       status = #{status,jdbcType=INTEGER},
       mode = #{mode,jdbcType=INTEGER},
       times = #{times,jdbcType=INTEGER},
+      exec_times = #{execTimes,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       cpu = #{cpu,jdbcType=INTEGER},

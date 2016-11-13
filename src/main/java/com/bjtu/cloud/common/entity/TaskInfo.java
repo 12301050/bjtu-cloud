@@ -23,6 +23,8 @@ public class TaskInfo {
 
     private Integer times;
 
+    private Integer execTimes;
+
     private Date startTime;
 
     private Date endTime;
@@ -95,6 +97,14 @@ public class TaskInfo {
 
     public void setMode(Integer mode) {
         this.mode = mode;
+    }
+
+    public Integer getExecTimes() {
+        return execTimes;
+    }
+
+    public void setExecTimes(Integer execTimes) {
+        this.execTimes = execTimes;
     }
 
     public Integer getTimes() {
