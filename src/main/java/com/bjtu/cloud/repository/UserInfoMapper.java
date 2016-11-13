@@ -24,6 +24,7 @@ public interface UserInfoMapper {
 
     //增加节点
     Integer addNode(@Param("userName")String userName, @Param("nodeId")String nodeId);
+    Integer addNodeInit(@Param("userName")String userName, @Param("nodeId")String nodeId);
 
     //删除节点
     Integer deleteUser(@Param("userName")String userName);

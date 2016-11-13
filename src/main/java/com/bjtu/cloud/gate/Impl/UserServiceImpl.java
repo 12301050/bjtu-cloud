@@ -152,8 +152,8 @@ public class UserServiceImpl implements UserService{
     try {
       UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       Integer flag;
-      if(userInfo.getNodeIds().isEmpty()){
-        flag = userInfoMapper.addNode(userName, nodeId);
+      if(userInfo.getNodeIds() == null || userInfo.getNodeIds().isEmpty()){
+        flag = userInfoMapper.addNodeInit(userName, nodeId);
       }else{
         flag = userInfoMapper.addNode(userName, ","+nodeId);
       }
