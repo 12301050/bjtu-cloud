@@ -150,7 +150,13 @@ public class UserServiceImpl implements UserService{
   @Override
   public Integer addNodeInUserInfo(String userName, String nodeId) throws Exception {
     try {
-      Integer flag = userInfoMapper.addNode(userName, ","+nodeId);
+      UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
+      Integer flag;
+      if(userInfo.getNodeIds().isEmpty()){
+        flag = userInfoMapper.addNode(userName, nodeId);
+      }else{
+        flag = userInfoMapper.addNode(userName, ","+nodeId);
+      }
       return flag;
     }catch (Exception e){
       e.printStackTrace();
