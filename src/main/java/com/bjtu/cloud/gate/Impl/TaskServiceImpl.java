@@ -207,7 +207,7 @@ public class TaskServiceImpl implements TaskService{
         taskInfo.setNodeId(nodeId);
         taskInfo.setHostPath(hostPath);
         taskInfo.setNodePath(nodePath);
-        taskInfo.setStatus(0);
+        taskInfo.setStatus(-1);
         taskInfo.setMode(mode);
         taskInfo.setTimes(times);
         taskInfo.setStartTime(df1.parse(df1.format(new Date())));
