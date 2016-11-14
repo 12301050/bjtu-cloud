@@ -342,25 +342,30 @@ function showTheWarnModal(obj) {//删除用户时先提检查节点上的任务�
     var amount = strs[1];
     var index = strs[2];
     //if(strs[0].split("=")[0]=="username"){//检查是否是
-    $("#spanForActiveTask").val(amount);
-    $("#spanForActiveTask").text(amount);
-    $("#hiddenforDeleteOneNode").val(nodeId);
-    $("#hiddenforIndex").val(index);
+    $("#spanForActiveTask").val(amount);//显示正在执行的任务📚
+    $("#hiddenforDeleteOneNode").val(nodeId);//把nodeId暂存，用于后期删除
+    $("#hiddenforIndex").val(index);//用于ajax局部刷新
 
     $("#table-modal-closeNode").modal('show');
 }
-function closeTheNode(obj){//节点列表页面关闭某个节点，只能单个关闭
-    var stringingret=obj.id;//节点Id
-    strs = stringingret.split("&");
-    var nodeId=strs[0];
-    var amount=strs[1];
-    var index=strs[2];
-    //if(strs[0].split("=")[0]=="username"){//检查是否是
-    $("#spanForActiveTask").val(amount);
-    $("#spanForActiveTask").text(amount);
-    $("#hiddenforDeleteOneNode").val(nodeId);
-    $("#hiddenforIndex").val(index);
-    $("#table-modal-closeNode").modal('show');
+function closeTheNode(){//节点列表页面关闭某个节点，只能单个关闭
+    index=index-1;
+    var index=$("#hiddenforIndex").val();
+    var nodeIds=$("#hiddenforDeleteOneNode").val();
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/closeNode",//接口名字
+        dataType: "json",
+        data:{nodeId:nodeIds},
+        //contentType: "application/json; charset=utf-8",
+        success: function (data) {//删除成功node/closeNode
+            alert("删除成功了！");
+            console.log(data.data);
+            $('#wangyunodeAmount').text(data.data);//给节点数减1
+            $("table#datatableForNode tbody").find("tr:eq("+index+")").remove();
+
+        }
+    });
 }
 function showTheTimeInfo(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
     var username=obj.id;
@@ -502,7 +507,7 @@ jQuery(document).ready(function() {	//首先渲染
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                        "<td class=\"center hidden-xs\"><a onclick='closeTheNode(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                        "<td class=\"center hidden-xs\"><a onclick='showTheWarnModal(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
                         "</tr>";
                     stringfortrlist = stringfortrlist + stringfortr;
                 }
@@ -537,22 +542,18 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
-    $("#sureForDeleteOneNode").click(function () {//点击删除此节点
+    $("#sureForDeleteOneNode").click(function () {//点击关闭此节点，根据nodeId
         //alert("!!#");
         index=index-1;
         var index=$("#hiddenforIndex").val();
         var nodeIds=$("#hiddenforDeleteOneNode").val();
-        var dataforUserDeleteNode= JSON.stringify({
-            username:"wangyu",
-            nodeIds:nodeIds
-        });
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/user/deleteNode",//接口名字
+            url: "http://localhost:8080/api/node/closeNode",//接口名字
             dataType: "json",
-            data:dataforUserDeleteNode,
+            data:{nodeId:nodeIds},
             contentType: "application/json; charset=utf-8",
-            success: function (data) {//删除成功
+            success: function (data) {//删除成功node/closeNode
                 alert("删除成功了！");
                 console.log(data.data);
                 $('#wangyunodeAmount').text(data.data);//给节点数减1
