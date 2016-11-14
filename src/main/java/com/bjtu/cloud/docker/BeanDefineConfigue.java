@@ -31,28 +31,28 @@ public class BeanDefineConfigue implements ApplicationListener<ContextRefreshedE
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
     new Thread() {
-      public void run() {
-        while (true) {
-          try {
-            Thread.sleep(10 * 1000);
-            List<TaskInfo> taskInfos = taskService.getTaskByStatus(1);
-            for (int i = 0; i < taskInfos.size(); i++) {
-              String nodeId = taskInfos.get(i).getNodeId();
-              Integer pid = taskInfos.get(i).getPid();
-              Boolean flag = Cmds.checkTaskRunning(nodeId, pid.toString());
-              if (flag == false){
-                if (taskInfos.get(i).getExecTimes() == taskInfos.get(i).getTimes()) {
-                  taskInfos.get(i).setStatus(0);
-                  taskInfos.get(i).setEndTime(df1.parse(df1.format(new Date())));
-                  taskInfoMapper.updateByPrimaryKeySelective(taskInfos.get(i));
-                }
-              }
-            }
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
-      }
+//      public void run() {
+//        while (true) {
+//          try {
+//            Thread.sleep(10 * 1000);
+//            List<TaskInfo> taskInfos = taskService.getTaskByStatus(1);
+//            for (int i = 0; i < taskInfos.size(); i++) {
+//              String nodeId = taskInfos.get(i).getNodeId();
+//              Integer pid = taskInfos.get(i).getPid();
+//              Boolean flag = Cmds.checkTaskRunning(nodeId, pid.toString());
+//              if (flag == false){
+//                if (taskInfos.get(i).getExecTimes() == taskInfos.get(i).getTimes()) {
+//                  taskInfos.get(i).setStatus(0);
+//                  taskInfos.get(i).setEndTime(df1.parse(df1.format(new Date())));
+//                  taskInfoMapper.updateByPrimaryKeySelective(taskInfos.get(i));
+//                }
+//              }
+//            }
+//          } catch (Exception e) {
+//            e.printStackTrace();
+//          }
+//        }
+//      }
     }.start();
   }
 
