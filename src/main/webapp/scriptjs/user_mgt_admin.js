@@ -191,10 +191,7 @@ function deleteUserByUsername(username){//当用户名下没有正在运行的�
     App.init(); //Initialise plugins and elements
 }
 function showthedeleteusermodal(obj){//删除某个用户时给模态框传值，同时向后台请求该用户名下的用户状态
-    var id=obj.id;
-    strs = id.split("&");
-    var username = strs[0];
-    var idforindex = strs[1];
+    var username=obj.id;
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/user/queryTaskStatusByUser",//接口名字
