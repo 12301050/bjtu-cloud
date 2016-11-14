@@ -1277,14 +1277,14 @@ var App = function () {
             $('#checkAll').prop('checked', $tmp.length == $tmp.filter(':checked').length);
 
         });
-        $('#datatableForLog').dataTable({
-            "sPaginationType": "bs_full",
-            sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-            oTableTools: {
-                aButtons: ["copy",  "csv", "pdf"],
-                sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-            }
-        });
+        //$('#datatableForLog').dataTable({
+        //    "sPaginationType": "bs_full",
+        //    sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        //    oTableTools: {
+        //        aButtons: ["copy",  "csv", "pdf"],
+        //        sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        //    }
+        //});
         //$('#datatableTask').dataTable({
         //    "sPaginationType": "bs_full",
         //    sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
