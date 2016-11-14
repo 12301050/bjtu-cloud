@@ -181,7 +181,7 @@ function change_ch(){//变为中文
     $("#user_name").html("用户名");
     $("#task_number").html("正在执行的任务数");
     $("#his_task").html("历史执行任务数");
-    $("#cpu").html("cup占用率");
+    $("#cpu").html("CPU占用率");
     $("#ram").html("内存使用率");
     $("#net").html("带宽占用率");
     $("#operate").html("操作");
