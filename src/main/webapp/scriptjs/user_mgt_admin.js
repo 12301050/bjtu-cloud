@@ -119,11 +119,19 @@ function changethedropdownbutton(obj){//更新下拉按钮名字以示选中状�
 }
 function showtheaddnodemodal(obj){//给用户添加节点时给模态框传值
     $('#table-modal-addOneNodeForUser').modal('show');
-    var test=$(this);
-    $('#idForUsernameWhenAddOneNode').val(obj.id);
+    var id=obj.id;
+    strs = id.split("&");
+    var username = strs[0];
+    var idforindex = strs[1];
+    $('#idForUsernameWhenAddOneNode').val(username);
+    $('#idForIndexWhenAddOneNode').val(idforindex);
+
 }
 function showtheDeletenodemodal(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
-    var username=obj.id;
+    var id=obj.id;
+    strs = id.split("&");
+    var username = strs[0];
+    var idforindex = strs[1];
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
@@ -148,6 +156,8 @@ function showtheDeletenodemodal(obj){//删除节点时首先获取当前时间�
             }
             $('#showNodeListWhenDeleteNode').html(stringfortrlist);
             $('#idForUsernameWhenDeleteNodes').val(username);
+            $('#idForIndexWhenDeleteNodes').val(idforindex);
+            $('#table-modal-deleteOneOrMoreNodeForUser').modal('show');
         }
     });
 
@@ -162,7 +172,7 @@ function deleteUserByUsername(username){//当用户名下没有正在运行的�
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
-                var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
+                var idforNodeAmount = data.data[i].userName + "&"+idforlog;//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
                     "<td class=\"center\">" + data.data[i].userName+"</td>"+
@@ -181,7 +191,10 @@ function deleteUserByUsername(username){//当用户名下没有正在运行的�
     App.init(); //Initialise plugins and elements
 }
 function showthedeleteusermodal(obj){//删除某个用户时给模态框传值，同时向后台请求该用户名下的用户状态
-    var username=obj.id;
+    var id=obj.id;
+    strs = id.split("&");
+    var username = strs[0];
+    var idforindex = strs[1];
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/user/queryTaskStatusByUser",//接口名字
@@ -213,14 +226,14 @@ function eventForidforReload(){//刷新按钮重新加载数据
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
-                var idforNodeAmount=data.data[i].userName+"nodeAmount";//设置表示节点个数的id号
+                var idforNodeAmount = data.data[i].userName + "&"+idforlog;//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
                     "<td class=\"center\">" + data.data[i].userName+"</td>"+
                     "<td class=\"center\"><a id=\""+idforNodeAmount+"\" href=\"task_mgt_admin.html?username="+data.data[i].userName+" \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount+"</a></td>" +
                     "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\""+data.data[i].userName+"\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">"+
                     "</i>&nbsp&nbsp&nbsp<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\"></i>"+
-                    "</td><td class=\"center\"><a id=\""+data.data[i].userName+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
+                    "</td><td class=\"center\"><a id=\""+idforNodeAmount+"\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                     " </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
@@ -247,8 +260,15 @@ function submitTheAddNodeReq(){//提交创建一个节点的请求
             var newnodeAmount=data.data;
             if(newnodeAmount=="null"||newnodeAmount==""||newnodeAmount==null)
                 alert("不知道为什么服务器炸掉了，不过你不要着急，给王文博打电话！");
-            else
-                $('#wangyunodeAmount').text(data.data);//给节点数加1
+            else{
+                var index=$("#idForIndexWhenAddOneNode").val();//取出待修改的id
+                index=index-1;
+                $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
+                if(data.data>2){
+                    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #70afc4;");
+                    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").attr("onclick","showtheDeletenodemodal(this)");
+                }
+            }
         }
     });
 }
@@ -264,19 +284,19 @@ jQuery(document).ready(function() {	//首先渲染
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog = i + 1;
-                var idforNodeAmount = data.data[i].userName + "nodeAmount";//设置表示节点个数的id号
+                var idforNodeAmount = data.data[i].userName + "&"+idforlog;//设置表示节点个数的id号
                 var stringfortr = "<tr class=\"gradeX\">" +
                     "<td class=\"center\">" + idforlog + "</td><td class=\"center\">" + data.data[i].id + "</td>" +
                     "<td class=\"center\">" + data.data[i].userName + "</td>" +
                     "<td class=\"center\"><a id=\"" + idforNodeAmount + "\" href=\"task_mgt_admin.html?username=" + data.data[i].userName + " \"class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">" + data.data[i].nodeAmount + "</a></td>" +
-                    "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">" +
+                    "<td class=\"center\"><i class=\"fa fa-plus-square\" id=\"" + idforNodeAmount + "\" style=\"color: #70afc4;\" href=\"#table-modal-addOneNodeForUser\" onclick=\"showtheaddnodemodal(this)\">" +
                     "</i>&nbsp&nbsp&nbsp";
                 if(data.data[i].nodeAmount<=2){//按钮置灰
-                    stringfortr=stringfortr+"<i id=\"" + data.data[i].userName + "\" style=\"color: #999999;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>" +
+                    stringfortr=stringfortr+"<i id=\"" + data.data[i].userName + "\" style=\"color: #999999;\" class=\"fa fa-minus-square\"></i>" +
                         "</td><td class=\"center\"><a id=\"" + data.data[i].userName + "\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                         " </tr>";
                 }else{
-                    stringfortr=stringfortr+"<i href=\"#table-modal-deleteOneOrMoreNodeForUser\" id=\"" + data.data[i].userName + "\" style=\"color: #70afc4;\" data-toggle=\"modal\"class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>" +
+                    stringfortr=stringfortr+"<i id=\"" + idforNodeAmount + "\" style=\"color: #70afc4;\" class=\"fa fa-minus-square\" onclick=\"showtheDeletenodemodal(this)\"></i>" +
                         "</td><td class=\"center\"><a id=\"" + data.data[i].userName + "\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\" onclick=\"showthedeleteusermodal(this)\">删除</a></td>" +
                         " </tr>";
                 }
@@ -312,12 +332,13 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
-    $('#datatableForDeleteNode tbody').on('click', 'tr input[name="checkList"]', function () {//删除选中行
+    $('#datatableForDeleteNode tbody').on('click', 'tr input[name="checkList"]', function () {//选中行及行的个数
         var $tr = $(this).parents('tr');
+        var nodeId=$(this).parents("tr").find("td:eq(3)")[0].find("a:eq(0)").text();//获取将要删除的行中的节点ID,.find("a:eq(0)").text()
         $tr.toggleClass('selected');
         var $tmp = $('[name=checkList]:checkbox');
         $('#checkAll').prop('checked', $tmp.length == $tmp.filter(':checked').length);
-
+        alert($tmp.filter(':checked').length);
     });
     $("#delNodeBut_id").on("click", function () {//点击删除按钮时，删除选中的行
         // table.row('.selected').remove().draw(false);
@@ -343,8 +364,13 @@ jQuery(document).ready(function() {	//首先渲染
             contentType: "application/json; charset=utf-8",
             success: function (data) {//删除成功
                 alert("删除成功了！");
-                //console.log(data.data);
-                $('#wangyunodeAmount').text(data.data);//给节点数减1
+                var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
+                index=index-1;
+                $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
+                if(data.data<=2){
+                    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
+                    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
+                }
             }
         });
     });

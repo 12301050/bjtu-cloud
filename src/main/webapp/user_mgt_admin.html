@@ -331,6 +331,7 @@
 												</ul>
 											</div>
          									<input type="hidden" id="idForUsernameWhenAddOneNode"/><!-- 用于隐藏用户姓名-->
+         									<input type="hidden" id="idForIndexWhenAddOneNode"/><!-- 用于隐藏用户姓名-->
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -351,7 +352,7 @@
 										<table id="datatableForDeleteNode" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
 											<tr>
-												<th id="nosort" style="text-align:center;padding:3px 3px 3px 3px;" class="" onclick="change()"><input type="checkbox" id="checkAll"></th>
+												<th id="nosort" style="text-align:center;padding:3px 3px 3px 3px;" class="" ><input type="checkbox" style="visibility: hidden;" id="checkAll"></th>
 												<th id="delNumber_id">编号</th>
 												<th id="delNode_id">节点ID</th>
 												<th id="delNodeName_id" class="hidden-xs">节点名称</th>
@@ -368,6 +369,7 @@
 											</tr>
 											</tbody>
 											<input type="hidden" id="idForUsernameWhenDeleteNodes"/><!-- 用于隐藏用户姓名-->
+											<input type="hidden" id="idForIndexWhenDeleteNodes"/><!-- 用于隐藏用户姓名-->
 										</table>
 									</div>
 									<div class="modal-footer">
