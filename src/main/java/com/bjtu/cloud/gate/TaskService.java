@@ -27,7 +27,7 @@ public interface TaskService {
   //根据用户名查询所有任务
   List<TaskInfo> getAllTaskByUserName(String userName) throws Exception;
   //查询所有任务日志
-  List<TaskRecord> getAllTaskRecord() throws Exception;
+  List<TaskRecord> getTaskRecordByDate(String operateTime) throws Exception;
   //删除某个(些)任务
   List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths) throws Exception;
 

@@ -96,10 +96,10 @@ public class TaskController {
   }
 
   //按照日期查询所有任务日志
-  @RequestMapping(value = "api/log/getAllTaskRecord", method = RequestMethod.GET)
-  public RestResult<List<TaskRecord>> getAllRecords() {
+  @RequestMapping(value = "api/log/getTaskRecordByDate", method = RequestMethod.GET)
+  public RestResult<List<TaskRecord>> getTaskRecordByDate(String operateTime) {
     try {
-      List<TaskRecord> taskRecords = taskService.getAllTaskRecord();
+      List<TaskRecord> taskRecords = taskService.getTaskRecordByDate(operateTime);
       return RestResult.succ().data(taskRecords).build();
     }catch (Exception e){
       e.printStackTrace();

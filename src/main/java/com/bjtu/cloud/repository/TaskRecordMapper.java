@@ -20,5 +20,5 @@ public interface TaskRecordMapper {
   int updateByPrimaryKey(TaskRecord record);
 
   //获取所有任务日志
-  List<TaskRecord> getAllTaskRecord();
+  List<TaskRecord> getTaskRecordByDate(String date);
 }

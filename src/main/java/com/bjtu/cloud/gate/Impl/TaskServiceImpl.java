@@ -80,9 +80,9 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public List<TaskRecord> getAllTaskRecord() throws Exception {
+  public List<TaskRecord> getTaskRecordByDate(String operateTime) throws Exception {
     try {
-      List<TaskRecord> taskRecords = taskRecordMapper.getAllTaskRecord();
+      List<TaskRecord> taskRecords = taskRecordMapper.getTaskRecordByDate(operateTime);
       return taskRecords;
     } catch (Exception e) {
       e.printStackTrace();
