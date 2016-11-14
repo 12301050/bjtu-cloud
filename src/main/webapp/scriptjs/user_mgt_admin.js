@@ -334,16 +334,28 @@ jQuery(document).ready(function() {	//首先渲染
     });
     $('#datatableForDeleteNode tbody').on('click', 'tr input[name="checkList"]', function () {//选中行及行的个数
         var $tr = $(this).parents('tr');
-        var nodeId=$(this).parents("tr").find("td:eq(3)")[0].find("a:eq(0)").text();//获取将要删除的行中的节点ID,.find("a:eq(0)").text()
+        //var nodeId=$(this).parents("tr").find("td:eq(3)")[0].find("a:eq(0)").text();//获取将要删除的行中的节点ID,.find("a:eq(0)").text()
+        var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
+        index=index-1;
+        var limitAmount=$("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text();//用于限制用户即将删除的节点的个数
+        alert("这是限制数！！"+limitAmount);
         $tr.toggleClass('selected');
         var $tmp = $('[name=checkList]:checkbox');
         $('#checkAll').prop('checked', $tmp.length == $tmp.filter(':checked').length);
         alert($tmp.filter(':checked').length);
+        $('#delNodeBut_id').attr("disabled", false);
+
+        if(limitAmount-$tmp.filter(':checked').length<2){
+            alert("至少得留俩吧大兄弟！！");
+            //$tr.toggleClass('selected');
+            $('#delNodeBut_id').attr("disabled", true);
+        }
     });
     $("#delNodeBut_id").on("click", function () {//点击删除按钮时，删除选中的行
         // table.row('.selected').remove().draw(false);
         var nodeIds="";
         var indexfordelete=new Array();
+
 
         $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
             n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
