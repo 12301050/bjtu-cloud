@@ -66,7 +66,6 @@ function change_en(){//变为英文
     $("#ram_graph").html("Memory line chart");
     $("#net_graph").html("Net line chart");
     $("#datatableHisTaskUser").dataTable().fnDestroy();
-    $("#datatableForHisTask").dataTable().fnDestroy();
     var table=$('#datatableHisTaskUser').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,

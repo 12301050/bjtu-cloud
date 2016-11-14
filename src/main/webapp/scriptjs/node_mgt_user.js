@@ -51,7 +51,7 @@ function change_en(){//变为英文
     $("#sure").html("sure");
     $("#cancel").html("cancel");
     $("#back").html("back");
-    $("#node_list").html("node list");
+    $("#task_list").html("task list");
     $("#execute_time").html("execute time");
     $("#start_time").html("start time");
     $("#end_time").html("end time");
@@ -112,13 +112,12 @@ function change_ch(){//变为中文
     $("#ram").html("内存使用率");
     $("#net").html("带宽占用率");
     $("#operate").html("操作");
-    $("#task_list").html("任务列表");
     $("#his_number").html("编号");
     $("#task_name").html("任务名称");
     $("#task_type").html("任务类型");
     $("#time_info").html("时间信息");
     $("#close_button").html("关闭");
-    $("#node_list").html("任务列表");
+    $("#task_list").html("任务列表");
     $("#task_number1").html("编号");
     $("#task_name1").html("任务名称");
     $("#task_type1").html("任务类型");
