@@ -334,9 +334,23 @@ function showtheHisTask(id){//展示历史任务
         }
     });
 }
-function showTheWarnModal(obj){//删除用户时先提检查节点上的任务运行情况
+function showTheWarnModal(obj) {//删除用户时先提检查节点上的任务运行情况
     //var nodeidAndStatus=JSON.stringify({nodeId:id});
-    var stringingret=obj.id;
+    var stringingret = obj.id;
+    strs = stringingret.split("&");
+    var nodeId = strs[0];
+    var amount = strs[1];
+    var index = strs[2];
+    //if(strs[0].split("=")[0]=="username"){//检查是否是
+    $("#spanForActiveTask").val(amount);
+    $("#spanForActiveTask").text(amount);
+    $("#hiddenforDeleteOneNode").val(nodeId);
+    $("#hiddenforIndex").val(index);
+
+    $("#table-modal-closeNode").modal('show');
+}
+function closeTheNode(obj){//节点列表页面关闭某个节点，只能单个关闭
+    var stringingret=obj.id;//节点Id
     strs = stringingret.split("&");
     var nodeId=strs[0];
     var amount=strs[1];
@@ -346,10 +360,7 @@ function showTheWarnModal(obj){//删除用户时先提检查节点上的任务�
     $("#spanForActiveTask").text(amount);
     $("#hiddenforDeleteOneNode").val(nodeId);
     $("#hiddenforIndex").val(index);
-
     $("#table-modal-closeNode").modal('show');
-
-
 }
 function showTheTimeInfo(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
     var username=obj.id;
@@ -439,9 +450,9 @@ jQuery(document).ready(function() {	//首先渲染
                     for (var i = 0; i < data.data.length; i++) {
                         var idforlog=i+1;
                         var stringfortr ="<tr class=\"gradeX\">"+
-                            "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-                            "<td>"+idforlog+"</td>"+
-                            "<td>"+data.data[i].nodeId+"</td>"+
+                            "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
+                            "<td class=\"center\">"+idforlog+"</td>"+
+                            "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
                             "<td class=\"center\">"+data.data[i].type+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
@@ -477,11 +488,11 @@ jQuery(document).ready(function() {	//首先渲染
                     var idforlog=i+1;
                     //stringarray[0]=data.data[i].nodeId;
                     //stringarray[1]=data.data[i].historyTaskAmount;
-                    var stringForConvert=data.data[i].nodeId+"&"+data.data[i].historyTaskAmount+"&"+idforlog;
+                    var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog;
                     var stringfortr ="<tr class=\"gradeX\">"+
-                        "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-                        "<td>"+idforlog+"</td>"+
-                        "<td>"+data.data[i].nodeId+"</td>"+
+                        "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
+                        "<td class=\"center\">"+idforlog+"</td>"+
+                        "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
                         "<td class=\"center\">"+data.data[i].type+"</td>"+
                         "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                         "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
@@ -491,7 +502,7 @@ jQuery(document).ready(function() {	//首先渲染
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                        "<td class=\"center hidden-xs\"><a onclick='showTheWarnModal(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                        "<td class=\"center hidden-xs\"><a onclick='closeTheNode(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
                         "</tr>";
                     stringfortrlist = stringfortrlist + stringfortr;
                 }
