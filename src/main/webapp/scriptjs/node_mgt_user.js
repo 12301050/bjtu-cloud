@@ -220,7 +220,7 @@ function change_ch(){//变为中文
         $("#taskView").css("display","block");
         $("#datatableForTask").css("width","100%");
     }
-function showTimeInfoByTask(taskId) {  //需改
+function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
     taskid = parseInt(taskId);
     $.ajax({
         type: "GET",
@@ -246,6 +246,50 @@ function showTimeInfoByTask(taskId) {  //需改
                         "<td>"+endtime+"</td>"+
                         "</tr>"
                     ;
+                if(endtime!=null){
+                    starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
+                    endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
+                    var runtime=endtime-starttime;
+                    stringfortr=stringfortr+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"执行时间"+"</td>"+
+                        "<td>"+runtime+"</td>"+
+                        "</tr>"
+                }
+                if(data.data[i].mode){ //判断任务模式
+                    var timemode="";
+                    switch (data.data[i].mode){
+                        case 1:
+                            timemode="按时";
+                            break;
+                        case 2:
+                            timemode="按天";
+                            break;
+                        case 3:
+                            timemode="按周";
+                            break;
+                        case  4:
+                            timemode="按月";
+                            break;
+                        case 5:
+                            timemode="按年";
+                            break;
+                    }
+                    stringfortr+=
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"定时模式"+"</td>"+
+                        "<td>"+timemode+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"任务执行次数"+"</td>"+
+                        "<td>"+data.data[i].times+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"已执行次数"+"</td>"+
+                        "<td>"+data.data[i].execTimes+"</td>"+
+                        "</tr>"
+                    ;
+                }
                 stringfortrlist = stringfortrlist + stringfortr;
             }
             $('#gettimelist').html(stringfortrlist);
@@ -258,20 +302,22 @@ jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
+        url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
         dataType: "json",
         data:{"userName":username},
         success: function (data) {
             var stringfortrlist = "";
-            for (var i = 0; i < data.data.length; i++) {
-                var idforlog=i+1;
-                var stringfortr ="<tr class=\"gradeX\">"+
+              for (var i = 0; i < data.data.length; i++) {
+                  var nodetype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
+                  var nodestatus=(data.data[i].status==1)?"开启":((data.data[i].status==2)?"关闭":"等待");
+                  var idforlog=i+1;
+                  var stringfortr ="<tr class=\"gradeX\">"+
                  //   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].nodeId+"</td>"+
-                    "<td class=\"center\">"+data.data[i].type+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+                    "<td class=\"center\">"+nodetype+"</td>"+
+                    "<td class=\"center hidden-xs\">"+nodestatus+"</td>"+
                     "<td class=\"center hidden-xs\"><a onclick=\"getTaskByNode("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+

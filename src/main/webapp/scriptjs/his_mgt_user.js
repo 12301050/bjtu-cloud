@@ -26,6 +26,7 @@ function change_en(){//变为英文
     $("#node_id").html("nodeID");
     $("#node_state").html("node state");
     $("#node_type").html("node type");
+    $("#task_mode").html("node model");
     $("#node_name").html("node name");
     $("#user_name").html("user name");
     $("#task_number").html("Number of tasks being performed");
@@ -108,6 +109,7 @@ function change_ch(){//变为中文
     $("#task_name").html("任务名称");
     $("#node").html("所在节点");
     $("#task_type").html("任务类型");
+    $("#task_mode").html("任务模式");
     $("#time_info").html("时间信息");
     $("#close_button").html("关闭");
     $("#task_number1").html("编号");
@@ -160,22 +162,17 @@ function change_ch(){//变为中文
     App.setPage("index");
 }
 
-function showTimeInfoByTask(taskId) {  //需改
-     taskid = parseInt(taskId);
+function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
+    taskid = parseInt(taskId);
     $.ajax({
         type: "GET",
         dataType: "json",
-         url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
+        url: "http://localhost:8080/api/task/queryTimeInfo",//接口名字，根据任务id获取时间信息
         data: {"taskId": taskid},
         success: function (data) {
             var stringfortrlist = "";
-<<<<<<< Updated upstream
-            var starttime="开始时间";
-            var endtime="结束时间";
-=======
             var starttimeText="开始时间";
             var endtimeText="结束时间";
->>>>>>> Stashed changes
             for (var i = 0; i < data.data.length; i++) {
                 var starttime=data.data[i].startTime;
                 var endtime=data.data[i].endTime;
@@ -183,24 +180,58 @@ function showTimeInfoByTask(taskId) {  //需改
                     endtime="运行中";
                 }
                 var stringfortr ="<tr class=\"gradeX\">"+
-<<<<<<< Updated upstream
-                        //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-                        "<td>"+starttime+"</td>"+
-                        "<td>"+data.data[i].startTime+"</td>"+
-                        "</tr>"+
-                        "<tr class=\"gradeX\">"+
-                        "<td>"+endtime+"</td>"+
-                        "<td>"+data.data[i].endTime+"</td>"+
-=======
                         "<td>"+starttimeText+"</td>"+
                         "<td>"+starttime+"</td>"+
                         "</tr>"+
                         "<tr class=\"gradeX\">"+
                         "<td>"+endtimeText+"</td>"+
                         "<td>"+endtime+"</td>"+
->>>>>>> Stashed changes
                         "</tr>"
                     ;
+                if(endtime!=null){
+                    starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
+                    endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
+                    var runtime=endtime-starttime;
+                    stringfortr=stringfortr+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"执行时间"+"</td>"+
+                        "<td>"+runtime+"</td>"+
+                        "</tr>"
+                }
+                if(data.data[i].mode){ //判断任务模式
+                    var timemode="";
+                    switch (data.data[i].mode){
+                        case 1:
+                            timemode="按时";
+                            break;
+                        case 2:
+                            timemode="按天";
+                            break;
+                        case 3:
+                            timemode="按周";
+                            break;
+                        case  4:
+                            timemode="按月";
+                            break;
+                        case 5:
+                            timemode="按年";
+                            break;
+                    }
+                    stringfortr+=
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"定时模式"+"</td>"+
+                        "<td>"+timemode+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"任务执行次数"+"</td>"+
+                        "<td>"+data.data[i].times+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"已执行次数"+"</td>"+
+                        "<td>"+data.data[i].execTimes+"</td>"+
+                        "</tr>"
+                    ;
+                }
                 stringfortrlist = stringfortrlist + stringfortr;
             }
             $('#gettimelist').html(stringfortrlist);
@@ -221,15 +252,21 @@ jQuery(document).ready(function() {	//首先渲染
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
-                var status="";
+                // var taskstatus=data.data[i].status;
+                // var tasktype=data.data[i].type;
+                // var taskmode=data.data[i].mode;
+                var taskstatus=(data.data[i].status==-1)?"等待":((data.data[i].status==0)?"结束":"运行");
+                var tasktype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
+                var taskmode=(data.data[i].mode==0)?"即时":"定时";
                 var stringfortr ="<tr class=\"gradeX\">"+
                     //"<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
-                    "<td class=\"center\">"+data.data[i].type+"</td>"+
+                    "<td class=\"center\">"+tasktype+"</td>"+
+                    "<td class=\"center\">"+taskmode+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
                   //  "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                    "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+                    "<td class=\"center hidden-xs\">"+taskstatus+"</td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;

@@ -185,7 +185,7 @@ function showTheInputForTimerTask(){
         $('#displayForTimerTimes').css("display","none")
     }
 }
-function showTimeInfoByTask(taskId) {  //获取任务时间信息
+function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
     taskid = parseInt(taskId);
     $.ajax({
         type: "GET",
@@ -211,6 +211,50 @@ function showTimeInfoByTask(taskId) {  //获取任务时间信息
                         "<td>"+endtime+"</td>"+
                         "</tr>"
                     ;
+                if(endtime!=null){
+                    starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
+                    endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
+                    var runtime=endtime-starttime;
+                    stringfortr=stringfortr+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"执行时间"+"</td>"+
+                        "<td>"+runtime+"</td>"+
+                        "</tr>"
+                }
+                if(data.data[i].mode){ //判断任务模式
+                    var timemode="";
+                    switch (data.data[i].mode){
+                        case 1:
+                            timemode="按时";
+                            break;
+                        case 2:
+                            timemode="按天";
+                            break;
+                        case 3:
+                            timemode="按周";
+                            break;
+                        case  4:
+                            timemode="按月";
+                            break;
+                        case 5:
+                            timemode="按年";
+                            break;
+                    }
+                    stringfortr+=
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"定时模式"+"</td>"+
+                        "<td>"+timemode+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"任务执行次数"+"</td>"+
+                        "<td>"+data.data[i].times+"</td>"+
+                        "</tr>"+
+                        "<tr class=\"gradeX\">"+
+                        "<td>"+"已执行次数"+"</td>"+
+                        "<td>"+data.data[i].execTimes+"</td>"+
+                        "</tr>"
+                    ;
+                }
                 stringfortrlist = stringfortrlist + stringfortr;
             }
             $('#gettimelist').html(stringfortrlist);
@@ -232,9 +276,9 @@ jQuery(document).ready(function() {	//首先渲染
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var status="";
-                var taskstatus=(data.data[i].status=-1)?"等待":((data.data[i].status=0)?"结束":"运行");
-                var tasktype=(data.data[i].type=0)?"Binary":((data.data[i].type=1)?"Java":"Python");
-                var taskmode=(data.data[i].mode=0)?"即时":"定时";
+                var taskstatus=(data.data[i].status==-1)?"等待":((data.data[i].status==0)?"结束":"运行");
+                var tasktype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
+                var taskmode=(data.data[i].mode==0)?"即时":"定时";
                 var stringfortr ="<tr class=\"gradeX\">"+
                     "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
