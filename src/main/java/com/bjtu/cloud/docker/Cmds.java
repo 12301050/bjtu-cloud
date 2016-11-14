@@ -6,11 +6,29 @@ import java.util.ArrayList;
 
 public class Cmds {
 	private final static boolean DEBUG = false;
+	//if use linux please verify the sudopassword
 	private final static String sudoPwd = "1";
-//	private final static String basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker "; //for just linux
-	private final static String basecmd = "docker ";//for mac && windows
-//	private static String cmds[] = { "cmd.exe", "/c", basecmd };//for windows
-	private static String cmds[] = { "/bin/bash", "-c", basecmd };//for linux && mac
+	private static String basecmd;
+	private static String cmds[] = new String[3];
+	static{
+		if(System.getProperty("os.name").contains("Mac OS")){
+			cmds[0]="/bin/bash";
+			cmds[1]="-c";
+			basecmd="docker ";
+		}
+		else if(System.getProperty("os.name").contains("Windows")){
+			cmds[0]="cmd.exe";
+			cmds[1]="/c";
+			basecmd="docker ";
+		}
+		else if(System.getProperty("os.name").contains("Linux")){
+			cmds[0]="/bin/bash";
+			cmds[1]="-c";
+			basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
+		}else {
+			System.err.println("Cmds: The System is not supported");
+		}
+	}
 	public final static int BINTASK = 0;
 	public final static int JAVATASK = 1;
 	public final static int PYTHONTASK = 2;
