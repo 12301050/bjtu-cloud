@@ -136,9 +136,9 @@ public class NodeServiceImpl implements NodeService {
   }
 
   @Override
-  public List<NodeRecord> getAllNodeRecord() throws Exception {
+  public List<NodeRecord> getNodeRecordByDate(String operateTime) throws Exception {
     try {
-      List<NodeRecord> nodeRecords = nodeRecordMapper.getAllNodeRecord();
+      List<NodeRecord> nodeRecords = nodeRecordMapper.getNodeRecordByDate(operateTime);
       return nodeRecords;
     } catch (Exception e) {
       e.printStackTrace();

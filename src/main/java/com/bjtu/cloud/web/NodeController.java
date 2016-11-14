@@ -126,10 +126,10 @@ public class NodeController {
   }
 
   //按照日期查询所有节点日志
-  @RequestMapping(value = "api/log/getAllNodeRecord", method = RequestMethod.GET)
-  public RestResult<List<NodeRecord>> getAllRecords() {
+  @RequestMapping(value = "api/log/getNodeRecordByDate", method = RequestMethod.GET)
+  public RestResult<List<NodeRecord>> getNodeRecordByDate(String operateTime) {
     try {
-      List<NodeRecord> nodeRecords = nodeService.getAllNodeRecord();
+      List<NodeRecord> nodeRecords = nodeService.getNodeRecordByDate(operateTime);
       return RestResult.succ().data(nodeRecords).build();
     }catch (Exception e){
       e.printStackTrace();

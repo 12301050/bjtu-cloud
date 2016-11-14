@@ -20,5 +20,5 @@ public interface NodeRecordMapper {
     int updateByPrimaryKey(NodeRecord record);
 
     //获取所有任务日志
-    List<NodeRecord> getAllNodeRecord();
+    List<NodeRecord> getNodeRecordByDate(String operateTime);
 }

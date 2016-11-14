@@ -31,5 +31,5 @@ public interface NodeService {
   String addNodeInNodeInfo(Integer type) throws Exception;
 
   //查询所有节点日志
-  List<NodeRecord> getAllNodeRecord() throws Exception;
+  List<NodeRecord> getNodeRecordByDate(String operateTime) throws Exception;
 }
