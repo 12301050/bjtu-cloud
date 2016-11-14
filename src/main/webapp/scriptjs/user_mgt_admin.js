@@ -343,7 +343,7 @@ jQuery(document).ready(function() {	//首先渲染
             contentType: "application/json; charset=utf-8",
             success: function (data) {//删除成功
                 alert("删除成功了！");
-                console.log(data.data);
+                //console.log(data.data);
                 $('#wangyunodeAmount').text(data.data);//给节点数减1
             }
         });

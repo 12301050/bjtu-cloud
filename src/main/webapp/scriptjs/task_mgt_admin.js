@@ -334,36 +334,77 @@ function showtheHisTask(id){//展示历史任务
         }
     });
 }
-function showTheWarnModal(obj) {//删除用户时先提检查节点上的任务运行情况
-    //var nodeidAndStatus=JSON.stringify({nodeId:id});
+function showTheWarnModal(obj) {//关闭节点时先提检查节点上的任务运行情况
     var stringingret = obj.id;
     strs = stringingret.split("&");
     var nodeId = strs[0];
     var amount = strs[1];
     var index = strs[2];
-    //if(strs[0].split("=")[0]=="username"){//检查是否是
-    $("#spanForActiveTask").val(amount);//显示正在执行的任务📚
-    $("#hiddenforDeleteOneNode").val(nodeId);//把nodeId暂存，用于后期删除
-    $("#hiddenforIndex").val(index);//用于ajax局部刷新
+    var operate=strs[3];//关闭和和开启
+    if(operate=="关闭"){//我要关闭节点啦！！
+        alert("我要关闭节点啦！！");
+        $("#spanForActiveTask").text(amount);//显示正在执行的任务数
+        $("#hiddenforCloseOneNode").val(nodeId);//把nodeId暂存，用于后期删除
+        $("#hiddenforCloseIndex").val(index);//用于ajax局部刷新
+        $("#hiddenforCloseOperateButton").val(stringingret);//用于ajax局部刷新
 
-    $("#table-modal-closeNode").modal('show');
+        $("#table-modal-closeNode").modal('show');
+
+    }else{
+        alert("我要开启节点啦！！");
+        $("#hiddenforStartOneNode").val(nodeId);//把nodeId暂存，用于后期开启节点
+        $("#hiddenforStartIndex").val(index);//用于ajax局部刷新
+        $("#hiddenforStartOperateButton").val(stringingret);//用于ajax局部刷新
+
+        $("#table-modal-ReActiveNode").modal('show');
+    }
+    //if(strs[0].split("=")[0]=="username")
+}
+function StartTheNode(){//开启关闭中的节点，只能单个开启
+    var index=$("#hiddenforStartIndex").val();
+    index=index-1;
+
+    var nodeIds=$("#hiddenforStartOneNode").val();
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/startNode",//接口名字
+        dataType: "json",
+        data:{nodeId:nodeIds},
+        success: function (data) {//删除成功node/closeNode
+            if(data.data!=null){//开启成功了
+                alert("开启节点成功！");//更新按钮和状态信息
+
+                $("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(6)").text("空闲");
+                $("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(12)").find("a:eq(0)").text("关闭");
+
+                var modifyid=$("#hiddenforStartOperateButton").val();
+                //$("#"+modifyid+"").text("关闭");
+            }else{
+                alert("服务器发生了不可言状的错误！找王阿星都不好使");
+            }
+        }
+    });
 }
 function closeTheNode(){//节点列表页面关闭某个节点，只能单个关闭
+    var index=$("#hiddenforCloseIndex").val();
     index=index-1;
-    var index=$("#hiddenforIndex").val();
-    var nodeIds=$("#hiddenforDeleteOneNode").val();
+
+    var nodeIds=$("#hiddenforCloseOneNode").val();
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/node/closeNode",//接口名字
         dataType: "json",
         data:{nodeId:nodeIds},
-        //contentType: "application/json; charset=utf-8",
         success: function (data) {//删除成功node/closeNode
-            alert("删除成功了！");
-            console.log(data.data);
-            $('#wangyunodeAmount').text(data.data);//给节点数减1
-            $("table#datatableForNode tbody").find("tr:eq("+index+")").remove();
-
+            if(data.data!=null){//关闭成功了
+                alert("关闭节点成功！");//更新按钮和状态信息
+                var modifyid=$("#hiddenforCloseOperateButton").val();
+                $("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(6)").text("关闭");
+                $("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(12)").find("a:eq(0)").text("开启");
+                //$("#"+modifyid+"").text("开启");
+            }else{
+                alert("服务器发生了不可言状的错误！找王阿星都不好使");
+            }
         }
     });
 }
@@ -453,7 +494,17 @@ jQuery(document).ready(function() {	//首先渲染
                 success: function (data) {
                     var stringfortrlist = "";
                     for (var i = 0; i < data.data.length; i++) {
-                        var idforlog=i+1;
+                        var idforlog=i+1;//加了1的，要减去
+                        var textforOperateButton = (data.data[i].status==0)?"开启":"关闭";
+                        var nodeStatus;
+                        if(data.data[i].status==0){
+                            nodeStatus="关闭";
+                        }else if(data.data[i].status==1){
+                            nodeStatus="活跃";
+                        }else{
+                            nodeStatus="空闲";
+                        }
+                        var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog+"&"+textforOperateButton;
                         var stringfortr ="<tr class=\"gradeX\">"+
                             "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
                             "<td class=\"center\">"+idforlog+"</td>"+
@@ -461,13 +512,13 @@ jQuery(document).ready(function() {	//首先渲染
                             "<td class=\"center\">"+data.data[i].type+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                            "<td class=\"center hidden-xs\">"+data.data[i].status+"</td>"+
+                            "<td class=\"center hidden-xs\"id=\""+data.data[i].nodeId+"\">"+nodeStatus+"</td>"+
                             "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                             "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
                             "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                             "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
                             "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                            "<td class=\"center hidden-xs\"><a href=\"#table-modal-closeNode\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                            "<td class=\"center hidden-xs\"><a onclick='showTheWarnModal(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+textforOperateButton+"</a></td>"+
                             "</tr>";
                         stringfortrlist = stringfortrlist + stringfortr;
                     }
@@ -491,9 +542,18 @@ jQuery(document).ready(function() {	//首先渲染
                 var stringfortrlist = "";
                 for (var i = 0; i < data.data.length; i++) {
                     var idforlog=i+1;
+                    var textforOperateButton = (data.data[i].status==0)?"开启":"关闭";
+                    var nodeStatus;
+                    if(data.data[i].status==0){
+                        nodeStatus="关闭";
+                    }else if(data.data[i].status==1){
+                        nodeStatus="活跃";
+                    }else{
+                        nodeStatus="空闲";
+                    }
                     //stringarray[0]=data.data[i].nodeId;
                     //stringarray[1]=data.data[i].historyTaskAmount;
-                    var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog;
+                    var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog+"&"+textforOperateButton;
                     var stringfortr ="<tr class=\"gradeX\">"+
                         "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
                         "<td class=\"center\">"+idforlog+"</td>"+
@@ -501,13 +561,13 @@ jQuery(document).ready(function() {	//首先渲染
                         "<td class=\"center\">"+data.data[i].type+"</td>"+
                         "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                         "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                        "<td class=\"center\">"+data.data[i].status+"</td>"+
+                        "<td class=\"center\" id=\""+data.data[i].nodeId+"\">"+nodeStatus+"</td>"+
                         "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                         "<td class=\"center\"><a onclick='showtheHisTask("+data.data[i].nodeId+")'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
-                        "<td class=\"center hidden-xs\"><a onclick='showTheWarnModal(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">关闭</a></td>"+
+                        "<td class=\"center hidden-xs\"><a onclick='showTheWarnModal(this)' id="+stringForConvert+" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+textforOperateButton+"</a></td>"+
                         "</tr>";
                     stringfortrlist = stringfortrlist + stringfortr;
                 }

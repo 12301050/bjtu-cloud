@@ -510,13 +510,36 @@
 										<h4 class="modal-title" id="tips">提示</h4>
 									</div>
 									<div class="modal-body" style="text-align: center;">
-                                        <input class="hidden" id="hiddenforDeleteOneNode"/>
-                                        <input class="hidden" id="hiddenforIndex"/>
-										<label style="font-size: larger;" id="sureText_id" text="在执行"/>正在执行</label><span id="spanForActiveTask"/>3</span><label style="font-size: larger;">个任务，确定关闭该节点？</label>
+                                        <input class="hidden" id="hiddenforCloseOneNode"/>
+                                        <input class="hidden" id="hiddenforCloseIndex"/>
+										<input class="hidden" id="hiddenforCloseOperateButton"/>
+
+										<label style="font-size: larger;" id="sureText_id" text="在执行"/>正在执行</label><span id="spanForActiveTask"/></span><label style="font-size: larger;">个任务，确定关闭该节点？</label>
 									</div>
 									<div class="modal-footer">
 										<input type="button" onclick="closeTheNode()" class="btn btn-danger" data-dismiss="modal" id="sureForCloseOneNode" value="确定"/>
 										<input type="button" class="btn btn-inverse" data-dismiss="modal" id="cancelForDeleteOneNode" value="取消"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="table-modal-ReActiveNode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content modal-table">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="startnode">开启节点</h4>
+									</div>
+									<div class="modal-body" style="text-align: center;">
+                                        <input class="hidden" id="hiddenforStartOneNode"/>
+										<input class="hidden" id="hiddenforStartIndex"/>
+										<input class="hidden" id="hiddenforStartOperateButton"/>
+										<label style="font-size: larger;"  text="在执行"/>确定开启此节点吗？</label>
+
+									</div>
+									<div class="modal-footer">
+										<input type="button" onclick="StartTheNode()" class="btn btn-danger" data-dismiss="modal" id="sureForStartOneNode" value="确定"/>
+										<input type="button" class="btn btn-inverse" data-dismiss="modal" id="cancelForStartOneNode" value="取消"/>
 									</div>
 								</div>
 							</div>
