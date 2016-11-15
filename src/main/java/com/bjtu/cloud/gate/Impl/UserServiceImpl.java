@@ -96,27 +96,34 @@ public class UserServiceImpl implements UserService{
       for(int i = 0; i < nodeId.length; i++) {
         //Todo 跳过docker
         boolean delete, stop;
-        //stop = Cmds.stopNode(nodeId[i]);
-        //delete = Cmds.deleteNode(nodeId[i]);
-        //if (stop == true && delete == true) {
+        stop = Cmds.stopNode(nodeId[i]);
+        delete = Cmds.deleteNode(nodeId[i]);
+        if (stop == true && delete == true) {
           taskInfoMapper.deleteByNodeId(nodeId[i]);
           nodeInfoMapper.deleteByNodeId(nodeId[i]);
-          //continue;
-        //}
-//        else {
-//          return null;
-//        }
+          continue;
+        }
+      else {
+          return null;
+        }
       }
       if(userInfo.getNodeIds() == null || userInfo.getNodeIds().isEmpty()){
         return userInfo;
       }else{
         String[] nodeIdByUser = userInfo.getNodeIds().split(",");
         String[] newNodeId = arrContrast(nodeIdByUser,nodeId);
-        String newNodeIds = converToString(newNodeId);
-        userInfo.setUserName(userInfo.getUserName());
-        userInfo.setNodeAmount(newNodeId.length);
-        userInfo.setNodeIds(newNodeIds);
-        userInfoMapper.updateDeleteNodeIds(userInfo);
+        if(newNodeId.length == 0){
+          userInfo.setUserName(userInfo.getUserName());
+          userInfo.setNodeAmount(newNodeId.length);
+          userInfo.setNodeIds("");
+          userInfoMapper.updateDeleteNodeIds(userInfo);
+        }else{
+          String newNodeIds = converToString(newNodeId);
+          userInfo.setUserName(userInfo.getUserName());
+          userInfo.setNodeAmount(newNodeId.length);
+          userInfo.setNodeIds(newNodeIds);
+          userInfoMapper.updateDeleteNodeIds(userInfo);
+        }
         return userInfo;
       }
     }catch (Exception e){

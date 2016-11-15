@@ -21,6 +21,9 @@ public interface NodeService {
   //获取某个用户下所有节点
   List<NodeInfo> getNodeByUser(String userName) throws Exception;
 
+  //通过节点列表删除节点
+  Integer deleteNodeByNodeIds(String nodeIds) throws Exception;
+
   //查询某个节点的三个性能的数值
   List<Float> getPerformance(String nodeId) throws Exception;
 

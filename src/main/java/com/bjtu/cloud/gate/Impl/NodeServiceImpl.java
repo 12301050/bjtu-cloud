@@ -7,6 +7,7 @@ import com.bjtu.cloud.docker.Cmds;
 import com.bjtu.cloud.gate.NodeService;
 import com.bjtu.cloud.repository.NodeInfoMapper;
 import com.bjtu.cloud.repository.NodeRecordMapper;
+import com.bjtu.cloud.repository.TaskInfoMapper;
 import com.bjtu.cloud.repository.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,6 +29,9 @@ public class NodeServiceImpl implements NodeService {
 
   @Autowired
   private UserInfoMapper userInfoMapper;
+
+  @Autowired
+  private TaskInfoMapper taskInfoMapper;
 
   @Autowired
   private NodeRecordMapper nodeRecordMapper;
@@ -135,6 +140,81 @@ public class NodeServiceImpl implements NodeService {
     }
   }
 
+  @Override
+  public Integer deleteNodeByNodeIds(String nodeIds) throws Exception {
+    try {
+      String[] nodeId = nodeIds.split(",");
+      for(int i = 0; i < nodeId.length; i++) {
+        String userName = "";
+        boolean delete, stop;
+        stop = Cmds.stopNode(nodeId[i]);
+        delete = Cmds.deleteNode(nodeId[i]);
+        if (stop == true && delete == true) {
+          List<UserInfo> userInfos = userInfoMapper.getAllUserInfo();
+          for (int j = 0; j < userInfos.size(); j++) {
+            String findNodeIds = userInfos.get(j).getNodeIds();
+            if (findNodeIds.contains(nodeId[i])){
+              userName = userInfos.get(j).getUserName();
+              break;
+            }
+          }
+          UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
+          taskInfoMapper.deleteByNodeId(nodeId[i]);
+          nodeInfoMapper.deleteByNodeId(nodeId[i]);
+          if(userInfo.getNodeIds() == null || userInfo.getNodeIds().isEmpty()){
+          }else{
+            String[] nodeIdByUser = userInfo.getNodeIds().split(",");
+            String[] newNodeId = arrContrast(nodeIdByUser,nodeId[i]);
+            if(newNodeId.length == 0){
+              userInfo.setUserName(userInfo.getUserName());
+              userInfo.setNodeAmount(newNodeId.length);
+              userInfo.setNodeIds("");
+              userInfoMapper.updateDeleteNodeIds(userInfo);
+            }else{
+              String newNodeIds = converToString(newNodeId);
+              userInfo.setUserName(userInfo.getUserName());
+              userInfo.setNodeAmount(newNodeId.length);
+              userInfo.setNodeIds(newNodeIds);
+              userInfoMapper.updateDeleteNodeIds(userInfo);
+            }
+          }
+          continue;
+        }
+        else {
+          return 0;
+        }
+      }
+      return 1;
+    }catch (Exception e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+  //处理数组字符
+  private static String[] arrContrast(String[] arr1, String arr2){
+    List<String> list = new LinkedList<String>();
+    for (String str : arr1) {
+      if (!list.contains(str)) {
+        list.add(str);
+      }
+    }
+    if(list.contains(arr2)){
+      list.remove(arr2);
+    }
+    String[] result = {};
+    return list.toArray(result);
+  }
+  //组合
+  public static String converToString(String[] id) {
+    String str = "";
+    if (id != null && id.length > 0) {
+      for (int i = 0; i < id.length; i++) {
+        str += id[i] + ",";
+      }
+    }
+    str = str.substring(0, str.length() - 1);
+    return str;
+  }
   @Override
   public List<NodeRecord> getNodeRecordByDate(String operateTime) throws Exception {
     try {

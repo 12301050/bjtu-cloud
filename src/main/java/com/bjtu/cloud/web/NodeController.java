@@ -86,6 +86,18 @@ public class NodeController {
     }
   }
 
+  //通过节点列表删除节点
+  @RequestMapping(value = "api/node/deleteNodeByNodeIds", method = RequestMethod.GET)
+  public RestResult<Integer> deleteNodeByNodeIds(String nodeIds) {
+    try{
+      Integer flag = nodeService.deleteNodeByNodeIds(nodeIds);
+      return  RestResult.succ().data(flag).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //获取某节点下的某个状态的任务
   @RequestMapping(value = "api/node/getTaskByNode", method = RequestMethod.POST)
   public RestResult<List<TaskInfo>> getTaskByNode(@RequestBody Map<String,String> map) {
