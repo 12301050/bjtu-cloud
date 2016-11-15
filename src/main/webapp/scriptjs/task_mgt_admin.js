@@ -1,5 +1,4 @@
 var i=0;
-var stringarray={};//定义一个全局变量，也是没办法的办法
 setTimeout("modify()",1);
 function modify(){
 
@@ -68,7 +67,6 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
     else{
         localStorage.langclose=1;
     }
-
 }
 function change_en(){//变为英文
 
@@ -367,7 +365,6 @@ function change_ch(){//变为中文
     App.setPage("index");
 }
 function showtheHisTask(id){//展示历史任务
-    //alert(id);
     var nodeidAndStatus=JSON.stringify({nodeId:id,status:"2"});
     $('#table-modal-his').modal('show');
     $.ajax({
@@ -407,8 +404,10 @@ function showTheWarnModal(obj) {//关闭节点时先提检查节点上的任务�
     strs = stringingret.split("&");
     var nodeId = strs[0];
     var amount = strs[1];
-    var index = strs[2];
-    var operate=strs[3];//关闭和和开启
+    var index = strs[2]-1;//yao'z
+    //var operate=strs[3];//关闭和和开启
+    var operate=$("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(12)").find("a:eq(0)").text();//直接从按钮上取，不从id里取
+
     if(operate=="关闭"){//我要关闭节点啦！！
         alert("我要关闭节点啦！！");
         $("#spanForActiveTask").text(amount);//显示正在执行的任务数
@@ -426,12 +425,9 @@ function showTheWarnModal(obj) {//关闭节点时先提检查节点上的任务�
 
         $("#table-modal-ReActiveNode").modal('show');
     }
-    //if(strs[0].split("=")[0]=="username")
 }
 function StartTheNode(){//开启关闭中的节点，只能单个开启
     var index=$("#hiddenforStartIndex").val();
-    index=index-1;
-
     var nodeIds=$("#hiddenforStartOneNode").val();
     $.ajax({
         type: "POST",
@@ -445,7 +441,7 @@ function StartTheNode(){//开启关闭中的节点，只能单个开启
                 $("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(6)").text("空闲");
                 $("table#datatableForNode tbody").find("tr:eq("+index+")").find("td:eq(12)").find("a:eq(0)").text("关闭");
 
-                var modifyid=$("#hiddenforStartOperateButton").val();
+                var modifyid=$("#hiddenforStartOperateButton").val();//存的是id
                 //$("#"+modifyid+"").text("关闭");
             }else{
                 alert("服务器发生了不可言状的错误！找王阿星都不好使");
@@ -455,8 +451,6 @@ function StartTheNode(){//开启关闭中的节点，只能单个开启
 }
 function closeTheNode(){//节点列表页面关闭某个节点，只能单个关闭
     var index=$("#hiddenforCloseIndex").val();
-    index=index-1;
-
     var nodeIds=$("#hiddenforCloseOneNode").val();
     $.ajax({
         type: "POST",
@@ -505,11 +499,8 @@ function showTheTimeInfo(obj){//删除节点时首先获取当前时间该用户
             $('#idForUsernameWhenDeleteNodes').val(username);
         }
     });
-
 }
 function changeToTaskView(nodeid){//用户点击”正在执行的任务“时显示任务列表
-    //alert("!!");
-    //alert(nodeid);
     var nodeidAndStatus=JSON.stringify({nodeId:nodeid,status:"1"});
     $.ajax({
         type: "POST",
@@ -545,8 +536,6 @@ function showThreeChartsWhenViewTask(){
     $("#threeCharts").css("display","block");
 }
 jQuery(document).ready(function() {	//首先渲染
-
-//alert($("#datatableForNode_filter").innerHTML);
     if (url.indexOf("?") != -1) {//链接中有值
         var str = url.substr(1);
         strs = str.split("&");
@@ -579,7 +568,7 @@ jQuery(document).ready(function() {	//首先渲染
                             "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
                             "<td class=\"center\">"+data.data[i].type+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                            "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                            "<td class=\"center\">"+data.data[i].userName+"</td>"+
                             "<td class=\"center hidden-xs\"id=\""+data.data[i].nodeId+"\">"+nodeStatus+"</td>"+
                             "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                             "<td class=\"center\"><a href=\"#table-modal-his\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
@@ -619,8 +608,6 @@ jQuery(document).ready(function() {	//首先渲染
                     }else{
                         nodeStatus="空闲";
                     }
-                    //stringarray[0]=data.data[i].nodeId;
-                    //stringarray[1]=data.data[i].historyTaskAmount;
                     var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog+"&"+textforOperateButton;
                     var stringfortr ="<tr class=\"gradeX\">"+
                         "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
@@ -628,7 +615,7 @@ jQuery(document).ready(function() {	//首先渲染
                         "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
                         "<td class=\"center\">"+data.data[i].type+"</td>"+
                         "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                        "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                        "<td class=\"center\">"+data.data[i].userName+"</td>"+
                         "<td class=\"center\" id=\""+data.data[i].nodeId+"\">"+nodeStatus+"</td>"+
                         "<td class=\"hidden-xs\"><a onclick=\"changeToTaskView("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                         "<td class=\"center\"><a onclick='showtheHisTask("+data.data[i].nodeId+")'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
@@ -670,26 +657,25 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
-    $("#sureForDeleteOneNode").click(function () {//点击关闭此节点，根据nodeId
-        //alert("!!#");
-        index=index-1;
-        var index=$("#hiddenforIndex").val();
-        var nodeIds=$("#hiddenforDeleteOneNode").val();
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/api/node/closeNode",//接口名字
-            dataType: "json",
-            data:{nodeId:nodeIds},
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {//删除成功node/closeNode
-                alert("删除成功了！");
-                console.log(data.data);
-                $('#wangyunodeAmount').text(data.data);//给节点数减1
-                $("table#datatableForNode tbody").find("tr:eq("+index+")").remove();
-
-            }
-        });
-    });
+    //$("#sureForDeleteOneNode").click(function () {//点击关闭此节点，根据nodeId
+    //    index=index-1;
+    //    var index=$("#hiddenforIndex").val();
+    //    var nodeIds=$("#hiddenforDeleteOneNode").val();
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "http://localhost:8080/api/node/closeNode",//接口名字
+    //        dataType: "json",
+    //        data:{nodeId:nodeIds},
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function (data) {//删除成功node/closeNode
+    //            alert("删除成功了！");
+    //            console.log(data.data);
+    //            $('#wangyunodeAmount').text(data.data);//给节点数减1
+    //            $("table#datatableForNode tbody").find("tr:eq("+index+")").remove();
+    //
+    //        }
+    //    });
+    //});
     $('#datatableForNode tbody').on('click', 'tr input[name="checkList"]', function () {//选中行及行的个数
         var $tr = $(this).parents('tr');
         //var nodeId=$(this).parents("tr").find("td:eq(3)")[0].find("a:eq(0)").text();//获取将要删除的行中的节点ID,.find("a:eq(0)").text()
@@ -708,39 +694,4 @@ jQuery(document).ready(function() {	//首先渲染
         //    $('#delNodeBut_id').attr("disabled", true);
         //}
     });
-    $("#ToolTables_datatableForNode_0").on("click", function (e) {//点击删除按钮时，删除选中的行
-        // table.row('.selected').remove().draw(false);
-        alert("我要删除节点了！");
-        var nodeIds="";
-        var indexfordelete=new Array();
-        $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
-            n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
-            var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
-            nodeIds=nodeIds+nodeId+",";//以，分割
-            indexfordelete.push(n);
-            //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
-        });
-        var dataforUserDeleteNode= JSON.stringify({
-            username:$('#idForUsernameWhenDeleteNodes').val(),
-            nodeIds:nodeIds
-        });
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/api/user/deleteNode",//接口名字
-            dataType: "json",
-            data:dataforUserDeleteNode,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {//删除成功
-                alert("删除成功了！");
-                var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
-                index=index-1;
-                $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
-                //if(data.data<=2){
-                //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
-                //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
-                //}
-            }
-        });
-    });
-
 });
