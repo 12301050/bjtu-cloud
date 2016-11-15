@@ -150,7 +150,7 @@ function change_en(){//变为英文
                         dataType: "json",
                         data:{nodeIds:nodeIds},
                         success: function (data) {//删除成功
-                            if(data.data==0){
+                            if(data.data==1){
                                 alert("删除成功了！");
                                 $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
                                     var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
@@ -277,7 +277,7 @@ function change_ch(){//变为中文
                         data:{nodeIds:nodeIds},
 
                         success: function (data) {//删除成功
-                            if (data.data == 0) {
+                            if (data.data == 1) {
                                 alert("删除成功了！");
                                 $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
                                     var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
