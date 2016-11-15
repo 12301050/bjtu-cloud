@@ -146,19 +146,22 @@ function change_en(){//变为英文
                     });
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/api/user/deleteNode",//接口名字
+                        url: "http://localhost:8080/api/node/deleteNodeByNodeIds",//接口名字
                         dataType: "json",
-                        data:dataforUserDeleteNode,
-                        contentType: "application/json; charset=utf-8",
+                        data:{nodeIds:nodeIds},
                         success: function (data) {//删除成功
-                            alert("删除成功了！");
-                            $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
-                                var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
-                                //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
-                                //nodeIds=nodeIds+nodeId+",";//以，分割
-                                //indexfordelete.push(n);
-                                $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
-                            });
+                            if(data.data==0){
+                                alert("删除成功了！");
+                                $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                                    var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                                    //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+                                    //nodeIds=nodeIds+nodeId+",";//以，分割
+                                    //indexfordelete.push(n);
+                                    $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                                });
+                            }else{
+                                alert("服务器不知道出现了什么鬼，这是王文博手机号2222222！");
+                            }
                         }
                     });
                 }
@@ -269,21 +272,25 @@ function change_ch(){//变为中文
                     });
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/api/user/deleteNode",//接口名字
+                        url: "http://localhost:8080/api/node/deleteNodeByNodeIds",//接口名字
                         dataType: "json",
-                        data:dataforUserDeleteNode,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {//删除成功
-                            alert("删除成功了！");
-                            $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
-                                var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
-                                //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
-                                //nodeIds=nodeIds+nodeId+",";//以，分割
-                                //indexfordelete.push(n);
-                                $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
-                            });
+                        data:{nodeIds:nodeIds},
 
+                        success: function (data) {//删除成功
+                            if (data.data == 0) {
+                                alert("删除成功了！");
+                                $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                                    var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                                    //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+                                    //nodeIds=nodeIds+nodeId+",";//以，分割
+                                    //indexfordelete.push(n);
+                                    $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                                });
+                            } else {
+                                alert("服务器不知道出现了什么鬼，这是王文博手机号2222222！");
+                            }
                         }
+
                     });
                 }
             },"copy",  "csv", "pdf" ],

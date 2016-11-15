@@ -87,7 +87,7 @@ public class NodeController {
   }
 
   //通过节点列表删除节点
-  @RequestMapping(value = "api/node/deleteNodeByNodeIds", method = RequestMethod.GET)
+  @RequestMapping(value = "api/node/deleteNodeByNodeIds", method = RequestMethod.POST)
   public RestResult<Integer> deleteNodeByNodeIds(String nodeIds) {
     try{
       Integer flag = nodeService.deleteNodeByNodeIds(nodeIds);
