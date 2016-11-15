@@ -157,7 +157,7 @@ public class TaskServiceImpl implements TaskService{
   public TaskInfo createTask(String nodeId, String hostPath, Integer type, Integer mode,
                              Integer times, String startTime, String operatorName) throws Exception {
     String[] fileNames = hostPath.split("/");
-    String fileName = fileNames[fileNames.length];
+    String fileName = fileNames[fileNames.length-1];
 
     //根据模式创建任务
     if (mode == 0) {
@@ -174,7 +174,9 @@ public class TaskServiceImpl implements TaskService{
           taskInfo.setHostPath(hostPath);
           taskInfo.setNodePath(nodePath);
           taskInfo.setStatus(0);
+          taskInfo.setType(type);
           taskInfo.setMode(mode);
+          taskInfo.setExecTimes(times);
           taskInfo.setTimes(times);
           taskInfo.setStartTime(df1.parse(df1.format(new Date())));
 
@@ -208,7 +210,9 @@ public class TaskServiceImpl implements TaskService{
         taskInfo.setHostPath(hostPath);
         taskInfo.setNodePath(nodePath);
         taskInfo.setStatus(-1);
+        taskInfo.setType(type);
         taskInfo.setMode(mode);
+        taskInfo.setExecTimes(0);
         taskInfo.setTimes(times);
         taskInfo.setStartTime(df1.parse(df1.format(new Date())));
 

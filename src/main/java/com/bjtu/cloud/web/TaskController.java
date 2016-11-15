@@ -82,7 +82,7 @@ public class TaskController {
   }
 
   //创建任务
-  @RequestMapping(value = "api/task/create", method = RequestMethod.GET)
+  @RequestMapping(value = "api/task/create", method = RequestMethod.POST)
   public RestResult<TaskInfo> create(String nodeId, String hostPath, Integer type,
                                      Integer mode, Integer times, String startTime, HttpSession session) {
     try {
