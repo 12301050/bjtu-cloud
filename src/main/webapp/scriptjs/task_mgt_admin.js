@@ -132,14 +132,14 @@ function change_en(){//变为英文
                 "sButtonText": "删除" ,
                 "fnClick": function (nButton, oConfig, oFlash) {
                     //delete stuff comes here
-                    alert('我要删除节点了');
+                    //alert('我要删除节点了');
                     var nodeIds="";
                     var indexfordelete=new Array();
                     $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
-                        n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                        //n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
                         var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
                         nodeIds=nodeIds+nodeId+",";//以，分割
-                        indexfordelete.push(n);
+                        //indexfordelete.push(n);
                         //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
                     });
                     var dataforUserDeleteNode= JSON.stringify({
@@ -154,13 +154,13 @@ function change_en(){//变为英文
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {//删除成功
                             alert("删除成功了！");
-                            var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
-                            index=index-1;
-                            $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
-                            //if(data.data<=2){
-                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
-                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
-                            //}
+                            $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                                var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                                //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+                                //nodeIds=nodeIds+nodeId+",";//以，分割
+                                //indexfordelete.push(n);
+                                $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                            });
                         }
                     });
                 }
@@ -255,14 +255,14 @@ function change_ch(){//变为中文
                 //"id":"deletebutton",
                 "fnClick": function (nButton, oConfig, oFlash) {
                     //delete stuff comes here
-                    alert('我要删除节点了');
+                    //alert('我要删除节点了');
                     var nodeIds="";
                     var indexfordelete=new Array();
                     $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
-                        n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                        //n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
                         var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
                         nodeIds=nodeIds+nodeId+",";//以，分割
-                        indexfordelete.push(n);
+                        //indexfordelete.push(n);
                         //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
                     });
                     var dataforUserDeleteNode= JSON.stringify({
@@ -277,13 +277,14 @@ function change_ch(){//变为中文
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {//删除成功
                             alert("删除成功了！");
-                            var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
-                            index=index-1;
-                            $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
-                            //if(data.data<=2){
-                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
-                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
-                            //}
+                            $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                                var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                                //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+                                //nodeIds=nodeIds+nodeId+",";//以，分割
+                                //indexfordelete.push(n);
+                                $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                            });
+
                         }
                     });
                 }
