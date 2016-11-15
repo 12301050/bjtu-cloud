@@ -130,7 +130,40 @@ function change_en(){//变为英文
             aButtons: [ {
                 "sExtends": "select",
                 "sButtonText": "删除" ,
-                //"id":"deletebutton",
+                "fnClick": function (nButton, oConfig, oFlash) {
+                    //delete stuff comes here
+                    alert('我要删除节点了');
+                    var nodeIds="";
+                    var indexfordelete=new Array();
+                    $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                        n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                        var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+                        nodeIds=nodeIds+nodeId+",";//以，分割
+                        indexfordelete.push(n);
+                        //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
+                    });
+                    var dataforUserDeleteNode= JSON.stringify({
+                        username:$('#idForUsernameWhenDeleteNodes').val(),
+                        nodeIds:nodeIds
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:8080/api/user/deleteNode",//接口名字
+                        dataType: "json",
+                        data:dataforUserDeleteNode,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {//删除成功
+                            alert("删除成功了！");
+                            var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
+                            index=index-1;
+                            $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
+                            //if(data.data<=2){
+                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
+                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
+                            //}
+                        }
+                    });
+                }
             },"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         }
@@ -220,6 +253,40 @@ function change_ch(){//变为中文
                 "sExtends": "select",
                 "sButtonText": "删除" ,
                 //"id":"deletebutton",
+                "fnClick": function (nButton, oConfig, oFlash) {
+                    //delete stuff comes here
+                    alert('我要删除节点了');
+                    var nodeIds="";
+                    var indexfordelete=new Array();
+                    $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                        n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                        var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+                        nodeIds=nodeIds+nodeId+",";//以，分割
+                        indexfordelete.push(n);
+                        //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
+                    });
+                    var dataforUserDeleteNode= JSON.stringify({
+                        username:$('#idForUsernameWhenDeleteNodes').val(),
+                        nodeIds:nodeIds
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:8080/api/user/deleteNode",//接口名字
+                        dataType: "json",
+                        data:dataforUserDeleteNode,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {//删除成功
+                            alert("删除成功了！");
+                            var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
+                            index=index-1;
+                            $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
+                            //if(data.data<=2){
+                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
+                            //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
+                            //}
+                        }
+                    });
+                }
             },"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
@@ -622,4 +689,57 @@ jQuery(document).ready(function() {	//首先渲染
             }
         });
     });
+    $('#datatableForNode tbody').on('click', 'tr input[name="checkList"]', function () {//选中行及行的个数
+        var $tr = $(this).parents('tr');
+        //var nodeId=$(this).parents("tr").find("td:eq(3)")[0].find("a:eq(0)").text();//获取将要删除的行中的节点ID,.find("a:eq(0)").text()
+        var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
+        index=index-1;
+        //var limitAmount=$("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text();//用于限制用户即将删除的节点的个数
+        //alert("这是限制数！！"+limitAmount);
+        $tr.toggleClass('selected');
+        var $tmp = $('[name=checkList]:checkbox');
+        $('#checkAll').prop('checked', $tmp.length == $tmp.filter(':checked').length);
+        //alert($tmp.filter(':checked').length);
+        //$('#delNodeBut_id').attr("disabled", false);
+        //if(limitAmount-$tmp.filter(':checked').length<2){
+        //    alert("至少得留俩吧大兄弟！！");
+        //    //$tr.toggleClass('selected');
+        //    $('#delNodeBut_id').attr("disabled", true);
+        //}
+    });
+    $("#ToolTables_datatableForNode_0").on("click", function (e) {//点击删除按钮时，删除选中的行
+        // table.row('.selected').remove().draw(false);
+        alert("我要删除节点了！");
+        var nodeIds="";
+        var indexfordelete=new Array();
+        $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+            n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+            var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
+            nodeIds=nodeIds+nodeId+",";//以，分割
+            indexfordelete.push(n);
+            //$("table#datatableForDeleteNode tbody").find("tr:eq(" + n + ")").remove();
+        });
+        var dataforUserDeleteNode= JSON.stringify({
+            username:$('#idForUsernameWhenDeleteNodes').val(),
+            nodeIds:nodeIds
+        });
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/user/deleteNode",//接口名字
+            dataType: "json",
+            data:dataforUserDeleteNode,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {//删除成功
+                alert("删除成功了！");
+                var index=$("#idForIndexWhenDeleteNodes").val();//取出待修改的id
+                index=index-1;
+                $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(3)").find("a:eq(0)").text(data.data);
+                //if(data.data<=2){
+                //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").css("color","color: #999999;");
+                //    $("table#datatable2 tbody").find("tr:eq("+index+")").find("td:eq(4)").find("i:eq(1)").removeAttr("onclick");
+                //}
+            }
+        });
+    });
+
 });
