@@ -107,14 +107,18 @@ public class UserServiceImpl implements UserService{
 //          return null;
 //        }
       }
-      String[] nodeIdByUser = userInfo.getNodeIds().split(",");
-      String[] newNodeId = arrContrast(nodeIdByUser,nodeId);
-      String newNodeIds = converToString(newNodeId);
-      userInfo.setUserName(userInfo.getUserName());
-      userInfo.setNodeAmount(newNodeId.length);
-      userInfo.setNodeIds(newNodeIds);
-      userInfoMapper.updateDeleteNodeIds(userInfo);
-      return userInfo;
+      if(userInfo.getNodeIds() == null || userInfo.getNodeIds().isEmpty()){
+        return userInfo;
+      }else{
+        String[] nodeIdByUser = userInfo.getNodeIds().split(",");
+        String[] newNodeId = arrContrast(nodeIdByUser,nodeId);
+        String newNodeIds = converToString(newNodeId);
+        userInfo.setUserName(userInfo.getUserName());
+        userInfo.setNodeAmount(newNodeId.length);
+        userInfo.setNodeIds(newNodeIds);
+        userInfoMapper.updateDeleteNodeIds(userInfo);
+        return userInfo;
+      }
     }catch (Exception e){
       e.printStackTrace();
       return null;
