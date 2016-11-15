@@ -102,7 +102,7 @@ public class NodeController {
   @RequestMapping(value = "api/node/getTaskByNode", method = RequestMethod.POST)
   public RestResult<List<TaskInfo>> getTaskByNode(@RequestBody Map<String,String> map) {
     try{
-      List<TaskInfo> taskInfos = taskService.getTaskByNode("00"+map.get("nodeId"), Integer.valueOf(map.get("status")));
+      List<TaskInfo> taskInfos = taskService.getTaskByNode(map.get("nodeId"), Integer.valueOf(map.get("status")));
       return  RestResult.succ().data(taskInfos).build();
 
     }catch (Exception e){
