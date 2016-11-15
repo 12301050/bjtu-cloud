@@ -1,11 +1,14 @@
 package com.bjtu.cloud.web;
 
 import com.bjtu.cloud.common.entity.NodeRecord;
+import com.bjtu.cloud.common.entity.UserInfo;
+import com.bjtu.cloud.common.webDao.NodeInfoResult;
 import com.bjtu.cloud.common.webDao.RestResult;
 import com.bjtu.cloud.common.entity.NodeInfo;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.gate.NodeService;
 import com.bjtu.cloud.gate.TaskService;
+import com.bjtu.cloud.gate.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +32,42 @@ public class NodeController {
   @Autowired
   private TaskService taskService;
 
+  @Autowired
+  private UserService userService;
+
   //获取所有用户信息
   @RequestMapping(value = "api/node/getAllNode", method = RequestMethod.GET)
-  public RestResult<List<NodeInfo>> getAll() {
+  public RestResult<List<NodeInfoResult>> getAll() {
     try {
       List<NodeInfo> nodeInfos = nodeService.getAll();
-      return RestResult.succ().data(nodeInfos).build();
+      List<NodeInfoResult> nodeInfoResults = new ArrayList<NodeInfoResult>();
+      List<UserInfo> userInfos = userService.getAll();
+
+      for (int i = 0; i < nodeInfos.size(); i++) {
+        NodeInfoResult nodeInfoResult = new NodeInfoResult();
+        nodeInfoResult.setId(nodeInfos.get(i).getId());
+        nodeInfoResult.setNodeName(nodeInfos.get(i).getNodeName());
+        nodeInfoResult.setNodeId(nodeInfos.get(i).getNodeId());
+        nodeInfoResult.setStatus(nodeInfos.get(i).getStatus());
+        nodeInfoResult.setType(nodeInfos.get(i).getType());
+        nodeInfoResult.setTaskAmount(nodeInfos.get(i).getTaskAmount());
+        nodeInfoResult.setHistoryTaskAmount(nodeInfos.get(i).getHistoryTaskAmount());
+        nodeInfoResult.setCpu(nodeInfos.get(i).getCpu());
+        nodeInfoResult.setMemory(nodeInfos.get(i).getMemory());
+        nodeInfoResult.setNetSpeed(nodeInfos.get(i).getNetSpeed());
+
+        String nodeId = nodeInfos.get(i).getNodeId();
+
+        for (int j = 0; j < userInfos.size(); j++) {
+          String nodeIds = userInfos.get(j).getNodeIds();
+          if (nodeIds.contains(nodeId)){
+            nodeInfoResult.setUserName(userInfos.get(j).getUserName());
+            nodeInfoResults.add(nodeInfoResult);
+            break;
+          }
+        }
+      }
+      return RestResult.succ().data(nodeInfoResults).build();
     } catch (Exception e) {
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();
