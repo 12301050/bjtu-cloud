@@ -215,10 +215,17 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                     starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
                     endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
                     var runtime=endtime-starttime;
+                    var day = parseInt(runtime/(1000*60*60*24)); //获取相差多少天
+                    runtime=runtime -day*(1000*60*60*24);
+                    var H = parseInt(runtime/(1000*60*60));
+                    runtime=runtime-H*(1000*60*60);
+                    var M =parseInt(runtime/(1000*60));
+                    runtime=runtime-M*(1000*60);
+                    var S = parseInt(runtime/(1000));
                     stringfortr=stringfortr+
                         "<tr class=\"gradeX\">"+
                         "<td>"+"执行时间"+"</td>"+
-                        "<td>"+runtime+"</td>"+
+                        "<td>"+day+" Day "+H+" Hours "+M+" Minutes "+S+" second "+"</td>"+
                         "</tr>"
                 }
                 if(data.data[i].mode){ //判断任务模式
@@ -261,6 +268,59 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
             AutoCheckLang();
         }
     });
+}
+
+
+function creatTask(){ //新建任务
+    if(checkRequiredField()){
+        alert("创建成功");
+        location.reload();
+    }
+}
+function checkRequiredField(){  //必填项控制
+    var taskName=$("#inputTaskName").val();
+    $("#inputTaskName").css("border-color","#cccccc");
+    $("#chooseTime").css("border-color","#cccccc");
+    $("#timeForTaskStart").css("border-color","#cccccc");
+    $("#hour").css("border-color","#cccccc");
+    $("#Minute").css("border-color","#cccccc");
+    $("#inputTwiatter").css("border-color","#cccccc");
+    if(taskName==""){
+        $("#inputTaskName").css("border-color","red");
+        return false;
+    }
+    var nodeName=$("#chooseNode").val();
+    var taskMode=$("#tasktype").val();
+    if(taskMode=="定时任务"){
+       var chooseTime=$("#chooseTime").val();
+        alert(chooseTime);
+        if(chooseTime==""){
+            $("#chooseTime").css("border-color","red");
+            return false;
+        }
+       var timeForTaskStart=$("#timeForTaskStart").val();
+        alert(timeForTaskStart);
+        if(timeForTaskStart==""){
+            $("#timeForTaskStart").css("border-color","red");
+            return false;
+        }
+       var hour=$("#hour").val();
+        if(hour==""){
+            $("#hour").css("border-color","red");
+            return false;
+        }
+       var Minute=$("#Minute").val();
+        if(Minute==""){
+            $("#Minute").css("border-color","red");
+            return false;
+        }
+        var times=$("#inputTwiatter").val();
+        if(times==""){
+            $("#inputTwiatter").css("border-color","red");
+            return false;
+        }
+    }
+    return true;
 }
 
 jQuery(document).ready(function() {	//首先渲染
@@ -322,4 +382,12 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
+    
+    // $("#create_button").click(function () {
+    //    // alert("dssd");
+    //     if(checkRequiredField()){
+    //         alert("嘿嘿嘿");
+    //     }
+    //     else alert("输入啦啦啦");
+    // });
 });

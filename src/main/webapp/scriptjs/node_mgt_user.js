@@ -190,6 +190,8 @@ function change_ch(){//变为中文
 }
     function getTaskByNode(nodeid){//获取正在执行的任务
         var nodeidAndStatus=JSON.stringify({nodeId:nodeid,status:"1"});
+        // var button=(localStorage.lang==1)?"查看":"check";
+        var button="查看";
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/api/node/getTaskByNode",//接口名字，根据状态和节点id获取任务列表
@@ -205,7 +207,7 @@ function change_ch(){//变为中文
                         "<td>"+idforlog+"</td>"+
                         "<td>"+data.data[i].taskName+"</td>"+
                         "<td class=\"hidden-xs\">"+mode+"</td>"+
-                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                        "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">"+button+"</a></td>"+
                         "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                         "+</tr>";
                     stringfortrlist = stringfortrlist + stringfortr;
@@ -249,10 +251,17 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                     starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
                     endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
                     var runtime=endtime-starttime;
+                    var day = parseInt(runtime/(1000*60*60*24)); //获取相差多少天
+                    runtime=runtime -day*(1000*60*60*24);
+                    var H = parseInt(runtime/(1000*60*60));
+                    runtime=runtime-H*(1000*60*60);
+                    var M =parseInt(runtime/(1000*60));
+                    runtime=runtime-M*(1000*60);
+                    var S = parseInt(runtime/(1000));
                     stringfortr=stringfortr+
                         "<tr class=\"gradeX\">"+
                         "<td>"+"执行时间"+"</td>"+
-                        "<td>"+runtime+"</td>"+
+                        "<td>"+day+" Day "+H+" Hours "+M+" Minutes "+S+" second "+"</td>"+
                         "</tr>"
                 }
                 if(data.data[i].mode){ //判断任务模式
@@ -341,11 +350,13 @@ jQuery(document).ready(function() {	//首先渲染
                 localStorage.lang=2;
                 localStorage.langclose=2;
                 change_en();
+                // location.reload();
             }
             else if(localStorage.lang==2){
                 localStorage.lang=1;
                 localStorage.langclose=1;
                 change_ch();
+                // location.reload();
             }
         }
         else{

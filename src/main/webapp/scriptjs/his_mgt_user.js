@@ -191,10 +191,17 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                     starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
                     endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
                     var runtime=endtime-starttime;
+                    var day = parseInt(runtime/(1000*60*60*24)); //获取相差多少天
+                    runtime=runtime -day*(1000*60*60*24);
+                    var H = parseInt(runtime/(1000*60*60));
+                    runtime=runtime-H*(1000*60*60);
+                    var M =parseInt(runtime/(1000*60));
+                    runtime=runtime-M*(1000*60);
+                    var S = parseInt(runtime/(1000));
                     stringfortr=stringfortr+
                         "<tr class=\"gradeX\">"+
                         "<td>"+"执行时间"+"</td>"+
-                        "<td>"+runtime+"</td>"+
+                        "<td>"+day+" Day "+H+" Hours "+M+" Minutes "+S+" second "+"</td>"+
                         "</tr>"
                 }
                 if(data.data[i].mode){ //判断任务模式
