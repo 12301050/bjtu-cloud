@@ -118,7 +118,7 @@ public class NodeServiceImpl implements NodeService {
           NodeInfo nodeInfo = new NodeInfo();
           nodeInfo.setNodeName(nodeId);
           nodeInfo.setNodeId(nodeId);
-          nodeInfo.setStatus(0);
+          nodeInfo.setStatus(1);
           nodeInfo.setType(type);
           nodeInfo.setTaskAmount(0);
           nodeInfo.setHistoryTaskAmount(0);
