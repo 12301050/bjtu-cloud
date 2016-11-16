@@ -217,7 +217,7 @@ function showTheNodeLog(obj){
                 var idforlog=i+1;
                 var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
 
-                var stringfortr ="<tr class=\"gradeA\"><td>"+ data.data[i].operateTime+"</td><td>"+ data.data[i].operateName+"</td> <td>"+data.data[i].nodeId+"</td> </tr>";
+                var stringfortr ="<tr class=\"gradeA\"><td class=\"center\">"+ data.data[i].operateTime+"</td><td class=\"center\">"+ data.data[i].operateName+"</td> <td class=\"center\">"+data.data[i].nodeId+"</td> </tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
 
@@ -248,7 +248,7 @@ function showTheTaskLog(obj){
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
-                var stringfortr ="<tr class=\"gradeA\"><td>"+ data.data[i].operateTime+"</td><td>"+ data.data[i].operateName+"</td> <td>"+data.data[i].nodeId+"</td> </tr>";
+                var stringfortr ="<tr class=\"gradeA\"><td class=\"center\">"+ data.data[i].operateTime+"</td><td class=\"center\">"+ data.data[i].operateName+"</td> <td class=\"center\">"+data.data[i].nodeId+"</td> </tr>";
 
                 stringfortrlist = stringfortrlist + stringfortr;
             }
@@ -295,8 +295,8 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
             //var max = (data.data[i].status==1)?"开启":"关闭";
             //console.log(max);
             var stringfortr="<tr class=\"gradeX\">"+
-                "<td>"+idforlog+"</td>"+
-                "<td>"+shortdatearray[i]+"</td>"+
+                "<td class=\"center\">"+idforlog+"</td>"+
+                "<td class=\"center\">"+shortdatearray[i]+"</td>"+
                 "<td class=\"center\"><a onclick='showTheTaskLog(this)' id='"+shortdatearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                 "<td class=\"center\"><a onclick='showTheNodeLog(this)' id='"+shortdatearray[i]+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                 "</tr>";
@@ -327,7 +327,7 @@ function changeTimeForEnd(){//当用户同时选择开始和结束时间后方�
 
         var startTime = getDate(startdate);
         var endTime = getDate(enddate);//当前时间
-        countTheShortDate();//改变全局变量，然后构造日期表格
+        countTheShortDate(startTime,endTime);//改变全局变量，然后构造日期表格
         var stringfortrlist = "";
         for(var i=shortdatearray.length-1;i>=0;i--){
             var idforlog=shortdatearray.length-i;//逻辑编号
@@ -356,8 +356,8 @@ jQuery(document).ready(function() {	//首先渲染
         //var max = (data.data[i].status==1)?"开启":"关闭";
         //console.log(max);
         var stringfortr="<tr class=\"gradeX\">"+
-            "<td>"+idforlog+"</td>"+
-            "<td>"+datearray[i]+"</td>"+
+            "<td class=\"center\">"+idforlog+"</td>"+
+            "<td class=\"center\">"+datearray[i]+"</td>"+
             "<td class=\"center\"><a onclick='showTheTaskLog(this)' id='"+datearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
             "<td class=\"center\"><a onclick='showTheNodeLog(this)' id='"+datearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
             "</tr>";
