@@ -306,7 +306,7 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
         $("#datatableForLog").dataTable().fnDestroy();
         $('#tbodyfordatatableLog').html(stringfortrlistforshort);
         AutoCheckLang();
-        alert("开始调用后台");
+        // alert("开始调用后台");
     }
 }
 function changeTimeForEnd(){//当用户同时选择开始和结束时间后方可向后台请求数据
@@ -321,31 +321,36 @@ function changeTimeForEnd(){//当用户同时选择开始和结束时间后方�
         var enddate = $('#timeForEnd').val().replace("/","-");
         enddate = enddate.replace("/","-");
         enddate = enddate.replace("/","-");//双过滤
+        var strsend = enddate.split("-");
+        var year = strsend[2];
+        enddate=year+"-"+strsend[0]+"-"+strsend[1];
         var startdate = $('#timeForStart').val().replace("/","-");
         var startdate = startdate.replace("/","-");
         startdate = startdate.replace("/","-");//双过滤
+        var strsstart = startdate.split("-");
+        year = strsstart[2];
+        startdate=year+"-"+strsstart[0]+"-"+strsstart[1];
 
         var startTime = getDate(startdate);
         var endTime = getDate(enddate);//当前时间
         countTheShortDate(startTime,endTime);//改变全局变量，然后构造日期表格
-        var stringfortrlist = "";
+        var stringfortrlistforshort = "";
         for(var i=shortdatearray.length-1;i>=0;i--){
             var idforlog=shortdatearray.length-i;//逻辑编号
             //var max = (data.data[i].status==1)?"开启":"关闭";
             //console.log(max);
             var stringfortr="<tr class=\"gradeX\">"+
-                "<td>"+idforlog+"</td>"+
-                "<td>"+shortdatearray[i]+"</td>"+
-                "<td class=\"center\"><a href=\"#table-modal-showlog\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
-                "<td class=\"center\"><a href=\"#table-modal-showlog\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                "<td class=\"center\">"+idforlog+"</td>"+
+                "<td class=\"center\">"+shortdatearray[i]+"</td>"+
+                "<td class=\"center\"><a onclick='showTheTaskLog(this)' id='"+shortdatearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                "<td class=\"center\"><a onclick='showTheNodeLog(this)' id='"+shortdatearray[i]+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                 "</tr>";
-            stringfortrlist = stringfortrlist + stringfortr;
+            stringfortrlistforshort = stringfortrlistforshort + stringfortr;
 
         }
         $("#datatableForLog").dataTable().fnDestroy();
-        $('#tbodyfordatatableLog').html(stringfortrlist);
+        $('#tbodyfordatatableLog').html(stringfortrlistforshort);
         AutoCheckLang();
-        alert("开始调用后台");
     }
 }
 jQuery(document).ready(function() {	//首先渲染
