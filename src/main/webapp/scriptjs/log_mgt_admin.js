@@ -144,7 +144,7 @@ function change_ch(){//变为中文
     $("#Sure_id").html("确定");
     $("#date_id").html("日期");
     $("#details_id").html("详情");
-    $("#datatableForLog").dataTable().fnDestroy();
+    //$("#datatableForLog").dataTable().fnDestroy();
     //$("#datatableforloglist").dataTable().fnDestroy();
     //$("#datatableForTask").dataTable().fnDestroy();
     var table=$('#datatableForLog').dataTable({
@@ -224,7 +224,7 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
         countTheShortDate(startTime,endTime);//改变全局变量，然后构造日期表格
         var stringfortrlistforshort = "";
         for(var i=shortdatearray.length-1;i>=0;i--){
-            var idforlog=datearray.length-i;//逻辑编号
+            var idforlog=shortdatearray.length-i;//逻辑编号
             //var max = (data.data[i].status==1)?"开启":"关闭";
             //console.log(max);
             var stringfortr="<tr class=\"gradeX\">"+
@@ -236,7 +236,7 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
             stringfortrlistforshort = stringfortrlistforshort + stringfortr;
 
         }
-        //$("#datatableForLog").dataTable().fnDestroy();
+        $("#datatableForLog").dataTable().fnDestroy();
         $('#tbodyfordatatableLog').html(stringfortrlistforshort);
         AutoCheckLang();
         alert("开始调用后台");
@@ -258,7 +258,7 @@ function changeTimeForEnd(){//当用户同时选择开始和结束时间后方�
         countTheShortDate();//改变全局变量，然后构造日期表格
         var stringfortrlist = "";
         for(var i=shortdatearray.length-1;i>=0;i--){
-            var idforlog=datearray.length-i;//逻辑编号
+            var idforlog=shortdatearray.length-i;//逻辑编号
             //var max = (data.data[i].status==1)?"开启":"关闭";
             //console.log(max);
             var stringfortr="<tr class=\"gradeX\">"+
@@ -270,7 +270,7 @@ function changeTimeForEnd(){//当用户同时选择开始和结束时间后方�
             stringfortrlist = stringfortrlist + stringfortr;
 
         }
-        //$("#datatableForLog").dataTable().fnDestroy();
+        $("#datatableForLog").dataTable().fnDestroy();
         $('#tbodyfordatatableLog').html(stringfortrlist);
         AutoCheckLang();
         alert("开始调用后台");
