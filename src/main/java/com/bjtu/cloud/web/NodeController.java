@@ -172,7 +172,7 @@ public class NodeController {
   }
 
   //按照日期查询所有节点日志
-  @RequestMapping(value = "api/log/getNodeRecordByDate", method = RequestMethod.GET)
+  @RequestMapping(value = "api/log/getNodeRecordByDate", method = RequestMethod.POST)
   public RestResult<List<NodeRecord>> getNodeRecordByDate(String operateTime) {
     try {
       List<NodeRecord> nodeRecords = nodeService.getNodeRecordByDate(operateTime);

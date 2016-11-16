@@ -293,23 +293,17 @@
 										<h4 class="modal-title" id="log_text">XXX日志</h4>
 									</div>
 									<div class="modal-body" style="margin-left: 2%;margin-right: 2%;">
-
 										<table id="datatableforloglist" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
 											<thead>
+											<tr>
+												<th id="operate_time">操作时间</th>
+												<th id="operate_people">操作人</th>
+												<th class="center" id="node_id">节点id</th>
+												<!--<th class="center" id="node_log_id">查看节点日志</th>-->
+											</tr>
 											</thead>
-											<tbody>
-											<tr class="gradeA">
-												<td> 00:01:12</td>
-												<td>user12_node3_startTask_taskName1</td>
-											</tr>
-											<tr class="gradeA">
-												<td> 2</td>
-												<td>Opera 8.5</td>
-											</tr>
-											<tr class="gradeA">
-												<td> 3</td>
-												<td>Opera 9.0</td>
-											</tr>
+											<tbody id="tbodyforloglist">
+
 											</tbody>
 										</table>
 									</div>

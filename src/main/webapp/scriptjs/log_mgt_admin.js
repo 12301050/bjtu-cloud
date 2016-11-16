@@ -91,8 +91,8 @@ function change_en(){//变为英文
     $("#date_id").html("date");
     $("#details_id").html("details");
     $("#datatableForLog").dataTable().fnDestroy();
-    //$("#datatableforloglist").dataTable().fnDestroy();
-    //  $("#datatableForTask").dataTable().fnDestroy();
+    $("#datatableforloglist").dataTable().fnDestroy();
+    //$("#datatableForTask").dataTable().fnDestroy();
 
     var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
@@ -105,17 +105,17 @@ function change_en(){//变为英文
         }
 
     });
-    //$('#datatableforloglist').dataTable({
-    //    "sPaginationType": "bs_full",
-    //    "sPaginate": false,
-    //    sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-    //    select:true,
-    //    oTableTools: {
-    //        aButtons: [ "copy",  "csv", "pdf" ],
-    //        sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-    //    }
-    //
-    //});
+    $('#datatableforloglist').dataTable({
+        "sPaginationType": "bs_full",
+        "sPaginate": false,
+        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        select:true,
+        oTableTools: {
+            aButtons: [ "copy",  "csv", "pdf" ],
+            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        }
+
+    });
 //    $('#datatableForTask').dataTable({
 //        "sPaginationType": "bs_full",
 //        "sPaginate": false,
@@ -144,9 +144,9 @@ function change_ch(){//变为中文
     $("#Sure_id").html("确定");
     $("#date_id").html("日期");
     $("#details_id").html("详情");
-    //$("#datatableForLog").dataTable().fnDestroy();
+    $("#datatableForLog").dataTable().fnDestroy();
+    $("#datatableforloglist").dataTable().fnDestroy();
     //$("#datatableforloglist").dataTable().fnDestroy();
-    //$("#datatableForTask").dataTable().fnDestroy();
     var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -173,39 +173,106 @@ function change_ch(){//变为中文
         }
 
     });
-    //$('#datatableforloglist').dataTable({
-    //    "sPaginationType": "bs_full",
-    //    "sPaginate": false,
-    //    sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-    //    select:true,
-    //    oTableTools: {
-    //        aButtons: [ "copy",  "csv", "pdf" ],
-    //        sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-    //    },
-    //    "oLanguage": {//国际语言转化
-    //        "sLengthMenu": "显示 _MENU_ 记录",
-    //        "sZeroRecords": "对不起，查询不到任何相关数据",
-    //        "sEmptyTable": "未有相关数据",
-    //        "sLoadingRecords": "正在加载数据-请等待...",
-    //        "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
-    //        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-    //        "sInfoEmpty":"当前显示 0 到 0 条，共 0 条记录。",
-    //        "oPaginate": {
-    //            "sFirst": "首页",
-    //            "sPrevious": "上页",
-    //            "sNext": "下页",
-    //            "sLast": "末页"
-    //        }
-    //    }
-    //
-    //});
+    $('#datatableforloglist').dataTable({
+        "sPaginationType": "bs_full",
+        "sPaginate": false,
+        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
+        select:true,
+        oTableTools: {
+            aButtons: [ "copy",  "csv", "pdf" ],
+            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        },
+        "oLanguage": {//国际语言转化
+            "sLengthMenu": "显示 _MENU_ 记录",
+            "sZeroRecords": "对不起，查询不到任何相关数据",
+            "sEmptyTable": "未有相关数据",
+            "sLoadingRecords": "正在加载数据-请等待...",
+            "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录。",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoEmpty":"当前显示 0 到 0 条，共 0 条记录。",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页"
+            }
+        }
+
+    });
 
     App.setPage("index");
 }
+function showTheNodeLog(obj){
+    var operateTime=obj.id;
+    $('#table-modal-showlog').modal('show');
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/log/getNodeRecordByDate",//接口名字，获取节点log信息
+        dataType: "json",
+        data:{operateTime:operateTime},
+        //contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog=i+1;
+                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+
+                var stringfortr ="<tr class=\"gradeA\"><td>"+ data.data[i].operateTime+"</td><td>"+ data.data[i].operateName+"</td> <td>"+data.data[i].nodeId+"</td> </tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+
+
+            $("#datatableforloglist").dataTable().fnDestroy();
+
+            $('#tbodyforloglist').html(stringfortrlist);
+            AutoCheckLang();
+            //$("#datatableForNode").dataTable().fnDestroy();
+            //$("#datatableForTask").dataTable().fnDestroy();
+            //$('#tbodyforHisTask').html(stringfortrlist);
+            //AutoCheckLang();
+            $("#datatableforloglist").css("width","100%");
+        }
+    });
+}
+function showTheTaskLog(obj){
+    var selectDate=obj.id;
+    $('#table-modal-showlog').modal('show');
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/log/getTaskRecordByDate",//接口名字，获取任务log信息
+        dataType: "json",
+        data:operateTime=selectDate,
+        //contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog=i+1;
+                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+                var stringfortr ="<tr class=\"gradeA\"><td>"+ data.data[i].operateTime+"</td><td>"+ data.data[i].operateName+"</td> <td>"+data.data[i].nodeId+"</td> </tr>";
+
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $("#datatableforloglist").dataTable().fnDestroy();
+
+            $('#tbodyforloglist').html(stringfortrlist);
+            AutoCheckLang();
+            //$("#datatableForNode").dataTable().fnDestroy();
+            //$("#datatableForTask").dataTable().fnDestroy();
+            //$('#tbodyforHisTask').html(stringfortrlist);
+            //AutoCheckLang();
+            $("#datatableforloglist").css("width","100%");
+        }
+    });
+}
 function changeTimeForStart(){//当用户同时选择开始和结束时间后方可向后台请求数据
     if($('#timeForEnd').val()!=""){
-        alert($('#timeForEnd').val());
-        alert($('#timeForStart').val());
+        //alert($('#timeForEnd').val());
+        //alert($('#timeForStart').val());
+        if($('#timeForEnd').val()<$('#timeForStart').val()){
+            alert("您选择的开始时间大于结束时间，请重新选择！");
+            $('#timeForStart').val("");
+            return false;
+        }
         var enddate = $('#timeForEnd').val().replace("/","-");
         enddate = enddate.replace("/","-");
         enddate = enddate.replace("/","-");//双过滤
@@ -230,8 +297,8 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
             var stringfortr="<tr class=\"gradeX\">"+
                 "<td>"+idforlog+"</td>"+
                 "<td>"+shortdatearray[i]+"</td>"+
-                "<td class=\"center\"><a href=\"#table-modal-showlog\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
-                "<td class=\"center\"><a href=\"#table-modal-showlog\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                "<td class=\"center\"><a onclick='showTheTaskLog(this)' id='"+shortdatearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                "<td class=\"center\"><a onclick='showTheNodeLog(this)' id='"+shortdatearray[i]+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                 "</tr>";
             stringfortrlistforshort = stringfortrlistforshort + stringfortr;
 
@@ -244,8 +311,13 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
 }
 function changeTimeForEnd(){//当用户同时选择开始和结束时间后方可向后台请求数据
     if($('#timeForStart').val()!=""){
-        alert($('#timeForEnd').val());
-        alert($('#timeForStart').val());
+        //alert($('#timeForEnd').val());
+        //alert($('#timeForStart').val());
+        if($('#timeForEnd').val()<$('#timeForStart').val()){
+            alert("您选择的结束时间小于开始时间，请重新选择！");
+            $('#timeForStart').val("");
+            return false;
+        }
         var enddate = $('#timeForEnd').val().replace("/","-");
         enddate = enddate.replace("/","-");
         enddate = enddate.replace("/","-");//双过滤
@@ -286,8 +358,8 @@ jQuery(document).ready(function() {	//首先渲染
         var stringfortr="<tr class=\"gradeX\">"+
             "<td>"+idforlog+"</td>"+
             "<td>"+datearray[i]+"</td>"+
-            "<td class=\"center\"><a href=\"#table-modal-showlog\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
-            "<td class=\"center\"><a href=\"#table-modal-showlog\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+            "<td class=\"center\"><a onclick='showTheTaskLog(this)' id='"+datearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+            "<td class=\"center\"><a onclick='showTheNodeLog(this)' id='"+datearray[i]+"'  class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
             "</tr>";
         stringfortrlist = stringfortrlist + stringfortr;
 
