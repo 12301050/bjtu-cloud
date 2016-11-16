@@ -247,7 +247,20 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
 }
 
 jQuery(document).ready(function() {	//首先渲染
-    var username = "wangdanai";
+    var username = "";
+    $.ajax({   //获取服务器的session,获取当前用户名
+        type:"GET",
+        url:"api/user/session",
+        async: false,
+        data:"",
+        timeout: 1000,
+        error: function(){
+            alert('sorry, server is busy now!');
+        },
+        success:function(data){
+            username=data;
+        }
+    });
     var status = 2;
     $.ajax({
         type: "POST",

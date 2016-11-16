@@ -1,5 +1,4 @@
 package com.bjtu.cloud.web;
-
 import com.alibaba.fastjson.JSON;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.webDao.RestResult;
@@ -55,6 +54,14 @@ public class UserController {
     } catch (Exception e) {
       return null;
     }
+  }
+
+  //返回用户session
+  @RequestMapping(value = "api/user/session", method = RequestMethod.GET)
+  public String justsession(HttpServletRequest request) {
+    HttpSession session=request.getSession();
+    String username=(String) session.getAttribute("userName");
+    return username;
   }
 
   //用户登出

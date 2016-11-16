@@ -347,7 +347,20 @@ function checkRequiredField(){  //必填项控制
     return true;
 }
 function showNodeByUser(){ //动态显示下拉框
-    var username = "wangdanai";
+    var username = "";
+    $.ajax({   //获取服务器的session,获取当前用户名
+        type:"GET",
+        url:"api/user/session",
+        async: false,
+        data:"",
+        timeout: 1000,
+        error: function(){
+            alert('sorry, server is busy now!');
+        },
+        success:function(data){
+            username=data;
+        }
+    });
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
@@ -372,7 +385,21 @@ function showNodeByUser(){ //动态显示下拉框
     });
 }
 jQuery(document).ready(function() {	//首先渲染
-    var username = "wangdanai";
+    var username = "";
+    $.ajax({   //获取服务器的session,获取当前用户名
+        type:"GET",
+        url:"api/user/session",
+        async: false,
+        data:"",
+        timeout: 1000,
+        error: function(){
+            alert('sorry, server is busy now!');
+        },
+        success:function(data){
+            username=data;
+        }
+    });
+
     var status = 1;
     $.ajax({
         type: "POST",
