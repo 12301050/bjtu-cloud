@@ -197,25 +197,28 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
             var stringfortrlist = "";
             var starttimeText="开始时间";
             var endtimeText="结束时间";
+            var mydate = new Date();
+
             for (var i = 0; i < data.data.length; i++) {
                 var starttime=data.data[i].startTime;
-                var endtime=data.data[i].endTime;
-                if(endtime==null){
-                    endtime="运行中";
-                }
+                var nowtime= getnowtime(); //获取当前时间
+                // if(endtime==null){
+                //     endtime="运行中";
+                // }
+
                 var stringfortr ="<tr class=\"gradeX\">"+
                         "<td>"+starttimeText+"</td>"+
                         "<td>"+starttime+"</td>"+
-                        "</tr>"+
-                        "<tr class=\"gradeX\">"+
-                        "<td>"+endtimeText+"</td>"+
-                        "<td>"+endtime+"</td>"+
                         "</tr>"
+                        // +
+                        // "<tr class=\"gradeX\">"+
+                        // "<td>"+endtimeText+"</td>"+
+                        // "<td>"+endtime+"</td>"+
+                        // "</tr>"
                     ;
-                if(endtime!=null){
                     starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
-                    endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
-                    var runtime=endtime-starttime;
+                    nowtime = new Date(Date.parse(nowtime.replace(/-/g,   "/"))).getTime();
+                    var runtime=nowtime-starttime;
                     var day = parseInt(runtime/(1000*60*60*24)); //获取相差多少天
                     runtime=runtime -day*(1000*60*60*24);
                     var H = parseInt(runtime/(1000*60*60));
@@ -227,8 +230,7 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                         "<tr class=\"gradeX\">"+
                         "<td>"+"执行时间"+"</td>"+
                         "<td>"+day+" Day "+H+" Hours "+M+" Minutes "+S+" second "+"</td>"+
-                        "</tr>"
-                }
+                        "</tr>";
                 if(data.data[i].mode){ //判断任务模式
                     var timemode="";
                     switch (data.data[i].mode){
@@ -254,12 +256,8 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                         "<td>"+timemode+"</td>"+
                         "</tr>"+
                         "<tr class=\"gradeX\">"+
-                        "<td>"+"任务执行次数"+"</td>"+
-                        "<td>"+data.data[i].times+"</td>"+
-                        "</tr>"+
-                        "<tr class=\"gradeX\">"+
-                        "<td>"+"已执行次数"+"</td>"+
-                        "<td>"+data.data[i].execTimes+"</td>"+
+                        "<td>"+"执行次数"+"</td>"+
+                        "<td>"+data.data[i].execTimes+"/"+data.data[i].times+"</td>"+
                         "</tr>"
                     ;
                 }
@@ -469,3 +467,19 @@ jQuery(document).ready(function() {	//首先渲染
     //     else alert("输入啦啦啦");
     // });
 });
+
+function getnowtime() {  //获取当前时间
+    var nowtime = new Date();
+    var year = nowtime.getFullYear();
+    var month = padleft0(nowtime.getMonth() + 1);
+    var day = padleft0(nowtime.getDate());
+    var hour = padleft0(nowtime.getHours());
+    var minute = padleft0(nowtime.getMinutes());
+    var second = padleft0(nowtime.getSeconds());
+    var millisecond = nowtime.getMilliseconds(); millisecond = millisecond.toString().length == 1 ? "00" + millisecond : millisecond.toString().length == 2 ? "0" + millisecond : millisecond;
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+}
+//补齐两位数
+function padleft0(obj) {
+    return obj.toString().replace(/^[0-9]{1}$/, "0" + obj);
+}

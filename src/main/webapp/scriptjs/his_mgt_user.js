@@ -175,9 +175,6 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
             for (var i = 0; i < data.data.length; i++) {
                 var starttime=data.data[i].startTime;
                 var endtime=data.data[i].endTime;
-                if(endtime==null){
-                    endtime="运行中";
-                }
                 var stringfortr ="<tr class=\"gradeX\">"+
                         "<td>"+starttimeText+"</td>"+
                         "<td>"+starttime+"</td>"+
@@ -187,7 +184,6 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                         "<td>"+endtime+"</td>"+
                         "</tr>"
                     ;
-                if(endtime!=null){
                     starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
                     endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
                     var runtime=endtime-starttime;
@@ -203,7 +199,7 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                         "<td>"+"执行时间"+"</td>"+
                         "<td>"+day+" Day "+H+" Hours "+M+" Minutes "+S+" second "+"</td>"+
                         "</tr>"
-                }
+
                 if(data.data[i].mode){ //判断任务模式
                     var timemode="";
                     switch (data.data[i].mode){
