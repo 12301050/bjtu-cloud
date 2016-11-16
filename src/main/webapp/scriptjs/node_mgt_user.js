@@ -188,7 +188,8 @@ function change_ch(){//变为中文
 
     App.setPage("index");
 }
-function getTaskByNode(nodeid){//获取正在执行的任务
+function getTaskByNode(obj){//获取正在执行的任务
+    var nodeid=obj.id;
         var nodeidAndStatus=JSON.stringify({nodeId:nodeid,status:1});
         // var button=(localStorage.lang==1)?"查看":"check";
         var button="查看";
@@ -280,10 +281,9 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                         "</tr>"+
                         "<tr class=\"gradeX\">"+
                         "<td>"+"执行次数"+"</td>"+
-                        "<td>"+data.data[i].execTimes+"/"+"data.data[i].times"+"</td>"+
+                        "<td>"+data.data[i].execTimes+"/"+data.data[i].times+"</td>"+
                         "</tr>"
                     ;
-                    alert(stringfortr);
                 }
                 stringfortrlist = stringfortrlist + stringfortr;
             }
@@ -326,10 +326,11 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center\">"+nodetype+"</td>"+
                     "<td class=\"center hidden-xs\">"+nodestatus+"</td>"+
-                    "<td class=\"center hidden-xs\"><a onclick=\"getTaskByNode("+data.data[i].nodeId+")\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">38%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">56%</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">28%</a></td>"+
+
+                    "<td class=\"center hidden-xs\"><a onclick='getTaskByNode(this)' id='"+data.data[i].nodeId+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
