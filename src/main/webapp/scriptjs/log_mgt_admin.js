@@ -71,10 +71,19 @@ function AutoCheckLang(){ //检查缓存中之前所设置的语言
     else{
         localStorage.langclose=1;
     }
-
+}
+function partAutoCheckLang(){ //检查缓存中之前所设置的语言，只改变loglist表格
+    if(localStorage.langclose==1){
+        partchange_ch();
+    }
+    else if(localStorage.langclose==2){
+        partchange_en();
+    }
+    else{
+        localStorage.langclose=1;
+    }
 }
 function change_en(){//变为英文
-
     $("#Dashboard_h3").html("LOG MANAGEMENT");
     $("#Skins_id").html("skins");
     $("#langli").html("language");
@@ -91,9 +100,6 @@ function change_en(){//变为英文
     $("#date_id").html("date");
     $("#details_id").html("details");
     $("#datatableForLog").dataTable().fnDestroy();
-    $("#datatableforloglist").dataTable().fnDestroy();
-    //$("#datatableForTask").dataTable().fnDestroy();
-
     var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -105,6 +111,25 @@ function change_en(){//变为英文
         }
 
     });
+    App.setPage("index");  //Set current page
+}
+function partchange_en(){//变为英文，只改变loglist表格
+    $("#Dashboard_h3").html("LOG MANAGEMENT");
+    $("#Skins_id").html("skins");
+    $("#langli").html("language");
+    $("#logout_id").html("log out");
+    $("#CPCEP_id").html("log list");
+    $("#user_mangid").html("USER MANAGEMENT");
+    $("#task_mangid").html("TASK MANAGEMENT");
+    $("#log_mangid").html("LOG MANAGEMENT");
+    $("#home_id").html("Home");
+    $("#number_id").html("number");
+    $("#log_text").html("log list");
+    $("#Sure_id").html("Sure");
+    // $("#delCancel_id").html("Cancel");
+    $("#date_id").html("date");
+    $("#details_id").html("details");
+    $("#datatableforloglist").dataTable().fnDestroy();
     $('#datatableforloglist').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -114,19 +139,7 @@ function change_en(){//变为英文
             aButtons: [ "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         }
-
     });
-//    $('#datatableForTask').dataTable({
-//        "sPaginationType": "bs_full",
-//        "sPaginate": false,
-//        sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
-//        select:true,
-//        oTableTools: {
-//            aButtons: [ "copy",  "csv", "pdf" ],
-//            sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
-//        }
-//
-//    });
     App.setPage("index");  //Set current page
 }
 function change_ch(){//变为中文
@@ -173,6 +186,24 @@ function change_ch(){//变为中文
         }
 
     });
+    App.setPage("index");
+}
+function partchange_ch(){//变为中文，只改变loglist表格
+    $("#Dashboard_h3").html("日志管理");
+    $("#Skins_id").html("皮肤");
+    $("#logout_id").html("注销");
+    $("#langli").html("更换语言");
+    $("#CPCEP_id").html("日志列表");
+    $("#user_mangid").html("用户管理");
+    $("#task_mangid").html("任务管理");
+    $("#log_mangid").html("日志管理");
+    $("#home_id").html("主页");
+    $("#number_id").html("编号");
+    $("#log_text").html("日志列表");
+    $("#Sure_id").html("确定");
+    $("#date_id").html("日期");
+    $("#details_id").html("详情");
+    $("#datatableforloglist").dataTable().fnDestroy();
     $('#datatableforloglist').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -199,7 +230,6 @@ function change_ch(){//变为中文
         }
 
     });
-
     App.setPage("index");
 }
 function showTheNodeLog(obj){
@@ -225,7 +255,7 @@ function showTheNodeLog(obj){
             $("#datatableforloglist").dataTable().fnDestroy();
 
             $('#tbodyforloglist').html(stringfortrlist);
-            AutoCheckLang();
+            partAutoCheckLang();
             //$("#datatableForNode").dataTable().fnDestroy();
             //$("#datatableForTask").dataTable().fnDestroy();
             //$('#tbodyforHisTask').html(stringfortrlist);
@@ -255,7 +285,7 @@ function showTheTaskLog(obj){
             $("#datatableforloglist").dataTable().fnDestroy();
 
             $('#tbodyforloglist').html(stringfortrlist);
-            AutoCheckLang();
+            partAutoCheckLang();
             //$("#datatableForNode").dataTable().fnDestroy();
             //$("#datatableForTask").dataTable().fnDestroy();
             //$('#tbodyforHisTask').html(stringfortrlist);
@@ -426,5 +456,4 @@ jQuery(document).ready(function() {	//首先渲染
     //        AutoCheckLang();
     //    }
     //});
-
 });
