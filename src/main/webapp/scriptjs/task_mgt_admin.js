@@ -371,12 +371,13 @@ function change_ch(){//变为中文
 
     App.setPage("index");
 }
-function showtheHisTask(id){//展示历史任务
-    var nodeidAndStatus=JSON.stringify({nodeId:id,status:"2"});
+function showtheHisTask(obj){//展示历史任务
+    var nodeidAndStatus=JSON.stringify({nodeId:obj.id,status:"2"});
     $('#table-modal-his').modal('show');
+   // var nodeid=obj.id;
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/node/getTaskByNode",//接口名字
+        url: "http://localhost:8080/api/node/getTaskByNode",//接口名字，根据状态和节点id获取任务列表
         dataType: "json",
         data:nodeidAndStatus,
         contentType: "application/json; charset=utf-8",
@@ -384,25 +385,24 @@ function showtheHisTask(id){//展示历史任务
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
-                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";//0是即时任务，其余往上推
-
-                var stringfortr ="<td>"+idforlog+"</td>"+
+                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+                var starttime=data.data[i].startTime;
+                var detailMode=data.data[i].mode;//0是即时任务，其他往上推
+                var times=data.data[i].times;
+                var executimes=data.data[i].execTimes;
+                var endtime=data.data[i].endTime;
+                var fortasktimeDetails=data.data[i].startTime+"&"+endtime+"&"+detailMode+"&"+times+"/"+executimes;
+                var stringfortr ="<tr class=\"gradeX\">"+
+                    "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
-                    "<td>"+mode+"</td>"+
-                    "<td class='center hidden-xs'><a href='#table-modal-showtime' data-toggle='modal' class='btn btn-info' style='font-size:4px;padding:0px 8px;'>查看</a></td>";
+                    "<td class=\"hidden-xs\">"+mode+"</td>"+
+                    "<td class=\"center hidden-xs\"><a onclick=\"showTheHisTimeInfo(this)\" id='"+fortasktimeDetails+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "+</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-
-
-            $("#datatableForTask").dataTable().fnDestroy();
-
+            $("#datatableForHisTask").dataTable().fnDestroy();
             $('#tbodyforHisTask').html(stringfortrlist);
             AutoCheckLang();
-            //$("#datatableForNode").dataTable().fnDestroy();
-            //$("#datatableForTask").dataTable().fnDestroy();
-            //$('#tbodyforHisTask').html(stringfortrlist);
-            //AutoCheckLang();
-            //$("#datatableForTask").css("width","100%");
         }
     });
 }
@@ -501,6 +501,35 @@ function showTheTimeInfo(obj){//查看时间信息
         if(realmode=="5")
             timemode="按年";
         var stringfortr = "<tr class=\"gradeA\"><td> 开始时间:</td><td>" + startTime + "</td></tr><tr><td>执行时间:</td><td>" + persistTime + "</td></tr><tr><td>定时模式:</td><td>" + timemode + "</td></tr><tr><td>执行次数:</td><td>" + times + "</td> </tr>";
+    }
+    $('#tbodyForDetailTime').html(stringfortr);
+//$('#idForUsernameWhenDeleteNodes').val(username);
+}
+function showTheHisTimeInfo(obj){//查看时间信息
+    var detailTime=obj.id;
+    $("#table-modal-showTaskSchedual").modal("show");
+    console.log(obj.id);
+    var strs=detailTime.split("&");
+    var startTime=strs[0];
+    var endTime=strs[1];
+    var realmode=strs[2];
+    var times=strs[3];
+
+    if(realmode==0) {//即时任务
+        var stringfortr = "<tr class=\"gradeA\"><td> 开始时间:</td><td>" + startTime + "</td></tr><tr><td>结束时间:</td><td>" + endTime + "</td> </tr>";
+    }else{
+        var timemode;
+        if(realmode=="1")
+            timemode="按时";
+        if(realmode=="2")
+            timemode="按天";
+        if(realmode=="3")
+            timemode="按周";
+        if(realmode=="4")
+            timemode="按月";
+        if(realmode=="5")
+            timemode="按年";
+        var stringfortr = "<tr class=\"gradeA\"><td> 开始时间:</td><td>" + startTime + "</td></tr><tr><td>结束时间:</td><td>" + endTime + "</td></tr><tr><td>定时模式:</td><td>" + timemode + "</td></tr><tr><td>执行次数:</td><td>" + times + "</td> </tr>";
     }
     $('#tbodyForDetailTime').html(stringfortr);
 //$('#idForUsernameWhenDeleteNodes').val(username);
