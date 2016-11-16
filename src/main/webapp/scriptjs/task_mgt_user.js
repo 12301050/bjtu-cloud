@@ -145,12 +145,12 @@ function change_ch(){//变为中文
                 "sButtonText": "删除" ,
                 //"id":"deletebutton",
             }
-            // ,{
-            //     "sExtends": "select",
-            //     "sButtonText": "创建" ,
-            //     //"id":"deletebutton",
-            // }
-            ,"copy",  "csv", "pdf" ],
+                // ,{
+                //     "sExtends": "select",
+                //     "sButtonText": "创建" ,
+                //     //"id":"deletebutton",
+                // }
+                ,"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -281,13 +281,13 @@ function creatTask(){ //新建任务
 
 function chooseNode(){ //新建任务
     //var nodename=$("#nodename").val();
-   // var objname=document.getElementById("nodename").value;
-   // alert(objname);
+    // var objname=document.getElementById("nodename").value;
+    // alert(objname);
     var objindex=document.getElementById("nodename").selectedIndex;
     document.getElementById("chooseNodeId").selectedIndex=objindex;
     // alert(objindex);
-     var objid=document.getElementById("chooseNodeId").options[objindex].value;
-     // alert(objid);
+    var objid=document.getElementById("chooseNodeId").options[objindex].value;
+    // alert(objid);
 
 
 }
@@ -311,24 +311,24 @@ function checkRequiredField(){  //必填项控制
 
     var taskMode=$("#tasktype").val();
     if(taskMode=="1"){
-       var chooseTime=$("#chooseTime").val();
+        var chooseTime=$("#chooseTime").val();
         alert(chooseTime);
         if(chooseTime==""){
             $("#chooseTime").css("border-color","red");
             return false;
         }
-       var timeForTaskStart=$("#timeForTaskStart").val();
+        var timeForTaskStart=$("#timeForTaskStart").val();
         alert(timeForTaskStart);
         if(timeForTaskStart==""){
             $("#timeForTaskStart").css("border-color","red");
             return false;
         }
-       var hour=$("#hour").val();
+        var hour=$("#hour").val();
         if(hour==""){
             $("#hour").css("border-color","red");
             return false;
         }
-       var Minute=$("#Minute").val();
+        var Minute=$("#Minute").val();
         if(Minute==""){
             $("#Minute").css("border-color","red");
             return false;
@@ -427,7 +427,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-              $("#datatableTaskUser").dataTable().fnDestroy();
+            $("#datatableTaskUser").dataTable().fnDestroy();
 
             $('#datatableForTaskUser').html(stringfortrlist);
             AutoCheckLang();
@@ -460,7 +460,7 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
-    
+
     // $("#create_button").click(function () {
     //    // alert("dssd");
     //     if(checkRequiredField()){

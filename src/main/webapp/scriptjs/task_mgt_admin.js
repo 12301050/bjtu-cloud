@@ -384,7 +384,7 @@ function showtheHisTask(id){//展示历史任务
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
-                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";//0是即时任务，其余往上推
 
                 var stringfortr ="<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
@@ -477,35 +477,33 @@ function closeTheNode(){//节点列表页面关闭某个节点，只能单个关
         }
     });
 }
-function showTheTimeInfo(obj){//删除节点时首先获取当前时间该用户名下的所有节点信息
-    var username=obj.id;
-    console.log(obj.text);
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/api/node/getNodeByUser",//接口名字
-        dataType: "json",
-        //contentType: "application/json; charset=utf-8",
-        data:{username:username},
-        success: function (data) {
-            console.log(data.data);
-            var stringfortrlist = "";
-            for(var i=0;i<data.data.length;i++){
-                var idforlog=i+1;//逻辑编号
-                var max = (data.data[i].status==1)?"开启":"关闭";
-                console.log(max);
-                var stringfortr="<tr class=\"gradeA\">"+
-                    "<td style=\"text-align:center;\"><input type=\"checkbox\" name=\"checkList\"></td>"+
-                    "<td>"+idforlog+"</td>"+
-                    "<td class=\"hidden-xs\">"+data.data[i].nodeId+"</td>"+
-                    "<td >"+data.data[i].nodeName+"</td>"+
-                    "<td >"+max+"</td>"+
-                    "</tr>";
-                stringfortrlist = stringfortrlist + stringfortr;
-            }
-            $('#showNodeListWhenDeleteNode').html(stringfortrlist);
-            $('#idForUsernameWhenDeleteNodes').val(username);
-        }
-    });
+function showTheTimeInfo(obj){//查看时间信息
+    var detailTime=obj.id;
+    $("#table-modal-showTaskSchedual").modal("show");
+    console.log(obj.id);
+    var strs=detailTime.split("&");
+    var startTime=strs[0];
+    var persistTime=strs[1];
+    var realmode=strs[2];
+    var times=strs[3];
+    if(realmode==0) {//即时任务
+        var stringfortr = "<tr class=\"gradeA\"><td> 开始时间:</td><td>" + startTime + "</td></tr><tr><td>执行时间:</td><td>" + persistTime + "</td> </tr>";
+    }else{
+        var timemode;
+        if(realmode=="1")
+            timemode="按时";
+        if(realmode=="2")
+            timemode="按天";
+        if(realmode=="3")
+            timemode="按周";
+        if(realmode=="4")
+            timemode="按月";
+        if(realmode=="5")
+            timemode="按年";
+        var stringfortr = "<tr class=\"gradeA\"><td> 开始时间:</td><td>" + startTime + "</td></tr><tr><td>执行时间:</td><td>" + persistTime + "</td></tr><tr><td>定时模式:</td><td>" + timemode + "</td></tr><tr><td>执行次数:</td><td>" + times + "</td> </tr>";
+    }
+    $('#tbodyForDetailTime').html(stringfortr);
+//$('#idForUsernameWhenDeleteNodes').val(username);
 }
 function changeToTaskView(obj){//用户点击”正在执行的任务“时显示任务列表
     var nodeid=obj.id;
@@ -521,12 +519,45 @@ function changeToTaskView(obj){//用户点击”正在执行的任务“时显�
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+                var starttime=data.data[i].startTime;
+                var detailMode=data.data[i].mode;//0是即时任务，其他往上推
+                var times=data.data[i].times;
+                var executimes=data.data[i].execTimes;
+
+                var nowtime=new Date();
+
+
+                var seperator1="/";
+                var seperator2=":";
+                var year=nowtime.getFullYear();
+                var month=nowtime.getMonth()+1;
+                var strDate=nowtime.getDate();
+                if(month>=1&&month<=9){
+                    month="0"+month;
+                }
+                if(strDate>=0&&strDate<=9){
+                    strDate="0"+strDate;
+                }
+                var currenttime=year+seperator1+month+seperator1+strDate+" "+nowtime.getHours()+seperator2+nowtime.getMinutes()+seperator2+nowtime.getSeconds();
+                starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
+                // endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
+                var runtime=new Date(currenttime).getTime()-starttime;
+                var day = parseInt(runtime/(1000*60*60*24)); //获取相差多少天
+                runtime=runtime -day*(1000*60*60*24);
+                var H = parseInt(runtime/(1000*60*60));
+                runtime=runtime-H*(1000*60*60);
+                var M =parseInt(runtime/(1000*60));
+                runtime=runtime-M*(1000*60);
+                var S = parseInt(runtime/(1000));
+                var persistentTime=day+"天"+H+"时"+M+"分"+S+"秒";//这是执行时间
+
+                var fortasktimeDetails=data.data[i].startTime+"&"+persistentTime+"&"+detailMode+"&"+times+"/"+executimes;
 
                 var stringfortr ="<tr class=\"gradeX\">"+
                     "<td>"+idforlog+"</td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"hidden-xs\">"+mode+"</td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTheTimeInfo("+data.data[i].taskName+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td class=\"center hidden-xs\"><a onclick=\"showTheTimeInfo(this)\" id='"+fortasktimeDetails+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "+</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
