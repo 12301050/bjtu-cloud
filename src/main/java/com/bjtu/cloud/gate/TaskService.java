@@ -15,8 +15,11 @@ public interface TaskService {
   //查询某个节点的某个任务的时间信息
   List<TaskInfo> queryTimeInfo(Integer taskId) throws Exception;
 
+  //修改任务名
+  Integer rename(Integer id, String taskName) throws Exception;
+
   //创建任务
-  TaskInfo createTask(String nodeId, String hostPath, Integer type,
+  TaskInfo createTask(String nodeId, String hostPath, Integer type, String taskName,
                       Integer mode, Integer times, String startTime, String operatorName) throws Exception;
 
   //查询某个任务的三个性能数值

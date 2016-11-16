@@ -98,6 +98,19 @@ public class NodeServiceImpl implements NodeService {
   }
 
   @Override
+  public Integer rename(String nodeId, String nodeName) throws Exception {
+    try {
+      NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+      nodeInfo.setNodeName(nodeName);
+      Integer result = nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+      return result;
+    }catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public String addNodeInNodeInfo(Integer type) throws Exception {
     String imageTag;
     String nodeId;

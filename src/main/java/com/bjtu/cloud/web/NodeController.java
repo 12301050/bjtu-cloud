@@ -147,6 +147,17 @@ public class NodeController {
     }
   }
 
+  //修改节点名
+  @RequestMapping(value = "api/node/rename", method = RequestMethod.POST)
+  public RestResult<Integer> rename(String nodeId, String nodeName) {
+    try {
+      Integer result = nodeService.rename(nodeId, nodeName);
+      return RestResult.succ().data(result).build();
+    }catch (Exception e){
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //查询某个节点的三个性能的数值
   @RequestMapping(value = "api/node/getPerformance", method = RequestMethod.GET)
   public RestResult<List<Float>> getPerformance(String nodeId) {
@@ -172,7 +183,7 @@ public class NodeController {
   }
 
   //按照日期查询所有节点日志
-  @RequestMapping(value = "api/log/getNodeRecordByDate", method = RequestMethod.GET)
+  @RequestMapping(value = "api/log/getNodeRecordByDate", method = RequestMethod.POST)
   public RestResult<List<NodeRecord>> getNodeRecordByDate(String operateTime) {
     try {
       List<NodeRecord> nodeRecords = nodeService.getNodeRecordByDate(operateTime);

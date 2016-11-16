@@ -1266,7 +1266,7 @@ var App = function () {
             $("input[name='checkList']:checked").each(function() { // 遍历选中的checkbox
                 n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
 
-                $("table#datatableForNode tbody").find("tr:eq("+n+")").remove();
+                $("tabledatatableforloglist#datatableForNode tbody").find("tr:eq("+n+")").remove();
             });
         });
 

@@ -154,7 +154,20 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public TaskInfo createTask(String nodeId, String hostPath, Integer type, Integer mode,
+  public Integer rename(Integer id, String taskName) throws Exception {
+    try {
+      TaskInfo taskInfo = taskInfoMapper.selectByPrimaryKey(id);
+      taskInfo.setTaskName(taskName);
+      Integer result = taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+      return result;
+    }catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public TaskInfo createTask(String nodeId, String hostPath,Integer type, String taskName,  Integer mode,
                              Integer times, String startTime, String operatorName) throws Exception {
     String[] fileNames = hostPath.split("/");
     String fileName = fileNames[fileNames.length-1];
@@ -169,7 +182,7 @@ public class TaskServiceImpl implements TaskService{
         if (pid != null) {
           TaskInfo taskInfo = new TaskInfo();
           taskInfo.setNodeId(nodeId);
-          taskInfo.setTaskName(pid);
+          taskInfo.setTaskName(taskName);
           taskInfo.setPid(Integer.parseInt(pid));
           taskInfo.setHostPath(hostPath);
           taskInfo.setNodePath(nodePath);
@@ -207,6 +220,7 @@ public class TaskServiceImpl implements TaskService{
       if (flag == true) {
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setNodeId(nodeId);
+        taskInfo.setTaskName(taskName);
         taskInfo.setHostPath(hostPath);
         taskInfo.setNodePath(nodePath);
         taskInfo.setStatus(-1);

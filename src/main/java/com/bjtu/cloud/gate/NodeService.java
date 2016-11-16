@@ -18,6 +18,9 @@ public interface NodeService {
   //开启某个节点
   Integer startNode(String nodeId, String operatorName) throws Exception;
 
+  //修改节点名
+  Integer rename(String nodeId, String nodeName) throws Exception;
+
   //获取某个用户下所有节点
   List<NodeInfo> getNodeByUser(String userName) throws Exception;
 

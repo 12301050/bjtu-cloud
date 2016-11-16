@@ -88,9 +88,21 @@ public class TaskController {
     }
   }
 
+  //修改任务名
+  @RequestMapping(value = "api/task/rename", method = RequestMethod.POST)
+  public RestResult<Integer> rename(Integer id, String taskName) {
+    try {
+      Integer result = taskService.rename(id, taskName);
+      return RestResult.succ().data(result).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //创建任务
   @RequestMapping(value = "api/task/create", method = RequestMethod.POST)
-  public RestResult<TaskInfo> create(String nodeId, Integer type,
+  public RestResult<TaskInfo> create(String nodeId, Integer type, String taskName,
                                      Integer mode, Integer times, String startTime, HttpSession session, HttpServletRequest request) throws IllegalStateException, IOException{
     try {
       String operatorName = session.getAttribute("userName").toString();
@@ -127,7 +139,7 @@ public class TaskController {
 
       }
 
-      TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, mode, times, startTime, operatorName);
+      TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, taskName, mode, times, startTime, operatorName);
       return RestResult.succ().data(taskInfo).build();
     }catch (Exception e){
       e.printStackTrace();
@@ -136,7 +148,7 @@ public class TaskController {
   }
 
   //按照日期查询所有任务日志
-  @RequestMapping(value = "api/log/getTaskRecordByDate", method = RequestMethod.GET)
+  @RequestMapping(value = "api/log/getTaskRecordByDate", method = RequestMethod.POST)
   public RestResult<List<TaskRecord>> getTaskRecordByDate(String operateTime) {
     try {
       List<TaskRecord> taskRecords = taskService.getTaskRecordByDate(operateTime);
