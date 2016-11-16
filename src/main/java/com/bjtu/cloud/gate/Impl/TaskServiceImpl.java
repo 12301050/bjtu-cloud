@@ -154,6 +154,19 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
+  public Integer rename(Integer id, String taskName) throws Exception {
+    try {
+      TaskInfo taskInfo = taskInfoMapper.selectByPrimaryKey(id);
+      taskInfo.setTaskName(taskName);
+      Integer result = taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+      return result;
+    }catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public TaskInfo createTask(String nodeId, String hostPath,Integer type, String taskName,  Integer mode,
                              Integer times, String startTime, String operatorName) throws Exception {
     String[] fileNames = hostPath.split("/");

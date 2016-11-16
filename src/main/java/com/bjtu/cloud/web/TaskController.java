@@ -88,6 +88,18 @@ public class TaskController {
     }
   }
 
+  //修改任务名
+  @RequestMapping(value = "api/task/rename", method = RequestMethod.POST)
+  public RestResult<Integer> rename(Integer id, String taskName) {
+    try {
+      Integer result = taskService.rename(id, taskName);
+      return RestResult.succ().data(result).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //创建任务
   @RequestMapping(value = "api/task/create", method = RequestMethod.POST)
   public RestResult<TaskInfo> create(String nodeId, Integer type, String taskName,
