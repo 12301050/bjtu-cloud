@@ -282,7 +282,7 @@
 											<!--<i class="fa fa-cog"></i>-->
 											<!--</a>-->
 											<!--<input type="button" href="#table-modal-new-task" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;" value="新建任务"></input>-->
-											<a href="#table-modal-new-task" data-toggle="modal" class="reload"><i class="fa fa-plus"></i></a>
+											<a href="#table-modal-new-task" data-toggle="modal" class="reload" id="create_task_button" ><i class="fa fa-plus"></i></a>
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
@@ -368,49 +368,67 @@
 														<!-- BASIC -->
 														<div class="box border no-opaque" style="margin-bottom: 0px;border: 0px;">
 															<div class="box-body big">
-																<form class="form-horizontal" role="form" action="./#" method="POST"  enctype="multipart/form-data">
+																<form class="form-horizontal" role="form" id="task_Form" action="/api/task/create" method="POST"  enctype="multipart/form-data">
 																	<div class="form-group">
 																		<label for="inputTaskName" class="col-sm-3 control-label">任务名称</label>
 																		<div class="col-sm-9">
-																			<input type="text" class="form-control" name="first_name" id="inputTaskName" placeholder="任务名称">
+																			<input type="text" class="form-control" name="task_name" id="inputTaskName" placeholder="任务名称">
 																		</div>
 																	</div>
 																	<div class="form-group">
 																		<label  class="col-sm-3 control-label">任务执行节点</label>
 																		<div class="col-sm-9">
-																			<select class='form-control' id='chooseNode' onchange='chooseNode()'>
-																				<option value='节点1'>节点1</option>
-																				<option value='节点2'>节点2</option>
-																				<option value='节点3'>节点3</option>
+																			<!--<select class='form-control' id='chooseNode' name="nodeId" onchange="chooseNode()">-->
+																			<!--</select>-->
+																			<select class='form-control' id='nodename' name="node" onchange='chooseNode()'>
+																			</select>
+																			<!--<input type="text" class="form-control" name="last_name" id="inputlastname" placeholder="Last Name">-->
+
+																		</div>
+																	</div>
+																	<div class="form-group" >
+																		<label  class="col-sm-3 control-label">任务执行节点</label>
+																		<div class="col-sm-9">
+																			<select class='form-control' id='chooseNodeId' name="nodeId">
 																			</select>
 																			<!--<input type="text" class="form-control" name="last_name" id="inputlastname" placeholder="Last Name">-->
 																		</div>
 																	</div>
 																	<div class="form-group">
-																		<label  class="col-sm-3 control-label">任务模式</label>
-																		<div class="col-sm-9">
-																			<select class='form-control' id='tasktype' onchange='showTheInputForTimerTask()'>
-																				<option value='即时任务'>即时任务</option>
-																				<option value='定时任务'>定时任务</option>
-																			</select>
-																		</div>
+																	<label  class="col-sm-3 control-label">任务类型</label>
+																	<div class="col-sm-9">
+																		<select class='form-control' id='tasktype' name="mode" onchange='showTheInputForTimerTask()'>
+																			<option value='0'>即时任务</option>
+																			<option value='1'>定时任务</option>
+																		</select>
 																	</div>
+																</div>
+																	<div class="form-group">
+																	<label  class="col-sm-3 control-label">任务模式</label>
+																	<div class="col-sm-9">
+																		<select class='form-control' id='taskfortype' name="type" onchange='showTheInputForTimerTask()'>
+																			<option value='0'>Binary</option>
+																			<option value='1'>Java</option>
+																			<option value='1'>Python</option>
+																		</select>
+																	</div>
+																</div>
 																	<div class="form-group" id="displayForTimerMode" style="display: none;">
 																		<label  class="col-sm-3 control-label">定时模式</label>
 																		<div class="col-sm-9">
-																			<select class='form-control' id='chooseTime' onchange='chooseNode()'>
-																				<option value='按时'>按时</option>
-																				<option value='按天'>按天</option>
-																				<option value='按周'>按周</option>
-																				<option value='按月'>按月</option>
-																				<option value='按年'>按年</option>
+																			<select class='form-control' id='chooseTime' name ="mode">
+																				<option value='2'>按时</option>
+																				<option value='3'>按天</option>
+																				<option value='4'>按周</option>
+																				<option value='5'>按月</option>
+																				<option value='6'>按年</option>
 																			</select>
 																		</div>
 																	</div>
 																	<div class="form-group" id="displayForTimerStartTime" style="display: none;">
 																		<label  class="col-sm-3 control-label">任务开始时间</label>
-																		<div class="col-sm-9">
-																			<input  class="form-control datepicker" id="timeForTaskStart" style="width: 45%;display: inline;"placeholder="点击选择日期" type="text" name="regular" size="10">
+																		<div class="col-sm-9" >
+																			<input  class="form-control datepicker" name="startTime" id="timeForTaskStart" style="width: 45%;display: inline;"placeholder="点击选择日期" type="text" name="regular" size="10">
 																			<select multiple id="hour" style="height: 40px;display: inline;width: 20%;margin-left: 3%;" class="form-control">
 																				<option>1</option>
 																				<option>2</option>
@@ -446,26 +464,25 @@
 																	<div class="form-group" id="displayForTimerTimes" style="display: none;">
 																		<label for="inputTwiatter" class="col-sm-3 control-label">任务执行次数</label>
 																		<div class="col-sm-9">
-																			<input type="text" class="form-control" name="twitter_handle" id="inputTwiatter" placeholder="任务执行次数">
+																			<input type="text" class="form-control" name="times" value="" id="inputTwiatter" placeholder="任务执行次数">
 																		</div>
 																	</div>
 																	<div class="form-group" >
 																		<label for="inputTwiatter" class="col-sm-3 control-label">选择任务文件</label>
 
 																		<div class="col-sm-9">
-
-																			 <span class="btn btn-success fileinput-button">
-																				 <i class="fa fa-plus"></i>
-																				<span>Add files...</span>
-																				<input type="file" name="user_pic" placeholder="选择任务文件" multiple>
-																			 </span>
+																			<input class="btn btn-success fileinput-button" type="file" name="file" value="1" multiple>
+																			<!--<span class="btn btn-success fileinput-button">-->
+																				 <!--&lt;!&ndash;<i class="fa fa-plus"></i>&ndash;&gt;-->
+																				<!--&lt;!&ndash;<span>Add files...</span>&ndash;&gt;-->
+																			 <!--</span>-->
 																		</div>
 
 																	</div>
 																	<div class="form-group">
 																		<label class="col-sm-10"></label>
 																		<div class="col-sm-2">
-																			<input type="button" class="btn btn-danger" onclick="creatTask()"  id="create_button"  value="&nbsp&nbsp创建&nbsp&nbsp"/>
+																			<input type="submit" class="btn btn-danger" onclick="creatTask()"  id="create_button"  value="&nbsp&nbsp创建&nbsp&nbsp"/>
 																		</div>
 																	</div>
 																	<!-- The table listing the files available for upload/download -->

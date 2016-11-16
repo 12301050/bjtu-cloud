@@ -175,7 +175,7 @@ function change_ch(){//变为中文
 }
 function showTheInputForTimerTask(){
     var tasktype=$("#tasktype").val();
-    if(tasktype=="定时任务"){
+    if(tasktype=="1"){
         $('#displayForTimerMode').css("display","block")
         $('#displayForTimerStartTime').css("display","block")
         $('#displayForTimerTimes').css("display","block")
@@ -185,6 +185,7 @@ function showTheInputForTimerTask(){
         $('#displayForTimerTimes').css("display","none")
     }
 }
+
 function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
     taskid = parseInt(taskId);
     $.ajax({
@@ -275,9 +276,24 @@ function creatTask(){ //新建任务
     if(checkRequiredField()){
         alert("创建成功");
         location.reload();
-    }
+        $("#task_form").submit();}
 }
+
+function chooseNode(){ //新建任务
+    //var nodename=$("#nodename").val();
+   // var objname=document.getElementById("nodename").value;
+   // alert(objname);
+    var objindex=document.getElementById("nodename").selectedIndex;
+    document.getElementById("chooseNodeId").selectedIndex=objindex;
+    // alert(objindex);
+     var objid=document.getElementById("chooseNodeId").options[objindex].value;
+     // alert(objid);
+
+
+}
+
 function checkRequiredField(){  //必填项控制
+
     var taskName=$("#inputTaskName").val();
     $("#inputTaskName").css("border-color","#cccccc");
     $("#chooseTime").css("border-color","#cccccc");
@@ -285,13 +301,16 @@ function checkRequiredField(){  //必填项控制
     $("#hour").css("border-color","#cccccc");
     $("#Minute").css("border-color","#cccccc");
     $("#inputTwiatter").css("border-color","#cccccc");
+    $("#file").css("border-color","#cccccc");
+
     if(taskName==""){
         $("#inputTaskName").css("border-color","red");
         return false;
     }
-    var nodeName=$("#chooseNode").val();
+    var nodeName=$("#nodename").val();
+
     var taskMode=$("#tasktype").val();
-    if(taskMode=="定时任务"){
+    if(taskMode=="1"){
        var chooseTime=$("#chooseTime").val();
         alert(chooseTime);
         if(chooseTime==""){
@@ -320,9 +339,38 @@ function checkRequiredField(){  //必填项控制
             return false;
         }
     }
+    var file=$("#file").val();
+    if(taskName==""){
+        $("#file").css("border-color","red");
+        return false;
+    }
     return true;
 }
+function showNodeByUser(){ //动态显示下拉框
+    var username = "wangdanai";
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
+        dataType: "json",
+        data:{"userName":username},
+        success: function (data) {
+            var stringforoplist = "";
+            var stringforhidelist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var str=data.data[i].nodeName;//+"   nodeId"+data.data[i].nodeId;
+                var stringforop="<option>"+str+"</option>";
+                var strforhide="<option>"+data.data[i].nodeId+"</option>";
+                stringforoplist = stringforoplist + stringforop;
+                stringforhidelist=stringforhidelist+strforhide;
+            }
 
+            $('#nodename').html(stringforoplist);
+            $('#chooseNodeId').html(stringforhidelist);
+
+            AutoCheckLang();
+        }
+    });
+}
 jQuery(document).ready(function() {	//首先渲染
     var username = "wangdanai";
     var status = 1;
@@ -362,6 +410,9 @@ jQuery(document).ready(function() {	//首先渲染
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 
+    $("#create_task_button").click(function(){  //填充下拉框
+        showNodeByUser();
+    });
     $("#langli").click(function(){//点击选择更换语言
         if(localStorage.lang){ //缓存 1代表中文，2代表英文
             if(localStorage.lang==1){
