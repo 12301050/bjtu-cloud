@@ -158,8 +158,6 @@ function change_ch(){//变为中文
     $("#date_id").html("日期");
     $("#details_id").html("详情");
     $("#datatableForLog").dataTable().fnDestroy();
-    $("#datatableforloglist").dataTable().fnDestroy();
-    //$("#datatableforloglist").dataTable().fnDestroy();
     var table=$('#datatableForLog').dataTable({
         "sPaginationType": "bs_full",
         "sPaginate": false,
@@ -184,7 +182,6 @@ function change_ch(){//变为中文
                 "sLast": "末页"
             }
         }
-
     });
     App.setPage("index");
 }
@@ -228,7 +225,6 @@ function partchange_ch(){//变为中文，只改变loglist表格
                 "sLast": "末页"
             }
         }
-
     });
     App.setPage("index");
 }
@@ -341,8 +337,6 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
 }
 function changeTimeForEnd(){//当用户同时选择开始和结束时间后方可向后台请求数据
     if($('#timeForStart').val()!=""){
-        //alert($('#timeForEnd').val());
-        //alert($('#timeForStart').val());
         if($('#timeForEnd').val()<$('#timeForStart').val()){
             alert("您选择的结束时间小于开始时间，请重新选择！");
             $('#timeForStart').val("");
