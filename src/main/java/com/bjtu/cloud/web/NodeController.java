@@ -176,11 +176,11 @@ public class NodeController {
   public RestResult<Float> getOnePerformance(String nodeId, Integer number) {
     try{
       //Todo 先写个随机数
-      Random rand = new Random();
-      int randNum = rand.nextInt(22)+5;
-//      Float performance = nodeService.getOnePerformance(nodeId, number);
-//      return RestResult.succ().data(performance).build();
-      return RestResult.succ().data(randNum).build();
+      //Random rand = new Random();
+      //int randNum = rand.nextInt(22)+5;
+      Float performance = nodeService.getOnePerformance(nodeId, number);
+      return RestResult.succ().data(performance).build();
+      //return RestResult.succ().data(randNum).build();
     }catch (Exception e){
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();
