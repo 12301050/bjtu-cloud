@@ -160,9 +160,7 @@ public class Cmds {
 			int i=0;
 			for(String line : outPuts){
 				if(line.contains("%Cpu(s):")){
-					i++;
-					if(i==2)
-						return Float.valueOf(line.substring(8,line.lastIndexOf(" us,")));
+					return Float.valueOf(line.substring(8,line.lastIndexOf(" us,")));
 				}
 			}
 		}
@@ -175,9 +173,9 @@ public class Cmds {
 		ArrayList<String> outPuts = executeCmds(cmds);
 		if(outPuts.size()>4){
 			for(String line : outPuts){
-				if(line.contains("KiB Mem :")){
-					memory[0]=Float.valueOf(line.substring(9,line.lastIndexOf(" total,")).trim());
-					memory[1]=Float.valueOf(line.substring(line.lastIndexOf("free,")+5,line.lastIndexOf(" used,")).trim());
+				if(line.contains("KiB Mem:")){
+					memory[0]=Float.valueOf(line.substring(8,line.lastIndexOf(" total,")).trim());
+					memory[1]=Float.valueOf(line.substring(line.lastIndexOf("total,")+6,line.lastIndexOf(" used,")).trim());
 				}
 			}
 		}
@@ -223,11 +221,11 @@ public class Cmds {
 		if(outPuts.size()>4){
 			int i=0;
 			for(String line : outPuts){
-				if(line.contains("KiB Mem :")){
-					memory[0]=Float.valueOf(line.substring(9,line.lastIndexOf(" total,")).trim());
+				if(line.contains("KiB Mem:")){
+					memory[0]=Float.valueOf(line.substring(8,line.lastIndexOf(" total,")).trim());
 				}
 				if(i==1&&line.length()>6&&line.substring(0,6).contains(pid))
-					memory[1]=Float.valueOf(line.substring(52,57).trim())*0.01f*memory[0];
+					memory[1]=Float.valueOf(line.substring(51,57).trim())*0.01f*memory[0];
 				if(line.contains("  PID USER")){
 					i++;
 				}
