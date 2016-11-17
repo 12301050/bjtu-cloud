@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -102,8 +103,9 @@ public class TaskController {
 
   //创建任务
   @RequestMapping(value = "api/task/create", method = RequestMethod.POST)
-  public RestResult<TaskInfo> create(String nodeId, Integer type, String taskName,
-                                     Integer mode, Integer times, String startTime, HttpSession session, HttpServletRequest request) throws IllegalStateException, IOException{
+  public ModelAndView create(String nodeId, Integer type, String taskName,
+                             Integer mode, Integer times, String startTime, HttpSession session, HttpServletRequest request) throws IllegalStateException, IOException{
+    ModelAndView mv = new ModelAndView();
     try {
       String operatorName = session.getAttribute("userName").toString();
       String path = "/Users/Kafukaaa/Downloads/file/" + operatorName + "/" + nodeId;
@@ -140,11 +142,11 @@ public class TaskController {
       }
 
       TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, taskName, mode, times, startTime, operatorName);
-      return RestResult.succ().data(taskInfo).build();
+      mv.setViewName("redirect:/task_mgt_user.html");
     }catch (Exception e){
       e.printStackTrace();
-      return RestResult.fail().msg(e.toString()).build();
     }
+    return  mv;
   }
 
   //按照日期查询所有任务日志
