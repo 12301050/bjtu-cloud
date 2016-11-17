@@ -477,6 +477,7 @@ function getTaskByUserName(){
     var status = 1;
     var status1 =-1;
     var stringfortrlist = "";
+    var datalength;
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/task/getTaskByUserName",//接口名字
@@ -485,6 +486,7 @@ function getTaskByUserName(){
         data:{"userName":username,"status":status},
         async: false,
         success: function (data) {
+            datalength=data.data.length;
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var status="";
@@ -516,7 +518,7 @@ function getTaskByUserName(){
         data:{"userName":username,"status":status1},
         success: function (data) {
             for (var i = 0; i < data.data.length; i++) {
-                var idforlog=i+1;
+                var idforlog=datalength+i+1;
                 var status="";
                 var taskstatus=(data.data[i].status==-1)?"等待":((data.data[i].status==1)?"运行":"结束");
                 var tasktype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
