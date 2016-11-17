@@ -368,7 +368,7 @@
 														<!-- BASIC -->
 														<div class="box border no-opaque" style="margin-bottom: 0px;border: 0px;">
 															<div class="box-body big">
-																<form class="form-horizontal" role="form" id="task_Form" action="/api/task/create" method="POST"  enctype="multipart/form-data">
+																<form class="form-horizontal" role="form" id="task_Form" action="/api/task/create" method="POST" onsubmit="return checkRequiredField()" enctype="multipart/form-data">
 																	<div class="form-group">
 																		<label for="inputTaskName" class="col-sm-3 control-label">任务名称</label>
 																		<div class="col-sm-9">
@@ -403,13 +403,10 @@
 																		</select>
 																	</div>
 																</div>
-																	<div class="form-group">
+																	<div class="form-group" style="display: none">
 																	<label  class="col-sm-3 control-label">任务模式</label>
 																	<div class="col-sm-9">
-																		<select class='form-control' id='taskfortype' name="type" onchange='showTheInputForTimerTask()'>
-																			<option value='0'>Binary</option>
-																			<option value='1'>Java</option>
-																			<option value='1'>Python</option>
+																		<select class='form-control' id='idForTaskType' name="type">
 																		</select>
 																	</div>
 																</div>
@@ -428,8 +425,8 @@
 																	<div class="form-group" id="displayForTimerStartTime" style="display: none;">
 																		<label  class="col-sm-3 control-label">任务开始时间</label>
 																		<div class="col-sm-9" >
-																			<input  class="form-control datepicker" name="startTime" id="timeForTaskStart" style="width: 45%;display: inline;"placeholder="点击选择日期" type="text" name="regular" size="10">
-																			<select multiple id="hour" style="height: 40px;display: inline;width: 20%;margin-left: 3%;" class="form-control">
+																			<input  class="form-control datepicker" name="" id="timeForTaskStart" style="width: 45%;display: inline;"placeholder="点击选择日期" type="text" name="regular" size="10" onchange="setStartTime()">
+																			<select multiple id="hour" value=""style="height: 40px;display: inline;width: 20%;margin-left: 3%;" class="form-control" onchange="setStartTime()">
 																				<option>1</option>
 																				<option>2</option>
 																				<option>3</option>
@@ -456,8 +453,9 @@
 																				<option>24</option>
 																			</select>
 																			<label>时</label>
-																			<input class="form-control" id="Minute" type="text" style="width: 15%;display: inline;"/>
+																			<input class="form-control" id="Minute" value="" type="text" style="width: 15%;display: inline;" onchange="setStartTime()" />
 																			<label>分</label>
+																			<input class="form-control" style="display: none" name="startTime" id="start" value="" type="text"/>
 
 																		</div>
 																	</div>

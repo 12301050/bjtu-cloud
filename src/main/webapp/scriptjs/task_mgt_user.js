@@ -269,31 +269,28 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
     });
 }
 
-
-function creatTask(){ //新建任务
-    if(checkRequiredField()){
-        alert("创建成功");
-        location.reload();
-        $("#task_form").submit();}
-}
-
-function chooseNode(){ //新建任务
+function chooseNode(){ //控制选择的类型和nodeid和所选的nodename匹配
     //var nodename=$("#nodename").val();
     // var objname=document.getElementById("nodename").value;
     // alert(objname);
     var objindex=document.getElementById("nodename").selectedIndex;
     document.getElementById("chooseNodeId").selectedIndex=objindex;
-    // alert(objindex);
+    document.getElementById("idForTaskType").selectedIndex=objindex;
     var objid=document.getElementById("chooseNodeId").options[objindex].value;
-    // alert(objid);
-
-
 }
-
+// function setStartTime() {
+//     var day=$("#timeForTaskStart").val();
+//     var h=$("#hour").val();
+//     var m=$("#Minute").val();
+//     var s="00";
+//     var startTime=day+" "+h+":"+m+":"+s;
+//     $("#idForTime").val(startTime);
+//
+// }
 function checkRequiredField(){  //必填项控制
 
     var taskName=$("#inputTaskName").val();
-    $("#inputTaskName").css("border-color","#cccccc");
+    $("#inputTaskName").css("border-color","#cccccc");  //清除上一次判断结果
     $("#chooseTime").css("border-color","#cccccc");
     $("#timeForTaskStart").css("border-color","#cccccc");
     $("#hour").css("border-color","#cccccc");
@@ -310,23 +307,25 @@ function checkRequiredField(){  //必填项控制
     var taskMode=$("#tasktype").val();
     if(taskMode=="1"){
         var chooseTime=$("#chooseTime").val();
-        alert(chooseTime);
+        //alert(chooseTime);
         if(chooseTime==""){
             $("#chooseTime").css("border-color","red");
             return false;
         }
         var timeForTaskStart=$("#timeForTaskStart").val();
-        alert(timeForTaskStart);
+       // alert(timeForTaskStart);
         if(timeForTaskStart==""){
             $("#timeForTaskStart").css("border-color","red");
             return false;
         }
         var hour=$("#hour").val();
+       // alert(hour);
         if(hour==""){
             $("#hour").css("border-color","red");
             return false;
         }
         var Minute=$("#Minute").val();
+       // alert(Minute);
         if(Minute==""){
             $("#Minute").css("border-color","red");
             return false;
@@ -357,6 +356,10 @@ function showNodeByUser(){ //动态显示下拉框
         },
         success:function(data){
             username=data;
+            if(username==null){
+                alert("请先登录！");
+                window.location.href="http://localhost:8080/login_bg.html";
+            }
         }
     });
     $.ajax({
@@ -367,16 +370,20 @@ function showNodeByUser(){ //动态显示下拉框
         success: function (data) {
             var stringforoplist = "";
             var stringforhidelist = "";
+            var stringfortasktypelist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var str=data.data[i].nodeName;//+"   nodeId"+data.data[i].nodeId;
                 var stringforop="<option>"+str+"</option>";
                 var strforhide="<option>"+data.data[i].nodeId+"</option>";
+                var strfortype="<option>"+data.data[i].type+"</option>";
                 stringforoplist = stringforoplist + stringforop;
                 stringforhidelist=stringforhidelist+strforhide;
+                stringfortasktypelist+=strfortype;
             }
 
             $('#nodename').html(stringforoplist);
             $('#chooseNodeId').html(stringforhidelist);
+            $('#idForTaskType').html(stringfortasktypelist);
 
             AutoCheckLang();
         }
@@ -497,6 +504,22 @@ function getTaskByUserName(){
 function sendTaskId(obj) {  //修改任务名时向下一级窗口传递taskid
    var taskId= obj.id;
     $("#idFortaskId").val(taskId);
+}
+function setStartTime() {
+    var day=$("#timeForTaskStart").val();
+    var h=$("#hour").val();
+    var m=$("#Minute").val();
+    var s="00";
+
+    if(day!=null){
+        //var date=""
+        strs=day.split("/");
+        day="";
+        day=strs[2]+"-"+strs[0]+"-"+strs[1];
+    }
+    alert(day);
+    var startTime=day+" "+h+":"+m+":"+s;
+    $("#start").val(startTime);
 }
 function getnowtime() {  //获取当前时间
     var nowtime = new Date();
