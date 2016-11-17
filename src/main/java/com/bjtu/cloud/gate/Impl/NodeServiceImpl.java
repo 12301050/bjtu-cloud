@@ -287,15 +287,15 @@ public class NodeServiceImpl implements NodeService {
     Float performance = null;
     NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
     switch (number){
-      case 0:
+      case 1:
         performance = Cmds.nodeCpuUsage(nodeId);
         nodeInfo.setCpu((int) (performance*10));
         break;
-      case 1:
+      case 2:
         performance = Cmds.nodeMemoryUsage(nodeId)[1];
         nodeInfo.setMemory((int)(performance*10));
         break;
-      case 2:
+      case 3:
         performance = Cmds.nodeNetUsage(nodeId)[1];
         nodeInfo.setNetSpeed((int)(performance*10));
         break;
