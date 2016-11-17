@@ -382,11 +382,13 @@ function showNodeByUser(){ //动态显示下拉框
         }
     });
 }
-function changeTaskName(obj){
-    var newtaskName=$(obj).val();
-    var taskId=obj.id;
-    alert(newtaskName);
-    alert(taskId);
+function changeTaskName(){
+    //var newtaskName=$(obj).val();
+    var newtaskName=$("#reTaskName").val();
+   // var taskId=obj.id;
+    var taskId=$("#idFortaskId").val();
+    //alert(newtaskName);
+   // alert(taskId);
     $.ajax({   //修改节点名
         type:"POST",
         url:"http://localhost:8080/api/task/rename",
@@ -398,7 +400,9 @@ function changeTaskName(obj){
         success:function(data){
             if(data.data==1){
                 alert("修改成功");
-                location.reload();
+                getTaskByUserName(); //重新获取任务列表
+                $("#reTaskName").val("");//清空文本框的值
+
             }
             else
                 alert("修改失败");
@@ -408,6 +412,38 @@ function changeTaskName(obj){
 
 }
 jQuery(document).ready(function() {	//首先渲染
+
+    getTaskByUserName(); //获取任务列表
+    App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
+    App.init(); //Initialise plugins and elements
+
+    $("#create_task_button").click(function(){  //填充下拉框
+        showNodeByUser();
+    });
+    $("#langli").click(function(){//点击选择更换语言
+        if(localStorage.lang){ //缓存 1代表中文，2代表英文
+            if(localStorage.lang==1){
+                localStorage.lang=2;
+                localStorage.langclose=2;
+                change_en();
+            }
+            else if(localStorage.lang==2){
+                localStorage.lang=1;
+                localStorage.langclose=1;
+                change_ch();
+            }
+        }
+        else{
+            localStorage.lang=2;
+            localStorage.langclose=2;
+            change_en();
+
+        }
+    });
+
+});
+
+function getTaskByUserName(){
     var username = "";
     $.ajax({   //获取服务器的session,获取当前用户名
         type:"GET",
@@ -440,8 +476,7 @@ jQuery(document).ready(function() {	//首先渲染
                 var stringfortr ="<tr class=\"gradeX\">"+
                     "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
-                    "<td class=\"center\"><textarea id='"+data.data[i].id+"' style='resize: none;background:transparent;border-style:none;' onchange='changeTaskName(this)'>"+data.data[i].taskName+"</textarea></td>"+
-                    "<td>"+data.data[i].taskName+"</td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-changeTaskName\" id='"+data.data[i].id+"' onclick='sendTaskId(this)' data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskName+"</a></td>"+
                     "<td class=\"center\">"+taskmode+"</td>"+
                     "<td class=\"center\">"+tasktype+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
@@ -458,42 +493,11 @@ jQuery(document).ready(function() {	//首先渲染
 
         }
     });
-    App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
-    App.init(); //Initialise plugins and elements
-
-    $("#create_task_button").click(function(){  //填充下拉框
-        showNodeByUser();
-    });
-    $("#langli").click(function(){//点击选择更换语言
-        if(localStorage.lang){ //缓存 1代表中文，2代表英文
-            if(localStorage.lang==1){
-                localStorage.lang=2;
-                localStorage.langclose=2;
-                change_en();
-            }
-            else if(localStorage.lang==2){
-                localStorage.lang=1;
-                localStorage.langclose=1;
-                change_ch();
-            }
-        }
-        else{
-            localStorage.lang=2;
-            localStorage.langclose=2;
-            change_en();
-
-        }
-    });
-
-    // $("#create_button").click(function () {
-    //    // alert("dssd");
-    //     if(checkRequiredField()){
-    //         alert("嘿嘿嘿");
-    //     }
-    //     else alert("输入啦啦啦");
-    // });
-});
-
+}
+function sendTaskId(obj) {  //修改任务名时向下一级窗口传递taskid
+   var taskId= obj.id;
+    $("#idFortaskId").val(taskId);
+}
 function getnowtime() {  //获取当前时间
     var nowtime = new Date();
     var year = nowtime.getFullYear();

@@ -680,6 +680,39 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="modal fade" id="table-modal-changeTaskName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content modal-table">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="task_text">修改任务名</h4>
+							</div>
+							<div class="modal-body">
+
+								<table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+
+									<tbody id="changeTaskName">
+									<tr>
+										<th>输入修改后的名称</th>
+										<th>
+											<input type="text" class="form-control" name="taskName" id="reTaskName" placeholder="输入任务名称">
+											<label id="idFortaskId" style="display: none"></label>
+											<!--获取taskid-->
+										</th>
+
+									</tr>
+
+									</tbody>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal" id="close_butto" onclick="changeTaskName()">确定</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!--<div class="modal fade" id="table-modal-showRecSchedual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
 				<!--<div class="modal-dialog">-->
 				<!--<div class="modal-content modal-table">-->

@@ -68,11 +68,7 @@ function change_en(){//变为英文
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            aButtons: [ "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         }
 
@@ -133,11 +129,7 @@ function change_ch(){//变为中文
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            aButtons: ["copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -162,11 +154,7 @@ function change_ch(){//变为中文
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [ {
-                "sExtends": "select",
-                "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            },"copy",  "csv", "pdf" ],
+            aButtons: ["copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -292,9 +280,10 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
         }
     });
 }
-function changeNodeName(obj) {   //修改节点名
-    var newtaskName=$(obj).val();
-    var nodeId=obj.id;
+function changeNodeName() {   //修改节点名
+
+    var newtaskName=$("#reNodeName").val();
+    var nodeId=$("#idForNodeId").val();
     $.ajax({   //修改节点名
         type:"POST",
         url:"http://localhost:8080/api/node/rename",
@@ -306,7 +295,7 @@ function changeNodeName(obj) {   //修改节点名
         success:function(data){
             if(data.data==1){
                 alert("修改成功");
-                location.reload();
+                getNodeByName();
             }
             else
                 alert("修改失败");
@@ -315,53 +304,7 @@ function changeNodeName(obj) {   //修改节点名
     });
 }
 jQuery(document).ready(function() {	//首先渲染
-    var username = "";
-    $.ajax({   //获取服务器的session,获取当前用户名
-        type:"GET",
-        url:"http://localhost:8080/api/user/session",
-        async: false,
-        data:"",
-        timeout: 1000,
-        error: function(){
-            alert('sorry, server is busy now!');
-        },
-        success:function(data){
-            username=data;
-        }
-    });
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
-        dataType: "json",
-        data:{"userName":username},
-        success: function (data) {
-            var stringfortrlist = "";
-              for (var i = 0; i < data.data.length; i++) {
-                  var nodetype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
-                  var nodestatus=(data.data[i].status==1)?"开启":((data.data[i].status==2)?"关闭":"等待");
-                  var idforlog=i+1;
-                  var stringfortr ="<tr class=\"gradeX\">"+
-                 //   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
-                    "<td>"+idforlog+"</td>"+
-                    "<td >"+data.data[i].nodeId+"</td>"+
-                    "<td class=\"center\"><textarea id='"+data.data[i].nodeId+"' style='resize: none;background:transparent;border-style:none;' onchange='changeNodeName(this)'>"+data.data[i].nodeName+"</textarea></td>"+
-                    "<td class=\"center\">"+nodetype+"</td>"+
-                    "<td class=\"center hidden-xs\">"+nodestatus+"</td>"+
-                    "<td class=\"center hidden-xs\"><a onclick='getTaskByNode(this)' id='"+data.data[i].nodeId+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
-                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
-                    "</tr>";
-                stringfortrlist = stringfortrlist + stringfortr;
-            }
-            $("#datatableNodeUser").dataTable().fnDestroy();
-            $("#datatableForTask").dataTable().fnDestroy();
-            $("#datatableForTask").css("width","100%");
-            $('#tbodyfornodelist').html(stringfortrlist);
-            AutoCheckLang();
-        }
-    });
-
+    getNodeByName();
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 
@@ -388,7 +331,60 @@ jQuery(document).ready(function() {	//首先渲染
         }
     });
 });
+function getNodeByName(){
+    var username = "";
+    $.ajax({   //获取服务器的session,获取当前用户名
+        type:"GET",
+        url:"http://localhost:8080/api/user/session",
+        async: false,
+        data:"",
+        timeout: 1000,
+        error: function(){
+            alert('sorry, server is busy now!');
+        },
+        success:function(data){
+            username=data;
+        }
+    });
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
+        dataType: "json",
+        data:{"userName":username},
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var nodetype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
+                var nodestatus=(data.data[i].status==1)?"开启":((data.data[i].status==2)?"关闭":"等待");
+                var idforlog=i+1;
+                var stringfortr ="<tr class=\"gradeX\">"+
+                    //   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                    "<td>"+idforlog+"</td>"+
+                    "<td >"+data.data[i].nodeId+"</td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-changeNodeName\" id='"+data.data[i].nodeId+"' onclick='sendNodeId(this)' data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].nodeName+"</a></td>"+
+                    "<td class=\"center\">"+nodetype+"</td>"+
+                    "<td class=\"center hidden-xs\">"+nodestatus+"</td>"+
+                    "<td class=\"center hidden-xs\"><a onclick='getTaskByNode(this)' id='"+data.data[i].nodeId+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
+                    "</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $("#datatableNodeUser").dataTable().fnDestroy();
+            $("#datatableForTask").dataTable().fnDestroy();
+            $("#datatableForTask").css("width","100%");
+            $('#tbodyfornodelist').html(stringfortrlist);
+            AutoCheckLang();
+        }
+    });
 
+}
+
+function sendNodeId(obj) {  //修改任务名时向下一级窗口传递nodeid
+    var nodeId= obj.id;
+    $("#idForNodeId").val(nodeId);
+}
 function getnowtime() {  //获取当前时间
     var nowtime = new Date();
     var year = nowtime.getFullYear();
