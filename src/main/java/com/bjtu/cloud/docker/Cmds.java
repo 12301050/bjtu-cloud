@@ -160,6 +160,8 @@ public class Cmds {
 			int i=0;
 			for(String line : outPuts){
 				if(line.contains("%Cpu(s):")){
+					i++;
+					if(i==2)
 					return Float.valueOf(line.substring(8,line.lastIndexOf(" us,")));
 				}
 			}
