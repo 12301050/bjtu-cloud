@@ -785,43 +785,69 @@
 <!--/PAGE -->
 </body>
 <script>
-	var i=0;
 	var timer;
+	var chart;
 	var data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
-		jQuery(document).ready(function() {
+	jQuery(document).ready(function() {
 
-			//$("th").removeClass();
-			App.setPage("index");  //Set current page
-			App.init(); //Initialise plugins and elements
-
-			//Charts.initCharts();
+		//$("th").removeClass();
+		App.setPage("index");  //Set current page
+		App.init(); //Initialise plugins and elements
+		//Charts.initCharts();
 //			$('#datatable2 tbody').on( 'click', 'tr', function () {
 //				$(this).toggleClass('selected');
 //			} );
-		});
+	});
 	$('#table-modal-showVelocity').on('hidden.bs.modal', function () {//模态框关闭时重新初始化
 		// 执行一些动作...
 		//alert("模态框关闭了");
+		chart=null;
 		clearInterval(timer);
-		data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
+		//data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
 
 	});
 	function clickbutton(obj){
 		var nodeid=obj.id;
 		$("#table-modal-showVelocity").modal("show");
-		var chart = new Highcharts.Chart({
+		chart = new Highcharts.Chart({
 			chart: {
 				//将报表对象渲染到层上
-				renderTo: 'cpucontain'
+				renderTo: 'cpucontain',
+				type: 'spline',
+				animation: Highcharts.svg, // don't animate in old IE
+				events: {
+					load: function () {
+						// set up the updating of the chart each second
+						var series = this.series[0];
+						timer=setInterval(function () {
+							$.ajax({
+								type: "POST",
+								url: "http://localhost:8080/api/node/getOnePerformance",
+								data:{nodeId:nodeid,number:"1"},
+								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								success: function(result){
+									var x = (new Date()).getTime(), // current time
+											y = result.data;
+									series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+								}
+							}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+						}, 1000);
+					}
+				}
 			},
+
 			legend: {
 				enabled: false
 			},
 			exporting: {
 				enabled: false
 			},
-			type: 'spline',
-			animation: Highcharts.svg, // don't animate in old IE
 			//设定报表对象的初始数据
 			series: [{
 				name: 'CPU占用率',
@@ -843,14 +869,6 @@
 		$(".highcharts-container").css("width","95%");
 		$("tspan").css("visibility","hidden");
 		function getForm(){
-			//i=i+1;
-			//var data = new Array(80, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4);
-			//$("#table-modal-showVelocity").modal("show");
-//			//使用JQuery从后台获取JSON格式的数据
-//			jQuery.getJSON('http://localhost:8080/api/node/getOnePerformance', null, function(data) {
-//				//为图表设置值
-//				chart.series[0].setData(data);
-//			});
 			$.ajax({
 				type: "POST",
 				url: "http://localhost:8080/api/node/getOnePerformance",
@@ -867,7 +885,7 @@
 		}
 		//$(document).ready(function() {
 		//每隔1秒自动调用方法，实现图表的实时更新
-		 timer=window.setInterval(getForm,1000);
+		//timer=window.setInterval(getForm,1000);
 	}
 
 </script>
