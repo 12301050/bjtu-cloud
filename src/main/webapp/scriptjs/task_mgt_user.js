@@ -197,8 +197,11 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
             var stringfortrlist = "";
             var starttimeText="开始时间";
             var endtimeText="结束时间";
+            for (var i = 0; i < data.data.length; i++) {
+                var starttime = data.data[i].startTime;
+                var endtime = data.data[i].endTime;
+            }
             var mydate = new Date();
-
             for (var i = 0; i < data.data.length; i++) {
                 var starttime=data.data[i].startTime;
                 var nowtime= getnowtime(); //获取当前时间
@@ -217,20 +220,22 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                         // "</tr>"
                     ;
                     starttime = new Date(Date.parse(starttime.replace(/-/g,   "/"))).getTime();
-                    nowtime = new Date(Date.parse(nowtime.replace(/-/g,   "/"))).getTime();
-                    var runtime=nowtime-starttime;
-                    var day = parseInt(runtime/(1000*60*60*24)); //获取相差多少天
-                    runtime=runtime -day*(1000*60*60*24);
-                    var H = parseInt(runtime/(1000*60*60));
-                    runtime=runtime-H*(1000*60*60);
-                    var M =parseInt(runtime/(1000*60));
-                    runtime=runtime-M*(1000*60);
-                    var S = parseInt(runtime/(1000));
-                    stringfortr=stringfortr+
-                        "<tr class=\"gradeX\">"+
-                        "<td>"+"执行时间"+"</td>"+
-                        "<td>"+day+" Day "+H+" Hours "+M+" Minutes "+S+" second "+"</td>"+
+                if(endtime) { //如果未结束
+                    nowtime = new Date(Date.parse(nowtime.replace(/-/g, "/"))).getTime();
+                    var runtime = nowtime - starttime;
+                    var day = parseInt(runtime / (1000 * 60 * 60 * 24)); //获取相差多少天
+                    runtime = runtime - day * (1000 * 60 * 60 * 24);
+                    var H = parseInt(runtime / (1000 * 60 * 60));
+                    runtime = runtime - H * (1000 * 60 * 60);
+                    var M = parseInt(runtime / (1000 * 60));
+                    runtime = runtime - M * (1000 * 60);
+                    var S = parseInt(runtime / (1000));
+                    stringfortr = stringfortr +
+                        "<tr class=\"gradeX\">" +
+                        "<td>" + "执行时间" + "</td>" +
+                        "<td>" + day + " Day " + H + " Hours " + M + " Minutes " + S + " second " + "</td>" +
                         "</tr>";
+                }
                 if(data.data[i].mode){ //判断任务模式
                     var timemode="";
                     switch (data.data[i].mode){
@@ -388,6 +393,9 @@ function showNodeByUser(){ //动态显示下拉框
             AutoCheckLang();
         }
     });
+
+
+
 }
 function changeTaskName(){
     //var newtaskName=$(obj).val();
@@ -467,13 +475,16 @@ function getTaskByUserName(){
     });
 
     var status = 1;
+    var status1 =-1;
+    var stringfortrlist = "";
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/task/getTaskByUserName",//接口名字
         dataType: "json",
+        async: false,
         data:{"userName":username,"status":status},
+        async: false,
         success: function (data) {
-            var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var idforlog=i+1;
                 var status="";
@@ -493,13 +504,43 @@ function getTaskByUserName(){
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
+            // $("#datatableTaskUser").dataTable().fnDestroy();
+            // $('#datatableForTaskUser').html(stringfortrlist);
+            // AutoCheckLang();
+        }
+    });
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/task/getTaskByUserName",//接口名字
+        dataType: "json",
+        data:{"userName":username,"status":status1},
+        success: function (data) {
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog=i+1;
+                var status="";
+                var taskstatus=(data.data[i].status==-1)?"等待":((data.data[i].status==1)?"运行":"结束");
+                var tasktype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
+                var taskmode=(data.data[i].mode==0)?"即时":"定时";
+                var stringfortr ="<tr class=\"gradeX\">"+
+                    "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
+                    "<td>"+idforlog+"</td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-changeTaskName\" id='"+data.data[i].id+"' onclick='sendTaskId(this)' data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskName+"</a></td>"+
+                    "<td class=\"center\">"+taskmode+"</td>"+
+                    "<td class=\"center\">"+tasktype+"</td>"+
+                    "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
+                    "<td class=\"center hidden-xs\">"+taskstatus+"</td>"+
+                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
             $("#datatableTaskUser").dataTable().fnDestroy();
-
             $('#datatableForTaskUser').html(stringfortrlist);
             AutoCheckLang();
 
         }
     });
+
 }
 function sendTaskId(obj) {  //修改任务名时向下一级窗口传递taskid
    var taskId= obj.id;

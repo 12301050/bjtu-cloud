@@ -270,7 +270,7 @@ jQuery(document).ready(function() {	//首先渲染
                 // var taskstatus=data.data[i].status;
                 // var tasktype=data.data[i].type;
                 // var taskmode=data.data[i].mode;
-                var taskstatus=(data.data[i].status==-1)?"等待":((data.data[i].status==0)?"结束":"运行");
+                var taskstatus=(data.data[i].status==2)?"结束":((data.data[i].status==1)?"运行":"结束");
                 var tasktype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
                 var taskmode=(data.data[i].mode==0)?"即时":"定时";
                 var stringfortr ="<tr class=\"gradeX\">"+
