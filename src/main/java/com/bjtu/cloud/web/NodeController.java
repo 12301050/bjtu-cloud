@@ -180,7 +180,7 @@ public class NodeController {
       int randNum = rand.nextInt(22)+5;
 //      Float performance = nodeService.getOnePerformance(nodeId, number);
 //      return RestResult.succ().data(performance).build();
-       return RestResult.succ().data(randNum).build();
+      return RestResult.succ().data(randNum).build();
     }catch (Exception e){
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();
