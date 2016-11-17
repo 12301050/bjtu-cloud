@@ -315,7 +315,6 @@
 											<a href="javascript:;" class="reload">
 												<i class="fa fa-refresh"></i>
 											</a>
-
 										</div>
 									</div>
 									<div class="box-body">
@@ -344,18 +343,6 @@
 								<div class="box-title">
 									<h4><i class="fa fa-signal"></i>CPU曲线图</h4>
 									<div class="tools hidden-xs">
-										<!--<a href="#box-config" data-toggle="modal" class="config">-->
-										<!--<i class="fa fa-cog"></i>-->
-										<!--</a>-->
-										<a href="javascript:;" class="reload">
-											<i class="fa fa-refresh"></i>
-										</a>
-										<!--<a href="javascript:;" class="collapse">-->
-										<!--<i class="fa fa-chevron-up"></i>-->
-										<!--</a>-->
-										<!--<a href="javascript:;" class="remove">-->
-										<!--<i class="fa fa-times"></i>-->
-										<!--</a>-->
 									</div>
 								</div>
 								<div class="box-body" id="cpucontainer">
@@ -366,9 +353,6 @@
 								<div class="box-title">
 									<h4><i class="fa fa-signal"></i>内存曲线图</h4>
 									<div class="tools hidden-xs">
-										<a href="javascript:;" class="reload">
-											<i class="fa fa-refresh"></i>
-										</a>
 									</div>
 								</div>
 								<div class="box-body">
@@ -379,9 +363,7 @@
 								<div class="box-title">
 									<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>
 									<div class="tools hidden-xs">
-										<a href="javascript:;" class="reload">
-											<i class="fa fa-refresh"></i>
-										</a>
+
 									</div>
 								</div>
 								<div class="box-body">
@@ -620,9 +602,7 @@
 										<div class="box border orange">
 											<div class="box-title">
 												<div class="tools hidden-xs">
-													<a href="javascript:;" class="reload">
-														<i class="fa fa-refresh"></i>
-													</a>
+
 												</div>
 											</div>
 											<div class="box-body" style="padding-left: 0px;padding-top: 0px;padding-right: 0px;"id="cpucontain">
@@ -696,18 +676,11 @@
 											<span class="label label-danger">
 												20% <i class="fa fa-arrow-up"></i>
 											</span>
-										<!--<a href="#box-config" data-toggle="modal" class="config">-->
-										<!--<i class="fa fa-cog"></i>-->
-										<!--</a>-->
+
 										<a href="javascript:;" class="reload">
 											<i class="fa fa-refresh"></i>
 										</a>
-										<!--<a href="javascript:;" class="collapse">-->
-										<!--<i class="fa fa-chevron-up"></i>-->
-										<!--</a>-->
-										<!--<a href="javascript:;" class="remove">-->
-										<!--<i class="fa fa-times"></i>-->
-										<!--</a>-->
+
 									</div>
 								</div>
 								<div class="box-body">
@@ -804,9 +777,8 @@
 		chart=null;
 		clearInterval(timer);
 		//data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
-
 	});
-	function clickbutton(obj){
+	function clickbutton(obj){//查看cpu折线图
 		var nodeid=obj.id;
 		$("#table-modal-showVelocity").modal("show");
 		chart = new Highcharts.Chart({
@@ -824,6 +796,168 @@
 								type: "POST",
 								url: "http://localhost:8080/api/node/getOnePerformance",
 								data:{nodeId:nodeid,number:"1"},
+								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								success: function(result){
+									var x = (new Date()).getTime(), // current time
+											y = result.data;
+									series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+								}
+							}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+						}, 1000);
+					}
+				}
+			},
+
+			legend: {
+				enabled: false
+			},
+			exporting: {
+				enabled: false
+			},
+			//设定报表对象的初始数据
+			series: [{
+				name: 'CPU占用率',
+				data: (function() {
+					// generate an array of random data
+					var data = [],
+							time = (new Date()).getTime(),
+							i;
+					for (i = -23; i <= 0; i++) {
+						data.push({
+							x: time + i * 1000,
+							y: null
+						});
+					}
+					return data;
+				})()
+			}]
+		});
+		$(".highcharts-container").css("width","95%");
+		$("tspan").css("visibility","hidden");
+		function getForm(){
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8080/api/node/getOnePerformance",
+				data:{nodeId:nodeid,number:"1"},
+				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+				success: function(result){
+					data.shift();//去除第一个元素
+					data.push([result.data]);
+					chart.series[0].setData(data);
+					$("tspan").css("visibility","hidden");
+					$(".highcharts-container").css("width","95%");
+				}
+			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+		}
+		//$(document).ready(function() {
+		//每隔1秒自动调用方法，实现图表的实时更新
+		//timer=window.setInterval(getForm,1000);
+	}
+	function clickRambutton(obj){//查看内存折线图
+		var nodeid=obj.id;
+		$("#table-modal-showVelocity").modal("show");
+		chart = new Highcharts.Chart({
+			chart: {
+				//将报表对象渲染到层上
+				renderTo: 'cpucontain',
+				type: 'spline',
+				animation: Highcharts.svg, // don't animate in old IE
+				events: {
+					load: function () {
+						// set up the updating of the chart each second
+						var series = this.series[0];
+						timer=setInterval(function () {
+							$.ajax({
+								type: "POST",
+								url: "http://localhost:8080/api/node/getOnePerformance",
+								data:{nodeId:nodeid,number:"2"},
+								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								success: function(result){
+									var x = (new Date()).getTime(), // current time
+											y = result.data;
+									series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+								}
+							}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+						}, 1000);
+					}
+				}
+			},
+
+			legend: {
+				enabled: false
+			},
+			exporting: {
+				enabled: false
+			},
+			//设定报表对象的初始数据
+			series: [{
+				name: 'CPU占用率',
+				data: (function() {
+					// generate an array of random data
+					var data = [],
+							time = (new Date()).getTime(),
+							i;
+					for (i = -23; i <= 0; i++) {
+						data.push({
+							x: time + i * 1000,
+							y: null
+						});
+					}
+					return data;
+				})()
+			}]
+		});
+		$(".highcharts-container").css("width","95%");
+		$("tspan").css("visibility","hidden");
+		function getForm(){
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8080/api/node/getOnePerformance",
+				data:{nodeId:nodeid,number:"1"},
+				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+				success: function(result){
+					data.shift();//去除第一个元素
+					data.push([result.data]);
+					chart.series[0].setData(data);
+					$("tspan").css("visibility","hidden");
+					$(".highcharts-container").css("width","95%");
+				}
+			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+		}
+		//$(document).ready(function() {
+		//每隔1秒自动调用方法，实现图表的实时更新
+		//timer=window.setInterval(getForm,1000);
+	}
+	function clickNetbutton(obj){//查看网络折线图
+		var nodeid=obj.id;
+		$("#table-modal-showVelocity").modal("show");
+		chart = new Highcharts.Chart({
+			chart: {
+				//将报表对象渲染到层上
+				renderTo: 'cpucontain',
+				type: 'spline',
+				animation: Highcharts.svg, // don't animate in old IE
+				events: {
+					load: function () {
+						// set up the updating of the chart each second
+						var series = this.series[0];
+						timer=setInterval(function () {
+							$.ajax({
+								type: "POST",
+								url: "http://localhost:8080/api/node/getOnePerformance",
+								data:{nodeId:nodeid,number:"3"},
 								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 								success: function(result){
 									var x = (new Date()).getTime(), // current time
