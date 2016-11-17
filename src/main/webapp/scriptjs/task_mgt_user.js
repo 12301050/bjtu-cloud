@@ -382,6 +382,31 @@ function showNodeByUser(){ //动态显示下拉框
         }
     });
 }
+function changeTaskName(obj){
+    var newtaskName=$(obj).val();
+    var taskId=obj.id;
+    alert(newtaskName);
+    alert(taskId);
+    $.ajax({   //修改节点名
+        type:"POST",
+        url:"http://localhost:8080/api/task/rename",
+        data:{"taskName":newtaskName,"id":taskId},
+        timeout: 1000,
+        error: function(){
+            alert('sorry');
+        },
+        success:function(data){
+            if(data.data==1){
+                alert("修改成功");
+                location.reload();
+            }
+            else
+                alert("修改失败");
+
+        }
+    });
+
+}
 jQuery(document).ready(function() {	//首先渲染
     var username = "";
     $.ajax({   //获取服务器的session,获取当前用户名
@@ -415,6 +440,7 @@ jQuery(document).ready(function() {	//首先渲染
                 var stringfortr ="<tr class=\"gradeX\">"+
                     "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
+                    "<td class=\"center\"><textarea id='"+data.data[i].id+"' style='resize: none;background:transparent;border-style:none;' onchange='changeTaskName(this)'>"+data.data[i].taskName+"</textarea></td>"+
                     "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"center\">"+taskmode+"</td>"+
                     "<td class=\"center\">"+tasktype+"</td>"+

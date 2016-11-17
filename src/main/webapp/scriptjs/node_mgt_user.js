@@ -347,7 +347,6 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\"><textarea id='"+data.data[i].nodeId+"' style='resize: none;background:transparent;border-style:none;' onchange='changeNodeName(this)'>"+data.data[i].nodeName+"</textarea></td>"+
                     "<td class=\"center\">"+nodetype+"</td>"+
                     "<td class=\"center hidden-xs\">"+nodestatus+"</td>"+
-
                     "<td class=\"center hidden-xs\"><a onclick='getTaskByNode(this)' id='"+data.data[i].nodeId+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
