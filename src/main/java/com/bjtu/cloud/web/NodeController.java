@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by Kafukaaa on 16/10/23.
@@ -171,11 +172,15 @@ public class NodeController {
   }
 
   //查询某个节点的其中一个性能的数值
-  @RequestMapping(value = "api/node/getOnePerformance", method = RequestMethod.GET)
+  @RequestMapping(value = "api/node/getOnePerformance", method = RequestMethod.POST)
   public RestResult<Float> getOnePerformance(String nodeId, Integer number) {
     try{
-      Float performance = nodeService.getOnePerformance(nodeId, number);
-      return RestResult.succ().data(performance).build();
+      //Todo 先写个随机数
+      Random rand = new Random();
+      int randNum = rand.nextInt(22)+5;
+//      Float performance = nodeService.getOnePerformance(nodeId, number);
+//      return RestResult.succ().data(performance).build();
+       return RestResult.succ().data(randNum).build();
     }catch (Exception e){
       e.printStackTrace();
       return RestResult.fail().msg(e.toString()).build();

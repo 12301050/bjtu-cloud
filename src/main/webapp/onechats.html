@@ -81,7 +81,8 @@
 
 		$.ajax({
 			type: "POST",
-			url: "xxxx/yyyyy.json",
+			url: "http://localhost:8080/api/node/getOnePerformance",
+			data:{nodeId:"nodeid",number:"1"},
 			async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 			success: function(result){
 				var channels = result.key;

@@ -3264,7 +3264,7 @@ var App = function () {
                 handleDateColorpicker(); //Function to handle date and time picker
                 //handleXcharts();	//Function to display xcharts
                 handleSparkline();		//Function to display Sparkline charts
-                handleDashFlotCharts(); //Function to display flot charts in dashboard
+                //handleDashFlotCharts(); //Function to display flot charts in dashboard
                 handleDataTables();	//Function to display data tables
                 handleEasyPie();	//Function to display easy pie charts
             }

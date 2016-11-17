@@ -5,202 +5,165 @@
 	<style>
 	</style>
 	<script src="highcharts.js"></script>
-	<script src="jquery-1.8.3.min.js"></script>
+	<script src="js/jquery/jquery-2.0.3.min.js"></script>
 	<script src="exporting.js"></script>
 </head>
 <body>
+    <input type="button" onclick="clickbutton()" value="点击"/>
 <div id="container" style="min-width:400px;height:400px"></div>
-<script>
-	$(function(){
-		$(document).ready(function() {
-			Highcharts.setOptions({
-				global: {
-					useUTC: false//是否使用世界标准时间
-				}
-			});
-			var chart;
-			chart = new Highcharts.Chart({
-				chart: {
-					renderTo: 'container',
-					type: 'spline',
-					marginRight: 10,
-					events: {
-						load: function() {
-							var series = this.series;
-							setInterval(function() {
-								var result = reload();
-								var x = result.time;
-								for(var i=0; i<series.length; i++) {
-									var y = result.y[i];
-									series[i].addPoint([x, y], true, true);
-								}
-							}, 1000*5);
-						}
-					}
-				},
-				title: {
-					text: 'ssssss'
-				},
-				xAxis: {
-					type: 'datetime',
-					tickPixelInterval: 150
-				},
-				yAxis: {
-					title: {
-						text: 'Value'
-					},
-					plotLines: [{
-						value: 0,
-						width: 1,
-						color: '#808080'
-					}]
-				},
-				tooltip: {
-					formatter: function () {
-						return '<b>' + this.series.name + '</b><br/>' +
-								Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-								Highcharts.numberFormat(this.y, 2);
-					}
-				},
-				//图例属性
-				legend: {
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'top',
-					borderWidth: 0
-				},
-				exporting: {
-					enabled: false
-				},
-				//series: create()
-                series: [{
-                name: 'Random data',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 100000,
-                            y: Math.random()*100
-                        });
-                    }
-                    return data;
-                }())
-            }]
-			});
+<script type='text/javascript'>
+	//<![CDATA[
+    var i=0;
+    
+    var data = new Array(null, null, null, null, null,null, null, null, null, null, null, null);
+	//$(function(){
+//    $(document).ready(function() {
+////		//声明报表对象
+////		var chart = new Highcharts.Chart({
+////			chart: {
+////				//将报表对象渲染到层上
+////				renderTo: 'container'
+////			},
+////            legend: {
+////                enabled: false
+////            },
+////            exporting: {
+////                enabled: false
+////            },
+////			//设定报表对象的初始数据
+////			series: [{															  
+////	name: 'Random data',												
+////	data: (function() {												 
+////		// generate an array of random data							 
+////		var data = [],												  
+////			time = (new Date()).getTime(),							  
+////			i;														  
+////		for (i = -11; i <= 0; i++) {									
+////			data.push({												 
+////                x: time + i * 1000,								 
+////				y: Math.random()										
+////			});														 
+////		}															   
+////		return data;													
+////	})()																
+////}]
+////		});
+////        $("tspan").css("visibility","hidden");
+////		function getForm(){
+////            i=i+1;
+////            //var data = new Array(80, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4);
+////            data.shift();//去除第一个元素
+////            data.push([i]);
+////            //data={80, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4};
+////            chart.series[0].setData(data);
+////            $("tspan").css("visibility","hidden");
+//////			//使用JQuery从后台获取JSON格式的数据
+//////			jQuery.getJSON('http://localhost:8080/api/node/getOnePerformance', null, function(data) {
+//////				//为图表设置值
+//////				chart.series[0].setData(data);
+//////			});
+//////			$.ajax({
+//////				type: "POST",
+//////				url: "http://localhost:8080/api/node/getOnePerformance",
+//////				data:{nodeId:"nodeid",number:"1"},
+//////				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+//////				success: function(result){
+//////
+//////					// generate an array of random data
+//////					var data = [];
+//////					var time = (new Date()).getTime(),
+//////							i;
+//////					//for (i = -19; i <= 0; i += 1) {
+//////					data.push({
+//////						x: time + i * 1000,
+//////						y: result.data
+//////						//	});
+//////					});
+//////					chart.series[0].setData(data);
+//////					//return data;
+//////
+//////				}
+//////			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+////		}
+////		//$(document).ready(function() {
+////			//每隔3秒自动调用方法，实现图表的实时更新
+////			window.setInterval(getForm,3000);
+//		//});
+//	});
+    function clickbutton(){
+        var chart = new Highcharts.Chart({
+			chart: {
+				//将报表对象渲染到层上
+				renderTo: 'container'
+			},
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+			//设定报表对象的初始数据
+			series: [{															  
+	name: 'Random data',												
+	data: (function() {												 
+		// generate an array of random data							 
+		var data = [],												  
+			time = (new Date()).getTime(),							  
+			i;														  
+		for (i = -11; i <= 0; i++) {									
+			data.push({												 
+                x: time + i * 1000,								 
+				y: Math.random()										
+			});														 
+		}															   
+		return data;													
+	})()																
+}]
 		});
-	});
-	function create() {
-		var series = new Array();
-
-		$.ajax({
-			type: "POST",
-			url: "xxxx/yyyyy.json",
-			async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
-			success: function(result){
-				var channels = result.key;
-				var size = channels.length;
-				for(var i=0; i<size; i++) {
-					var name = channels[i].yyyy;
-					var perTotalCnt = channels[i].xxxx;
-					var data = function() {
-						var data = [],
-								time = result.time,
-								i;
-						for(i=-6; i<=0; i++) {
-							data.push({
-								x: aaaa,
-								y: zzzz
-							});
-						}
-
-						return data;
-					}();
-					series.push({"name": name, "data": data});
-				}
-			}
-		}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
-		alert(series);
-		return series;
-
-	}
-
-	//        $(function () {
-	//            $(document).ready(function () {
-	//                Highcharts.setOptions({
-	//                    global: {
-	//                        useUTC: false
-	//                    }
-	//                });
-	//                $('#container').highcharts({
-	//                    chart: {
-	//                        type: 'spline',
-	//                        animation: Highcharts.svg, // don't animate in old IE
-	//                        marginRight: 10,
-	//                        events: {
-	//                            load: function () {
-	//                                // set up the updating of the chart each second
-	//                                var series = this.series[0];
-	//                                setInterval(function () {
-	//                                    var x = (new Date()).getTime(), // current time
-	//                                        y = Math.random();
-	//                                    series.addPoint([x, y], true, true);
-	//                                }, 1000);
-	//                            }
-	//                        }
-	//                    },
-	//                    title: {
-	//                        text: 'Live random data'
-	//                    },
-	//                    xAxis: {
-	//                        type: 'datetime',
-	//                        tickPixelInterval: 150
-	//                    },
-	//                    yAxis: {
-	//                        title: {
-	//                            text: 'Value'
-	//                        },
-	//                        plotLines: [{
-	//                            value: 0,
-	//                            width: 1,
-	//                            color: '#808080'
-	//                        }]
-	//                    },
-	//                    tooltip: {
-	//                        formatter: function () {
-	//                            return '<b>' + this.series.name + '</b><br/>' +
-	//                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-	//                                Highcharts.numberFormat(this.y, 2);
-	//                        }
-	//                    },
-	//                    legend: {
-	//                        enabled: false
-	//                    },
-	//                    exporting: {
-	//                        enabled: false
-	//                    },
-	//                    series: [{
-	//                        name: 'Random data',
-	//                        data: (function () {
-	//                            // generate an array of random data
-	//                            var data = [],
-	//                                time = (new Date()).getTime(),
-	//                                i;
-	//                            for (i = -19; i <= 0; i += 1) {
-	//                                data.push({
-	//                                    x: time + i * 1000,
-	//                                    y: Math.random()
-	//                                });
-	//                            }
-	//                            return data;
-	//                        }())
-	//                    }]
-	//                });
-	//            });
-	//        });
+        $("tspan").css("visibility","hidden");
+		function getForm(){
+            i=i+1;
+            //var data = new Array(80, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4);
+            data.shift();//去除第一个元素
+            data.push([i]);
+            //data={80, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4};
+            chart.series[0].setData(data);
+            $("tspan").css("visibility","hidden");
+//			//使用JQuery从后台获取JSON格式的数据
+//			jQuery.getJSON('http://localhost:8080/api/node/getOnePerformance', null, function(data) {
+//				//为图表设置值
+//				chart.series[0].setData(data);
+//			});
+//			$.ajax({
+//				type: "POST",
+//				url: "http://localhost:8080/api/node/getOnePerformance",
+//				data:{nodeId:"nodeid",number:"1"},
+//				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+//				success: function(result){
+//
+//					// generate an array of random data
+//					var data = [];
+//					var time = (new Date()).getTime(),
+//							i;
+//					//for (i = -19; i <= 0; i += 1) {
+//					data.push({
+//						x: time + i * 1000,
+//						y: result.data
+//						//	});
+//					});
+//					chart.series[0].setData(data);
+//					//return data;
+//
+//				}
+//			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+		}
+		//$(document).ready(function() {
+			//每隔3秒自动调用方法，实现图表的实时更新
+			window.setInterval(getForm,3000);
+    }
+	//]]>
 </script>
+
 </body>
 </html>
 
