@@ -292,12 +292,33 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
         }
     });
 }
+function changeNodeName(obj) {   //修改节点名
+    var newtaskName=$(obj).val();
+    var nodeId=obj.id;
+    $.ajax({   //修改节点名
+        type:"POST",
+        url:"http://localhost:8080/api/node/rename",
+        data:{"nodeName":newtaskName,"nodeId":nodeId},
+        timeout: 1000,
+        error: function(){
+            alert('sorry');
+        },
+        success:function(data){
+            if(data.data==1){
+                alert("修改成功");
+                location.reload();
+            }
+            else
+                alert("修改失败");
 
+        }
+    });
+}
 jQuery(document).ready(function() {	//首先渲染
     var username = "";
     $.ajax({   //获取服务器的session,获取当前用户名
         type:"GET",
-        url:"api/user/session",
+        url:"http://localhost:8080/api/user/session",
         async: false,
         data:"",
         timeout: 1000,
@@ -322,8 +343,8 @@ jQuery(document).ready(function() {	//首先渲染
                   var stringfortr ="<tr class=\"gradeX\">"+
                  //   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
                     "<td>"+idforlog+"</td>"+
-                    "<td>"+data.data[i].nodeId+"</td>"+
-                    "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                    "<td >"+data.data[i].nodeId+"</td>"+
+                    "<td class=\"center\"><textarea id='"+data.data[i].nodeId+"' style='resize: none;background:transparent;border-style:none;' onchange='changeNodeName(this)'>"+data.data[i].nodeName+"</textarea></td>"+
                     "<td class=\"center\">"+nodetype+"</td>"+
                     "<td class=\"center hidden-xs\">"+nodestatus+"</td>"+
 
