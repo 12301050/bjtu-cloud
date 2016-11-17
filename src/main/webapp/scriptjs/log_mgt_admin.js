@@ -332,6 +332,11 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
         $("#datatableForLog").dataTable().fnDestroy();
         $('#tbodyfordatatableLog').html(stringfortrlistforshort);
         AutoCheckLang();
+        //$('#datatableForLog').DataTable( {
+        //    data: shortdatearray
+        //    //使用对象数组，一定要配置columns，告诉 DataTables 每列对应的属性
+        //    //data 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+        //} );
         // alert("开始调用后台");
     }
 }
