@@ -29,11 +29,15 @@ public interface TaskService {
 
   //根据用户名查询所有任务
   List<TaskInfo> getAllTaskByUserName(String userName) throws Exception;
+
+  //根据用户名查询除历史任务以外的所有任务
+  List<TaskInfo> getAllTaskExceptHistoryByUserName(String userName) throws Exception;
   //查询所有任务日志
   List<TaskRecord> getTaskRecordByDate(String operateTime) throws Exception;
   //删除某个(些)任务
   List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths) throws Exception;
-
+  //全部任务界面删除任务
+  List<TaskInfo> deleteTaskByAll(String userName, String nodeIds, String pids, String targetPaths) throws Exception;
   //删除某个(些)任务
   List<TaskInfo> getTaskByStatus(Integer status) throws Exception;
 }

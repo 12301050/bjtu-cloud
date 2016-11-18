@@ -31,6 +31,9 @@ public interface NodeInfoMapper {
     //新增节点
     Integer addNodeInNodeInfo(NodeInfo nodeInfo);
 
+    //更新删除后的节点数
+    Integer updateDeleteTaskAmount(String nodeId);
+
     //查询用户节点是否有任务在执行
     NodeInfo queryTaskStatusByUser(String nodeId);
 
