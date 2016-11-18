@@ -330,14 +330,18 @@
 											<table id="datatableForTask" cellpadding="0" cellspacing="0" border="0" style="width: 100%;" class="datatable table table-striped table-bordered table-hover">
 												<thead>
 												<tr>
+													<th id="nosort" style="text-align:center;padding:3px 3px 3px 3px;" class="" onclick="change()"><input type="checkbox" id="checkAll"></th>
 													<th id="task_number1">编号</th>
 													<th id="task_name1">任务名称</th>
 													<th id="task_type1">任务模式</th>
 													<th id="time_info1">时间信息</th>
 													<th class="hidden-xs" id="resource_info">资源信息</th>
+													<th class="hidden-xs" style="visibility:hidden;" id="pid">资源信息</th>
+													<th class="hidden-xs" style="visibility:hidden;" id="task_path">资源信息</th>
 												</tr>
 												</thead>
 												<tbody id="tbodyforTaskList">
+												<input style="display: none" id="NodeIddForDeleteTask" value=""/>
 												</tbody>
 											</table>
 										</div>
