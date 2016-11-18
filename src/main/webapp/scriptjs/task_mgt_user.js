@@ -71,13 +71,47 @@ function change_en(){//变为英文
         sDom: "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
         select:true,
         oTableTools: {
-            aButtons: [
-                {
+            aButtons: [{
                     "sExtends": "select",
                     "sButtonText": "删除" ,
-                    //"id":"deletebutton",
-                },
-                "copy",  "csv", "pdf" ],
+                    "fnClick": function (nButton, oConfig, oFlash) {
+                        var username=$("#usernameForDeleteTask").val();
+                        var taskPaths="";
+                        var pids="";
+                        var indexfordelete=new Array();
+                        //var nodeId= $("#NodeIddForDeleteTask").val();
+                        var nodeIds="";
+                        $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                            var taskPath=$(this).parents("tr").find("td:eq(9)")[0].innerText;
+                            var pid=$(this).parents("tr").find("td:eq(10)")[0].innerText;
+                            var nodeId=$(this).parents("tr").find("td:eq(5)")[0].innerText;
+                            taskPaths=taskPaths+taskPath+",";//以，分割
+                            pids=pids+pid+",";//以，分割
+                            nodeIds+=nodeId+",";
+                        });
+                        alert(taskPaths);
+                        alert(pids);
+                        alert(nodeIds);
+                        $.ajax({
+                            type: "GET",
+                            url: "http://localhost:8080/api/task/delete",//接口名字
+                            dataType: "json",
+                            data:{"userName":username,"nodeIds":nodeIds,"pids":pids,"taskPaths":taskPaths},
+                            success: function (data) {//删除成功
+                                if(data.data){
+                                    alert("删除成功了！");
+                                    // $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                                    //     var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                                    //     $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                                    // });
+                                    location.reload();
+                                }else{
+                                    alert("删除失败");
+                                }
+                            }
+                        });
+                    }
+                }, "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         }
 
@@ -143,14 +177,44 @@ function change_ch(){//变为中文
             aButtons: [ {
                 "sExtends": "select",
                 "sButtonText": "删除" ,
-                //"id":"deletebutton",
-            }
-                // ,{
-                //     "sExtends": "select",
-                //     "sButtonText": "创建" ,
-                //     //"id":"deletebutton",
-                // }
-                ,"copy",  "csv", "pdf" ],
+                "fnClick": function (nButton, oConfig, oFlash) {
+                    var username=$("#usernameForDeleteTask").val();
+                    var taskPaths="";
+                    var pids="";
+                    var indexfordelete=new Array();
+                    //var nodeId= $("#NodeIddForDeleteTask").val();
+                    var nodeIds="";
+                    $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                        var taskPath=$(this).parents("tr").find("td:eq(9)")[0].innerText;
+                        var pid=$(this).parents("tr").find("td:eq(10)")[0].innerText;
+                        var nodeId=$(this).parents("tr").find("td:eq(5)")[0].innerText;
+                        taskPaths=taskPaths+taskPath+",";//以，分割
+                        pids=pids+pid+",";//以，分割
+                        nodeIds+=nodeId+",";
+                    });
+                    alert(taskPaths);
+                    alert(pids);
+                    alert(nodeIds);
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:8080/api/task/delete",//接口名字
+                        dataType: "json",
+                        data:{"userName":username,"nodeIds":nodeIds,"pids":pids,"taskPaths":taskPaths},
+                        success: function (data) {//删除成功
+                            if(data.data){
+                                alert("删除成功了！");
+                                // $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
+                                //     var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+                                //     $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                                // });
+                                location.reload();
+                            }else{
+                                alert("删除失败");
+                            }
+                        }
+                    });
+                }
+            },"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
         },
         "oLanguage": {//国际语言转化
@@ -283,15 +347,7 @@ function chooseNode(){ //控制选择的类型和nodeid和所选的nodename匹�
     document.getElementById("idForTaskType").selectedIndex=objindex;
     var objid=document.getElementById("chooseNodeId").options[objindex].value;
 }
-// function setStartTime() {
-//     var day=$("#timeForTaskStart").val();
-//     var h=$("#hour").val();
-//     var m=$("#Minute").val();
-//     var s="00";
-//     var startTime=day+" "+h+":"+m+":"+s;
-//     $("#idForTime").val(startTime);
-//
-// }
+
 function checkRequiredField(){  //必填项控制
 
     var taskName=$("#inputTaskName").val();
@@ -473,7 +529,7 @@ function getTaskByUserName(){
             username=data;
         }
     });
-
+    $("#usernameForDeleteTask").val(username);
     var status = 1;
     var status1 =-1;
     var stringfortrlist = "";
@@ -503,12 +559,11 @@ function getTaskByUserName(){
                     "<td class=\"center hidden-xs\">"+taskstatus+"</td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td style='display: none' class=\"center\" >"+data.data[i].nodePath+"</td>"+
+                    "<td style='display: none' class=\"center\">"+data.data[i].pid+"</td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            // $("#datatableTaskUser").dataTable().fnDestroy();
-            // $('#datatableForTaskUser').html(stringfortrlist);
-            // AutoCheckLang();
         }
     });
     $.ajax({
@@ -533,6 +588,8 @@ function getTaskByUserName(){
                     "<td class=\"center hidden-xs\">"+taskstatus+"</td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td style='display: none' class=\"center\" >"+data.data[i].nodePath+"</td>"+
+                    "<td style='display: none' class=\"center\">"+data.data[i].pid+"</td>"+
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
