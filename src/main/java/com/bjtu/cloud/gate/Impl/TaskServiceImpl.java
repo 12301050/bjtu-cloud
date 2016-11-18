@@ -157,7 +157,7 @@ public class TaskServiceImpl implements TaskService{
   @Override
   public List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths) throws Exception{
     try {
-      List<TaskInfo> taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+      List<TaskInfo> taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
       String[] taskPath = targetPaths.split(",");
       String[] taskpid = pids.split(",");
       for (int i = 0; i < taskPath.length; i++) {
@@ -169,10 +169,10 @@ public class TaskServiceImpl implements TaskService{
               Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
               nodeInfoMapper.updateDeleteTaskAmount(nodeId);
               if(flag == 1){
-                taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+                taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
                 continue;
               }else{
-                taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+                taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
                 return taskInfos;
               }
             }
@@ -180,10 +180,10 @@ public class TaskServiceImpl implements TaskService{
         }else if(taskpid[i].equals("-1")){
           Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
           if(flag == 1){
-            taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+            taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
             continue;
           }else{
-            taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
+            taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
             return taskInfos;
           }
         }else

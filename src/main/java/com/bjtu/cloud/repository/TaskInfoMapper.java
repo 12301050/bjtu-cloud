@@ -20,6 +20,9 @@ public interface TaskInfoMapper {
     //获取所有正在运行任务列表
     List<TaskInfo> getTaskByStatus(Integer status);
 
+    //获取某节点下所有运行的任务
+    List<TaskInfo> getAllTaskExceptHistoryByUserName(String nodeId);
+
     int insert(TaskInfo record);
 
     int insertSelective(TaskInfo record);
