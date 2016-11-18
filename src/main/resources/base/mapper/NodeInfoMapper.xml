@@ -255,4 +255,9 @@
       net_speed = #{netSpeed,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateDeleteTaskAmount" parameterType="java.lang.String">
+    update node_info
+    set task_amount = task_amount - 1
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </update>
 </mapper>

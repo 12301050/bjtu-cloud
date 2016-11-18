@@ -89,6 +89,18 @@ public class TaskController {
     }
   }
 
+  //全部任务列表删任务
+  @RequestMapping(value = "api/task/deleteByAll", method = RequestMethod.GET)
+  public RestResult<List<TaskInfo>> delete(String userName, String nodeIds, String pids, String taskPaths) {
+    try {
+      List<TaskInfo> taskInfos = taskService.deleteTaskByAll(userName, nodeIds, pids, taskPaths);
+      return RestResult.succ().data(taskInfos).build();
+    }catch (Exception e){
+      e.printStackTrace();
+      return RestResult.fail().msg(e.toString()).build();
+    }
+  }
+
   //修改任务名
   @RequestMapping(value = "api/task/rename", method = RequestMethod.POST)
   public RestResult<Integer> rename(Integer id, String taskName) {

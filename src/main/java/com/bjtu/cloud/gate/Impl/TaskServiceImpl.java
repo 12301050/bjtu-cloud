@@ -5,6 +5,7 @@ import com.bjtu.cloud.common.entity.UserInfo;
 import com.bjtu.cloud.docker.Cmds;
 import com.bjtu.cloud.docker.RunTask;
 import com.bjtu.cloud.gate.TaskService;
+import com.bjtu.cloud.repository.NodeInfoMapper;
 import com.bjtu.cloud.repository.TaskInfoMapper;
 import com.bjtu.cloud.repository.UserInfoMapper;
 import com.bjtu.cloud.common.entity.TaskRecord;
@@ -26,6 +27,8 @@ public class TaskServiceImpl implements TaskService{
   private TaskInfoMapper taskInfoMapper;
   @Autowired
   private UserInfoMapper userInfoMapper;
+  @Autowired
+  private NodeInfoMapper nodeInfoMapper;
 
   @Autowired
   private TaskRecordMapper taskRecordMapper;
@@ -52,6 +55,24 @@ public class TaskServiceImpl implements TaskService{
       String[] nodeIds = userInfo.getNodeIds().split(",");
       for (int i = 0; i < nodeIds.length; i++) {
         List<TaskInfo> taskInfo = taskInfoMapper.getTaskByUserName(nodeIds[i], status);
+        taskInfos.addAll(taskInfo);
+      }
+      return taskInfos;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public List<TaskInfo> getAllTaskExceptHistoryByUserName(String userName) throws Exception {
+    List<TaskInfo> taskInfos = new ArrayList<TaskInfo>();
+    try {
+      UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
+      System.out.println(userInfo.getNodeIds());
+      String[] nodeIds = userInfo.getNodeIds().split(",");
+      for (int i = 0; i < nodeIds.length; i++) {
+        List<TaskInfo> taskInfo = taskInfoMapper.getDeleteByNode(nodeIds[i]);
         taskInfos.addAll(taskInfo);
       }
       return taskInfos;
@@ -91,6 +112,49 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
+  public List<TaskInfo> deleteTaskByAll(String userName, String nodeIds, String pids, String targetPaths) throws Exception{
+    try {
+      List<TaskInfo> taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
+      String[] taskPath = targetPaths.split(",");
+      String[] taskpid = pids.split(",");
+      String[] nodeId = nodeIds.split(",");
+      for (int i = 0; i < taskPath.length; i++) {
+        if(!taskpid[i].equals("-1")){
+          boolean kill = Cmds.killTask(nodeId[i], taskpid[i]);
+          if(kill = true){
+            boolean delete = Cmds.deleteTask(nodeId[i], taskPath[i]);
+            if(delete = true){
+              Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
+              nodeInfoMapper.updateDeleteTaskAmount(nodeId[i]);
+              if(flag == 1){
+                taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
+                continue;
+              }else{
+                taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
+                return taskInfos;
+              }
+            }
+          }
+        }else if(taskpid[i].equals("-1")){
+          Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
+          if(flag == 1){
+            taskInfos = this.getAllTaskExceptHistoryByUserName(userName);;
+            continue;
+          }else{
+            taskInfos = this.getAllTaskExceptHistoryByUserName(userName);;
+            return taskInfos;
+          }
+        }else
+          return taskInfos;
+      }
+      return taskInfos;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths) throws Exception{
     try {
       List<TaskInfo> taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
@@ -103,6 +167,7 @@ public class TaskServiceImpl implements TaskService{
             boolean delete = Cmds.deleteTask(nodeId, taskPath[i]);
             if(delete == true){
               Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
+              nodeInfoMapper.updateDeleteTaskAmount(nodeId);
               if(flag == 1){
                 taskInfos = taskInfoMapper.getDeleteByNode(nodeId);
                 continue;
