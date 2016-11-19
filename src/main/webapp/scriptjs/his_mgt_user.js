@@ -257,6 +257,10 @@ jQuery(document).ready(function() {	//首先渲染
             username=data;
         }
     });
+    if(username==""){
+        alert("请先登录！");
+        window.location.href="http://localhost:8080/login_bg.html";
+    }
     var status = 2;
     $.ajax({
         type: "POST",

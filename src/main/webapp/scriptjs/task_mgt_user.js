@@ -352,7 +352,6 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
         }
     });
 }
-
 function chooseNode(){ //控制选择的类型和nodeid和所选的nodename匹配
     //var nodename=$("#nodename").val();
     // var objname=document.getElementById("nodename").value;
@@ -362,7 +361,6 @@ function chooseNode(){ //控制选择的类型和nodeid和所选的nodename匹�
     document.getElementById("idForTaskType").selectedIndex=objindex;
     var objid=document.getElementById("chooseNodeId").options[objindex].value;
 }
-
 function checkRequiredField(){  //必填项控制
 
     var taskName=$("#inputTaskName").val();
@@ -372,7 +370,9 @@ function checkRequiredField(){  //必填项控制
     $("#hour").css("border-color","#cccccc");
     $("#Minute").css("border-color","#cccccc");
     $("#inputTwiatter").css("border-color","#cccccc");
-    $("#file").css("border-color","#cccccc");
+    $("#inputTwiatter").css("border-color","#cccccc");
+    $("#upFile").css("border-color","#cccccc");
+
 
     if(taskName==""){
         $("#inputTaskName").css("border-color","red");
@@ -412,9 +412,9 @@ function checkRequiredField(){  //必填项控制
             return false;
         }
     }
-    var file=$("#file").val();
-    if(taskName==""){
-        $("#file").css("border-color","red");
+    var file=$("#uploadFile").val();
+    if(file==""){
+        $("#upFile").css("border-color","red");
         return false;
     }
     return true;
@@ -489,11 +489,10 @@ function changeTaskName(){
                 alert("修改成功");
                 getTaskByUserName(); //重新获取任务列表
                 $("#reTaskName").val("");//清空文本框的值
-
             }
-            else
+            else{
                 alert("修改失败");
-
+                $("#reTaskName").val("");}//清空文本框的值
         }
     });
 
@@ -529,7 +528,6 @@ jQuery(document).ready(function() {	//首先渲染
     });
 
 });
-
 function getTaskByUserName(){
     var username = "";
     $.ajax({   //获取服务器的session,获取当前用户名
@@ -644,6 +642,25 @@ function setStartTime() {
 function changeMode() {
     var mode=$("#chooseTime").val();
     $("#taskMode").val(mode);
+}
+function clearModel() {  //取消新建任务后清空之前所填写信息
+    $("#inputTaskName").val("");
+    document.getElementById("nodename").selectedIndex=0;
+    document.getElementById("chooseNodeId").selectedIndex=0;
+    document.getElementById("tasktype").selectedIndex=0;
+    document.getElementById("idForTaskType").selectedIndex=0;
+    document.getElementById("chooseTime").selectedIndex=0;
+    document.getElementById("hour").selectedIndex=0;
+    $("#taskMode").val("0");
+    $("#timeForTaskStart").val("");
+    $("#Minute").val("");
+    $("#inputTwiatter").val("");
+    $("#uploadFile").val("");
+    $("#reTaskName").val("");
+    $('#displayForTimerMode').css("display","none")
+    $('#displayForTimerStartTime').css("display","none")
+    $('#displayForTimerTimes').css("display","none")
+
 }
 function getnowtime() {  //获取当前时间
     var nowtime = new Date();

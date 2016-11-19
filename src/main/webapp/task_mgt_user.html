@@ -36,7 +36,8 @@
 	<!-- BOOTSTRAP -->
 	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
 
-
+	<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="static/js/ajaxfileupload.js"></script>
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 
@@ -326,7 +327,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content modal-table">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<button type="button" class="close" onclick="clearModel()" data-dismiss="modal" aria-hidden="true">&times;</button>
 										<h4 class="modal-title" id="create_text">创建任务</h4>
 									</div>
 									<div class="modal-body">
@@ -446,11 +447,12 @@
 																		<label for="inputTwiatter" class="col-sm-3 control-label">选择任务文件</label>
 
 																		<div class="col-sm-9">
-																			<input class="btn btn-success fileinput-button" type="file" name="file" value="1" multiple>
-																			<!--<span class="btn btn-success fileinput-button">-->
-																				 <!--&lt;!&ndash;<i class="fa fa-plus"></i>&ndash;&gt;-->
-																				<!--&lt;!&ndash;<span>Add files...</span>&ndash;&gt;-->
-																			 <!--</span>-->
+																			<span class="btn btn-success fileinput-button" id="upFile">
+																				 <i class="fa fa-plus"></i>
+																				<span>上传文件</span>
+																				<input class="btn btn-success fileinput-button" value =""type="file" id="uploadFile" name="file"  multiple>
+																			 </span>
+
 																		</div>
 
 																	</div>
@@ -461,7 +463,8 @@
 																		</div>
 																	</div>
 																	<!-- The table listing the files available for upload/download -->
-																	<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+																	<!--<table role="presentation" class="table table-striped">-->
+																		<!--<tbody class="files"></tbody></table>-->
 																</form>
 
 															</div>
@@ -660,7 +663,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content modal-table">
 							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearModel()">&times;</button>
 								<h4 class="modal-title" id="task_text">修改任务名</h4>
 							</div>
 							<div class="modal-body">
@@ -683,7 +686,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" data-dismiss="modal" id="close_butto" onclick="changeTaskName()">确定</button>
-								<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="clearModel()">取消</button>
 							</div>
 						</div>
 					</div>

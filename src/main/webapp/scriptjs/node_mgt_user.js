@@ -417,9 +417,12 @@ function changeNodeName() {   //修改节点名
             if(data.data==1){
                 alert("修改成功");
                 getNodeByName();
+                $("#reNodeName").val("");
             }
-            else
+            else{
                 alert("修改失败");
+                $("#reNodeName").val();}
+
 
         }
     });
@@ -467,6 +470,10 @@ function getNodeByName(){
             username=data;
         }
     });
+    if(username==""){
+        alert("请先登录！");
+        window.location.href="http://localhost:8080/login_bg.html";
+    }
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
@@ -505,6 +512,9 @@ function getNodeByName(){
 function sendNodeId(obj) {  //修改任务名时向下一级窗口传递nodeid
     var nodeId= obj.id;
     $("#idForNodeId").val(nodeId);
+}
+function cleanModel() { //取消新建任务之后清空之前所填写的信息
+    $("#reNodeName").val("");
 }
 function getnowtime() {  //获取当前时间
     var nowtime = new Date();

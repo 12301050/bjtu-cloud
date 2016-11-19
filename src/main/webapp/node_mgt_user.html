@@ -449,7 +449,7 @@
 								<div class="modal-dialog">
 									<div class="modal-content modal-table">
 										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<button type="button" class="close" data-dismiss="modal" onclick="cleanModel()" aria-hidden="true">&times;</button>
 											<h4 class="modal-title" id="node_text">修改节点名</h4>
 										</div>
 										<div class="modal-body">
@@ -472,7 +472,7 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-danger" data-dismiss="modal" id="close_butto" onclick="changeNodeName()">确定</button>
-											<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+											<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cleanModel()">取消</button>
 										</div>
 									</div>
 								</div>
