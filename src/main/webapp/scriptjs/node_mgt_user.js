@@ -1,5 +1,5 @@
 function AutoCheckLang(){ //检查缓存中之前所设置的语言
-    $("#datatableForTask").css("width","150%");
+    $("#datatableForTask").css("width","100%");
     if(localStorage.langclose==1){
         change_ch();
     }
@@ -99,24 +99,44 @@ function change_en(){//变为英文
                     });
                     $.ajax({
                         type: "GET",
+                        async: false,
                         url: "http://localhost:8080/api/task/delete",//接口名字
                         dataType: "json",
                         data:{"nodeId":nodeId,"pids":pids,"taskPaths":taskPaths},
                         success: function (data) {//删除成功
-                            if(data.data==1){
-                                alert("删除成功了！");
+                            if(data.data){
+                                alert("delete success！");
                                 $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
                                     var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
-                                    //var nodeId=$(this).parents("tr").find("td:eq(2)")[0].innerText;//获取将要删除的行中的节点ID
-                                    //nodeIds=nodeIds+nodeId+",";//以，分割
-                                    //indexfordelete.push(n);
-                                    $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                                    $("table#datatableForTask tbody").find("tr:eq(" + n + ")").remove();
                                 });
                             }else{
-                                alert("删除失败");
+                                alert("delete fail");
                             }
+                            var stringfortrlist = "";  //刷新任务列表
+                            for (var i = 0; i < data.data.length; i++) {
+                                var idforlog=i+1;
+                                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+                                var stringfortr ="<tr class=\"gradeX\">"+
+                                    "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
+                                    "<td>"+idforlog+"</td>"+
+                                    "<td>"+data.data[i].taskName+"</td>"+
+                                    "<td class=\"hidden-xs\">"+mode+"</td>"+
+                                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">"+button+"</a></td>"+
+                                    "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                                    "<td style='display:none;'>"+data.data[i].pid+"</td>"+
+                                    "<td style='display:none;'>"+data.data[i].nodePath+"</td>"+
+                                    "+</tr>";
+                                stringfortrlist = stringfortrlist + stringfortr;
+                            }
+                            $("#datatableForTask").dataTable().fnDestroy();
+                            $('#tbodyforTaskList').html(stringfortrlist);
+                            AutoCheckLang();
                         }
                     });
+                    $("#nodeView").css("display","none");
+                    $("#taskView").css("display","block");
+                    $("#datatableForTask").css("width","100%");
                 }
             }, "copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
@@ -213,19 +233,43 @@ function change_ch(){//变为中文
                         type: "GET",
                         url: "http://localhost:8080/api/task/delete",//接口名字
                         dataType: "json",
+                        async: false,
                         data:{"nodeId":nodeId,"pids":pids,"taskPaths":taskPaths},
                         success: function (data) {//删除成功
-                            if(data.data==1){
+                            if(data.data){
                                 alert("删除成功了！");
                                 $("input[name='checkList']:checked").each(function () { // 遍历选中的checkbox
                                     var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
-                                    $("table#datatableForNode tbody").find("tr:eq(" + n + ")").remove();
+                                    $("table#datatableForTask tbody").find("tr:eq(" + n + ")").remove();
                                 });
                             }else{
                                 alert("删除失败");
                             }
+                            var stringfortrlist = "";
+                            for (var i = 0; i < data.data.length; i++) {
+                                var idforlog=i+1;
+                                var mode = (data.data[i].mode=="0")?"即时任务":"定时任务";
+                                var stringfortr ="<tr class=\"gradeX\">"+
+                                    "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
+                                    "<td>"+idforlog+"</td>"+
+                                    "<td>"+data.data[i].taskName+"</td>"+
+                                    "<td class=\"hidden-xs\">"+mode+"</td>"+
+                                    "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">"+button+"</a></td>"+
+                                    "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                                    "<td style='display:none;'>"+data.data[i].pid+"</td>"+
+                                    "<td style='display:none;'>"+data.data[i].nodePath+"</td>"+
+                                    "+</tr>";
+                                stringfortrlist = stringfortrlist + stringfortr;
+                            }
+                            $("#datatableForTask").dataTable().fnDestroy();
+                            $('#tbodyforTaskList').html(stringfortrlist);
+                            AutoCheckLang();
                         }
                     });
+                    $("#nodeView").css("display","none");
+                    $("#taskView").css("display","block");
+                    $("#datatableForTask").css("width","100%");
+
                 }
             },"copy",  "csv", "pdf" ],
             sSwfPath: "js/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
@@ -285,7 +329,7 @@ function getTaskByNode(obj){//获取正在执行的任务
         });
         $("#nodeView").css("display","none");
         $("#taskView").css("display","block");
-        $("#datatableForTask").css("width","150%");
+        $("#datatableForTask").css("width","100%");
     }
 function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
     taskid = parseInt(taskId);
@@ -450,7 +494,7 @@ function getNodeByName(){
             }
             $("#datatableNodeUser").dataTable().fnDestroy();
             $("#datatableForTask").dataTable().fnDestroy();
-            $("#datatableForTask").css("width","150%");
+            $("#datatableForTask").css("width","100%");
             $('#tbodyfornodelist').html(stringfortrlist);
             AutoCheckLang();
         }
