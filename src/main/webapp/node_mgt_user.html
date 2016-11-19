@@ -278,7 +278,7 @@
 										<i class="fa fa-table"></i><h4 id="node_list_id">节点列表</h4>
 										<div class="tools hidden-xs">
 
-											<a href="javascript:;" class="reload">
+											<a href="javascript:;" class="reload" onclick="getNodeByName()">
 												<i class="fa fa-refresh"></i>
 											</a>
 
@@ -294,10 +294,10 @@
 													<th id="node_name">节点名称</th>
 													<th id="node_type">节点类型</th>
 													<th id="node_state">节点状态</th>
-													<th class="hidden-xs" id="task_number">正在执行的任务数</th>
+													<th id="task_number">正在执行的任务数</th>
 													<th id="cpu">CPU占用率</th>
 													<th id="ram">内存使用率</th>
-													<th class="hidden-xs" id="net">带宽占用率</th>
+													<th id="net">带宽占用率</th>
 												</tr>
 											</thead>
 											<tbody id="tbodyfornodelist">

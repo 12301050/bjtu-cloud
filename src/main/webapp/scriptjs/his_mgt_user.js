@@ -241,8 +241,7 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
         }
     });
 }
-
-jQuery(document).ready(function() {	//首先渲染
+function getTaskByUserName() {
     var username = "";
     $.ajax({   //获取服务器的session,获取当前用户名
         type:"GET",
@@ -284,7 +283,7 @@ jQuery(document).ready(function() {	//首先渲染
                     "<td class=\"center\">"+tasktype+"</td>"+
                     "<td class=\"center\">"+taskmode+"</td>"+
                     "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
-                  //  "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
+                    //  "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
                     "<td class=\"center hidden-xs\">"+taskstatus+"</td>"+
                     "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "</tr>";
@@ -295,6 +294,9 @@ jQuery(document).ready(function() {	//首先渲染
             AutoCheckLang();
         }
     });
+}
+jQuery(document).ready(function() {	//首先渲染
+    getTaskByUserName();
     App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
     App.init(); //Initialise plugins and elements
 
