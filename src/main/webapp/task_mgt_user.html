@@ -313,39 +313,6 @@
 											</thead>
 											<tbody id="datatableForTaskUser">
 											<input style="display: none" id="usernameForDeleteTask" value="">
-											<!--<tr class="gradeX">-->
-												<!--<td ><input type="checkbox" name="checkList"></td>-->
-												<!--<td>1</td>-->
-												<!--<td>XX</td>-->
-												<!--<td class="hidden-xs">定时</td>-->
-												<!--<td class="hidden-xs">java</td>-->
-												<!--<td class="center hidden-xs">第一个节点</td>-->
-												<!--<td class="hidden-xs"><i class="fa  fa-star-half-full"></i></td>-->
-												<!--<td class="center hidden-xs"><a href="#table-modal-showTaskSchedual" data-toggle="modal" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-												<!--<td class="center hidden-xs"><a onclick="showThreeChartsWhenViewTask()" class="btn btn-info" style="font-size:4px;padding:0px 8px;">查看</a></td>-->
-											<!--</tr>-->
-											<!--<tr class="gradeC">-->
-												<!--<td ><input type="checkbox" name="checkList"></td>-->
-												<!--<td>2</td>-->
-												<!--<td>YY</td>-->
-												<!--<td class="hidden-xs">定时</td>-->
-												<!--<td class="hidden-xs">Python</td>-->
-												<!--<td class="hidden-xs">第二个节点</td>-->
-												<!--<td class="center hidden-xs"><i class="fa  fa-star-half-full"></i></td>-->
-												<!--<td class="center hidden-xs">66%</td>-->
-												<!--<td class="center hidden-xs">48%</td>-->
-											<!--</tr>-->
-											<!--<tr class="gradeA">-->
-												<!--<td ><input type="checkbox" name="checkList"></td>-->
-												<!--<td>3</td>-->
-												<!--<td>ZZZ</td>-->
-												<!--<td class="hidden-xs">即时</td>-->
-												<!--<td class="hidden-xs">PHP</td>-->
-												<!--<td class="hidden-xs">第三个节点</td>-->
-												<!--<td class="center hidden-xs"><i class="fa  fa-star-o"></i></td>-->
-												<!--<td class="center hidden-xs">0%</td>-->
-												<!--<td class="center hidden-xs">0%</td>-->
-											<!--</tr>-->
 											</tbody>
 
 										</table>
@@ -389,10 +356,10 @@
 
 																		</div>
 																	</div>
-																	<div class="form-group" >
+																	<div class="form-group" style="display: none" >
 																		<label  class="col-sm-3 control-label">任务执行节点</label>
 																		<div class="col-sm-9">
-																			<select class='form-control' id='chooseNodeId' name="nodeId">
+																			<select class='form-control'  id='chooseNodeId' name="nodeId">
 																			</select>
 																			<!--<input type="text" class="form-control" name="last_name" id="inputlastname" placeholder="Last Name">-->
 																		</div>
@@ -400,10 +367,17 @@
 																	<div class="form-group">
 																	<label  class="col-sm-3 control-label">任务类型</label>
 																	<div class="col-sm-9">
-																		<select class='form-control' id='tasktype' name="mode" onchange='showTheInputForTimerTask()'>
+																		<select class='form-control' id='tasktype' name="" onchange='showTheInputForTimerTask()'>
 																			<option value='0'>即时任务</option>
 																			<option value='1'>定时任务</option>
 																		</select>
+																	</div>
+																</div>
+																	<div class="form-group" style="display: none">
+																	<label  class="col-sm-3 control-label">任务类型</label>
+																	<div class="col-sm-9">
+																		<input class='form-control'  id='taskMode' name="mode" value ="0" >
+																		</input>
 																	</div>
 																</div>
 																	<div class="form-group" style="display: none">
@@ -416,12 +390,12 @@
 																	<div class="form-group" id="displayForTimerMode" style="display: none;">
 																		<label  class="col-sm-3 control-label">定时模式</label>
 																		<div class="col-sm-9">
-																			<select class='form-control' id='chooseTime' name ="mode">
-																				<option value='2'>按时</option>
-																				<option value='3'>按天</option>
-																				<option value='4'>按周</option>
-																				<option value='5'>按月</option>
-																				<option value='6'>按年</option>
+																			<select class='form-control' id='chooseTime' name ="" onchange='changeMode()'>
+																				<option value='1'>按时</option>
+																				<option value='2'>按天</option>
+																				<option value='3'>按周</option>
+																				<option value='4'>按月</option>
+																				<option value='5'>按年</option>
 																			</select>
 																		</div>
 																	</div>
@@ -456,7 +430,7 @@
 																				<option>24</option>
 																			</select>
 																			<label>时</label>
-																			<input class="form-control" id="Minute" value="" type="text" style="width: 15%;display: inline;" onchange="setStartTime()" />
+																			<input class="form-control" id="Minute" value="0" type="text" style="width: 15%;display: inline;" onchange="setStartTime()" />
 																			<label>分</label>
 																			<input class="form-control" style="display: none" name="startTime" id="start" value="" type="text"/>
 
@@ -465,7 +439,7 @@
 																	<div class="form-group" id="displayForTimerTimes" style="display: none;">
 																		<label for="inputTwiatter" class="col-sm-3 control-label">任务执行次数</label>
 																		<div class="col-sm-9">
-																			<input type="text" class="form-control" name="times" value="" id="inputTwiatter" placeholder="任务执行次数">
+																			<input type="text" class="form-control" name="times" value="0" id="inputTwiatter" placeholder="任务执行次数">
 																		</div>
 																	</div>
 																	<div class="form-group" >

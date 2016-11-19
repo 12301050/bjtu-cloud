@@ -156,6 +156,7 @@ public class TaskController {
       TaskInfo taskInfo = taskService.createTask(nodeId, hostPath, type, taskName, mode, times, startTime, operatorName);
       mv.setViewName("redirect:/task_mgt_user.html");
     }catch (Exception e){
+      mv.setViewName("redirect:/task_mgt_user.html?error=error");
       e.printStackTrace();
     }
     return  mv;

@@ -1,3 +1,12 @@
+var url = location.search; //获取url中"?"符后的字串,判断是否上传任务是否成功
+if (url.indexOf("?") != -1) {
+    var str = url.substr(1);
+    strs = str.split("&");
+    if(strs[0].split("=")[1]=="error"){
+        alert("新增任务失败！请稍后再试");
+    }
+}
+
 function AutoCheckLang(){ //检查缓存中之前所设置的语言
     if(localStorage.langclose==1){
         change_ch();
@@ -192,9 +201,9 @@ function change_ch(){//变为中文
                         pids=pids+pid+",";//以，分割
                         nodeIds+=nodeId+",";
                     });
-                    alert(taskPaths);
-                    alert(pids);
-                    alert(nodeIds);
+                    // alert(taskPaths);
+                    // alert(pids);
+                    // alert(nodeIds);
                     $.ajax({
                         type: "GET",
                         url: "http://localhost:8080/api/task/delete",//接口名字
@@ -239,11 +248,17 @@ function change_ch(){//变为中文
 }
 function showTheInputForTimerTask(){
     var tasktype=$("#tasktype").val();
+    var taskmode=$("#taskMode").val();
+    if(taskmode==1){
+
+    }
     if(tasktype=="1"){
+        $("#taskMode").val(1);
         $('#displayForTimerMode').css("display","block")
         $('#displayForTimerStartTime').css("display","block")
         $('#displayForTimerTimes').css("display","block")
     }else{
+        $("#taskMode").val(0);
         $('#displayForTimerMode').css("display","none")
         $('#displayForTimerStartTime').css("display","none")
         $('#displayForTimerTimes').css("display","none")
@@ -417,12 +432,13 @@ function showNodeByUser(){ //动态显示下拉框
         },
         success:function(data){
             username=data;
-            if(username==null){
-                alert("请先登录！");
-                window.location.href="http://localhost:8080/login_bg.html";
-            }
+
         }
     });
+    if(username==""){
+        alert("请先登录！");
+        window.location.href="http://localhost:8080/login_bg.html";
+    }
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/node/getNodeByUser",//根据用户查节点
@@ -529,6 +545,10 @@ function getTaskByUserName(){
             username=data;
         }
     });
+    if(username==""){
+        alert("请先登录！");
+        window.location.href="http://localhost:8080/login_bg.html";
+    }
     $("#usernameForDeleteTask").val(username);
     var status = 1;
     var status1 =-1;
@@ -617,9 +637,13 @@ function setStartTime() {
         day="";
         day=strs[2]+"-"+strs[0]+"-"+strs[1];
     }
-    alert(day);
+  //  alert(day);
     var startTime=day+" "+h+":"+m+":"+s;
     $("#start").val(startTime);
+}
+function changeMode() {
+    var mode=$("#chooseTime").val();
+    $("#taskMode").val(mode);
 }
 function getnowtime() {  //获取当前时间
     var nowtime = new Date();
