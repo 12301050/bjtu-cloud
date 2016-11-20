@@ -121,9 +121,9 @@ public class TaskServiceImpl implements TaskService{
       for (int i = 0; i < taskPath.length; i++) {
         if(!taskpid[i].equals("-1")){
           boolean kill = Cmds.killTask(nodeId[i], taskpid[i]);
-          if(kill = true){
+          if(kill == true){
             boolean delete = Cmds.deleteTask(nodeId[i], taskPath[i]);
-            if(delete = true){
+            if(delete == true){
               Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
               nodeInfoMapper.updateDeleteTaskAmount(nodeId[i]);
               if(flag == 1){
@@ -138,10 +138,10 @@ public class TaskServiceImpl implements TaskService{
         }else if(taskpid[i].equals("-1")){
           Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
           if(flag == 1){
-            taskInfos = this.getAllTaskExceptHistoryByUserName(userName);;
+            taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
             continue;
           }else{
-            taskInfos = this.getAllTaskExceptHistoryByUserName(userName);;
+            taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
             return taskInfos;
           }
         }else

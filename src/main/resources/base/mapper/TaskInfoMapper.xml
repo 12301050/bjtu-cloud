@@ -68,7 +68,7 @@
     select
     <include refid="Base_Column_List" />
     from task_info
-    where node_id = #{nodeId,jdbcType=VARCHAR} and status != 2
+    where node_id = #{nodeId,jdbcType=VARCHAR} and status != 0
   </select>
   <select id="queryTimeInfo" resultMap="BaseResultMap">
     select
