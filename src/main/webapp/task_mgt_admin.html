@@ -768,6 +768,11 @@
 		//data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
 	});
 	function clickbutton(obj){//查看cpu折线图
+		Highcharts.setOptions({
+			global: {
+				useUTC: false
+			}
+		});
 		var nodeid=obj.id;
 		$("#table-modal-showVelocity").modal("show");
 		chart = new Highcharts.Chart({
@@ -800,6 +805,17 @@
 
 						}, 1000);
 					}
+				}
+			},
+			xAxis: {
+				type: 'datetime',
+				tickPixelInterval: 150
+			},
+			tooltip: {
+				formatter: function () {
+					return '<b>' + this.series.name + '</b><br/>' +
+							Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+							Highcharts.numberFormat(this.y, 2);
 				}
 			},
 
@@ -884,7 +900,17 @@
 					}
 				}
 			},
-
+			xAxis: {
+				type: 'datetime',
+				tickPixelInterval: 150
+			},
+			tooltip: {
+				formatter: function () {
+					return '<b>' + this.series.name + '</b><br/>' +
+							Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+							Highcharts.numberFormat(this.y, 2);
+				}
+			},
 			legend: {
 				enabled: false
 			},
@@ -966,7 +992,17 @@
 					}
 				}
 			},
-
+			xAxis: {
+				type: 'datetime',
+				tickPixelInterval: 150
+			},
+			tooltip: {
+				formatter: function () {
+					return '<b>' + this.series.name + '</b><br/>' +
+							Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+							Highcharts.numberFormat(this.y, 2);
+				}
+			},
 			legend: {
 				enabled: false
 			},
