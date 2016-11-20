@@ -587,7 +587,7 @@ function changeToTaskView(obj){//用户点击”正在执行的任务“时显�
                     "<td>"+data.data[i].taskName+"</td>"+
                     "<td class=\"hidden-xs\">"+mode+"</td>"+
                     "<td class=\"center hidden-xs\"><a onclick=\"showTheTimeInfo(this)\" id='"+fortasktimeDetails+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
-                    "<td class=\"center hidden-xs\"><a onclick=\"clickTaskbutton()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                    "<td class=\"center hidden-xs\"><a onclick=\"clickTaskbutton(this)\" id='"+nodeid+"'class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                     "+</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
