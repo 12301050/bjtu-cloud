@@ -541,6 +541,11 @@ $('#table-modal-showVelocity').on('hidden.bs.modal', function () {//模态框关
     //alert("模态框关闭了");
     chart=null;
     clearInterval(timer);
+    cleanModel();
+});
+$('#table-modal-changeNodeName').on('hide.bs.modal', function () {//模态框关闭时重新初始化
+    alert("ddd");
+    cleanModel();
 });
 function clickbutton(obj){//查看cpu折线图
     var nodeid=obj.id;

@@ -676,8 +676,21 @@ function getnowtime() {  //获取当前时间
 }
 function showFileName() {
     var fileName=$("#uploadFile").val();
-    $("#idForShowFile").html(fileName);
+    strs=fileName.split("\\");  //只显示文件名
+    if(strs.length>=1){
+        fileName = strs[strs.length - 1];
+    }
+    $("#idForShowFile").html("   "+fileName);
 }
+
+$('#table-modal-new-task').on('hidden.bs.modal', function () {//模态框关闭时重新初始化
+    // 执行一些动作...
+    alert("模态框关闭了");
+    clearModel();
+});
+$('#table-modal-changeTaskName').on('hidden.bs.modal', function () {//模态框关闭时重新初始化
+    clearModel();
+});
 //补齐两位数
 function padleft0(obj) {
     return obj.toString().replace(/^[0-9]{1}$/, "0" + obj);
