@@ -98,9 +98,9 @@ function change_en(){//变为英文
                             pids=pids+pid+",";//以，分割
                             nodeIds+=nodeId+",";
                         });
-                        alert(taskPaths);
-                        alert(pids);
-                        alert(nodeIds);
+                        // alert(taskPaths);
+                        // alert(pids);
+                        // alert(nodeIds);
                         $.ajax({
                             type: "GET",
                             url: "http://localhost:8080/api/task/delete",//接口名字
@@ -657,6 +657,7 @@ function clearModel() {  //取消新建任务后清空之前所填写信息
     $("#inputTwiatter").val("");
     $("#uploadFile").val("");
     $("#reTaskName").val("");
+    $("#idForShowFile").html("");
     $('#displayForTimerMode').css("display","none")
     $('#displayForTimerStartTime').css("display","none")
     $('#displayForTimerTimes').css("display","none")
@@ -672,6 +673,10 @@ function getnowtime() {  //获取当前时间
     var second = padleft0(nowtime.getSeconds());
     var millisecond = nowtime.getMilliseconds(); millisecond = millisecond.toString().length == 1 ? "00" + millisecond : millisecond.toString().length == 2 ? "0" + millisecond : millisecond;
     return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+}
+function showFileName() {
+    var fileName=$("#uploadFile").val();
+    $("#idForShowFile").html(fileName);
 }
 //补齐两位数
 function padleft0(obj) {
