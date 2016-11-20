@@ -328,37 +328,37 @@
 						<!-- /EXPORT TABLES-TaskView -->
 						<!-- AUTO UPDATING CURVE-查看任务三种折线图 -->
 						<div id="threeCharts" style="width:100%;display:none;">
-							<div class="box border orange">
-								<div class="box-title">
-									<h4><i class="fa fa-signal"></i>CPU曲线图</h4>
-									<div class="tools hidden-xs">
-									</div>
-								</div>
-								<div class="box-body" id="cpucontainer">
-									<!--<div id="chart_4_1" class="chart" style="width: 100%;"></div>-->
-								</div>
-							</div>
-							<div class="box border orange">
-								<div class="box-title">
-									<h4><i class="fa fa-signal"></i>内存曲线图</h4>
-									<div class="tools hidden-xs">
-									</div>
-								</div>
-								<div class="box-body">
-									<!--<div id="chart_4_2" class="chart" style="width: 100%;"></div>-->
-								</div>
-							</div>
-							<div class="box border orange">
-								<div class="box-title">
-									<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>
-									<div class="tools hidden-xs">
+							<!--<div class="box border orange">-->
+								<!--<div class="box-title">-->
+									<!--<h4><i class="fa fa-signal"></i>CPU曲线图</h4>-->
+									<!--<div class="tools hidden-xs">-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div class="box-body" id="cpucontainer">-->
+									<!--&lt;!&ndash;<div id="chart_4_1" class="chart" style="width: 100%;"></div>&ndash;&gt;-->
+								<!--</div>-->
+							<!--</div>-->
+							<!--<div class="box border orange" id="taskDynamicLine">-->
+								<!--<div class="box-title">-->
+									<!--<h4><i class="fa fa-signal"></i>内存曲线图</h4>-->
+									<!--<div class="tools hidden-xs">-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div class="box-body">-->
+									<!--&lt;!&ndash;<div id="chart_4_2" class="chart" style="width: 100%;"></div>&ndash;&gt;-->
+								<!--</div>-->
+							<!--</div>-->
+							<!--<div class="box border orange">-->
+								<!--<div class="box-title">-->
+									<!--<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>-->
+									<!--<div class="tools hidden-xs">-->
 
-									</div>
-								</div>
-								<div class="box-body">
-									<div id="chart_4_3" class="chart" style="width: 100%;"></div>
-								</div>
-							</div>
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div class="box-body">-->
+									<!--<div id="chart_4_3" class="chart" style="width: 100%;"></div>-->
+								<!--</div>-->
+							<!--</div>-->
 						</div>
 						<!-- /AUTO UPDATING CURVE -->
 						<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
@@ -1049,5 +1049,132 @@
 		//timer=window.setInterval(getForm,1000);
 	}
 
+
+	function clickTaskbutton(){
+		/**
+		 * In order to synchronize tooltips and crosshairs, override the
+		 * built-in events with handlers defined on the parent element.
+		 */
+		$('#taskDynamicLine').bind('mousemove touchmove touchstart', function (e) {
+			var chart,
+					point,
+					i,
+					event;
+			for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+				chart = Highcharts.charts[i];
+				event = chart.pointer.normalize(e.originalEvent); // Find coordinates within the chart
+				point = chart.series[0].searchPoint(event, true); // Get the hovered point
+				if (point) {
+					point.highlight(e);
+				}
+			}
+		});
+		/**
+		 * Override the reset function, we don't need to hide the tooltips and crosshairs.
+		 */
+		Highcharts.Pointer.prototype.reset = function () {
+			return undefined;
+		};
+		/**
+		 * Highlight a point by showing tooltip, setting hover state and draw crosshair
+		 */
+		Highcharts.Point.prototype.highlight = function (event) {
+			this.onMouseOver(); // Show the hover marker
+			this.series.chart.tooltip.refresh(this); // Show the tooltip
+			this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair
+		};
+		/**
+		 * Synchronize zooming through the setExtremes event handler.
+		 */
+		function syncExtremes(e) {
+			var thisChart = this.chart;
+			if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+				Highcharts.each(Highcharts.charts, function (chart) {
+					if (chart !== thisChart) {
+						if (chart.xAxis[0].setExtremes) { // It is null while updating
+							chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+						}
+					}
+				});
+			}
+		}
+		// Get the data. The contents of the data file can be viewed at
+		// https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+		$.getJSON('http://localhost:8080/api/node/getPerformance', function (activity) {
+//			$.each(activity.data, function (i, dataset) {
+//				// Add X values
+//				dataset.data = Highcharts.map(dataset.data, function (val, j) {
+//					return [activity.xData[j], val];
+//				});
+			for(var i=0;i<3;i++){
+				if(i==1){
+					var title="CPU动态图";
+				}
+				$('<div class="chart">')
+						.appendTo('#threeCharts')
+						.highcharts({
+							chart: {
+								marginLeft: 40, // Keep all charts left aligned
+								spacingTop: 20,
+								spacingBottom: 20
+							},
+							title: {
+								//text: dataset.name,
+								align: 'left',
+								margin: 0,
+								x: 30
+							},
+							credits: {
+								enabled: false
+							},
+							legend: {
+								enabled: false
+							},
+							xAxis: {
+								crosshair: true,
+								events: {
+									setExtremes: syncExtremes
+								},
+								labels: {
+									format: '{value} km'
+								}
+							},
+							yAxis: {
+								title: {
+									text: null
+								}
+							},
+							tooltip: {
+								positioner: function () {
+									return {
+										x: this.chart.chartWidth - this.label.width, // right aligned
+										y: -1 // align to title
+									};
+								},
+								borderWidth: 0,
+								backgroundColor: 'none',
+								pointFormat: '{point.y}',
+								headerFormat: '',
+								shadow: false,
+								style: {
+									fontSize: '18px'
+								},
+								//valueDecimals: dataset.valueDecimals
+							},
+							series: [{
+								//data: dataset.data,
+								//name: dataset.name,
+								//type: dataset.type,
+								color: Highcharts.getOptions().colors[i],
+								fillOpacity: 0.3,
+								tooltip: {
+									//valueSuffix: ' ' + dataset.unit
+								}
+							}]
+						});
+			}
+			$("#threeCharts").css("display","block");
+		});
+	};
 </script>
 </html>
