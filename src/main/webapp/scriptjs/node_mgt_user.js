@@ -544,12 +544,17 @@ $('#table-modal-showVelocity').on('hidden.bs.modal', function () {//模态框关
 });
 function clickbutton(obj){//查看cpu折线图
     var nodeid=obj.id;
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
     $("#table-modal-showVelocity").modal("show");
     chart = new Highcharts.Chart({
         chart: {
             //将报表对象渲染到层上
             renderTo: 'cpucontain',
-            type: 'spline',
+            // type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE
             events: {
                 load: function () {
@@ -577,7 +582,17 @@ function clickbutton(obj){//查看cpu折线图
                 }
             }
         },
-
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
         legend: {
             enabled: false
         },
@@ -626,11 +641,12 @@ function clickbutton(obj){//查看cpu折线图
 function clickRambutton(obj){//查看内存折线图
     var nodeid=obj.id;
     $("#table-modal-showVelocity").modal("show");
+    $("#cpu_info").text("内存动态");
     chart = new Highcharts.Chart({
         chart: {
             //将报表对象渲染到层上
             renderTo: 'cpucontain',
-            type: 'spline',
+           // type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE
             events: {
                 load: function () {
@@ -658,7 +674,17 @@ function clickRambutton(obj){//查看内存折线图
                 }
             }
         },
-
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
         legend: {
             enabled: false
         },
@@ -707,11 +733,12 @@ function clickRambutton(obj){//查看内存折线图
 function clickNetbutton(obj){//查看网络折线图
     var nodeid=obj.id;
     $("#table-modal-showVelocity").modal("show");
+    $("#cpu_info").text("网络动态");
     chart = new Highcharts.Chart({
         chart: {
             //将报表对象渲染到层上
             renderTo: 'cpucontain',
-            type: 'spline',
+          //  type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE
             events: {
                 load: function () {
@@ -739,7 +766,17 @@ function clickNetbutton(obj){//查看网络折线图
                 }
             }
         },
-
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
         legend: {
             enabled: false
         },
