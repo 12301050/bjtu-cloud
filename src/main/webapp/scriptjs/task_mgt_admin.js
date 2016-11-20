@@ -603,6 +603,69 @@ function changeToTaskView(obj){//用户点击”正在执行的任务“时显�
 function showThreeChartsWhenViewTask(){
     $("#threeCharts").css("display","block");
 }
+function eventForidforReload() {//刷新按钮重新加载数据
+    var nodeid = obj.id;
+    var nodeidAndStatus = JSON.stringify({nodeId: nodeid, status: "1"});
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/node/getTaskByNode",//接口名字，根据状态和节点id获取任务列表
+        dataType: "json",
+        data: nodeidAndStatus,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var stringfortrlist = "";
+            for (var i = 0; i < data.data.length; i++) {
+                var idforlog = i + 1;
+                var mode = (data.data[i].mode == "0") ? "即时任务" : "定时任务";
+                var starttime = data.data[i].startTime;
+                var detailMode = data.data[i].mode;//0是即时任务，其他往上推
+                var times = data.data[i].times;
+                var executimes = data.data[i].execTimes;
+
+                var nowtime = new Date();
+
+
+                var seperator1 = "/";
+                var seperator2 = ":";
+                var year = nowtime.getFullYear();
+                var month = nowtime.getMonth() + 1;
+                var strDate = nowtime.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currenttime = year + seperator1 + month + seperator1 + strDate + " " + nowtime.getHours() + seperator2 + nowtime.getMinutes() + seperator2 + nowtime.getSeconds();
+                starttime = new Date(Date.parse(starttime.replace(/-/g, "/"))).getTime();
+                // endtime = new Date(Date.parse(endtime.replace(/-/g,   "/"))).getTime();
+                var runtime = new Date(currenttime).getTime() - starttime;
+                var day = parseInt(runtime / (1000 * 60 * 60 * 24)); //获取相差多少天
+                runtime = runtime - day * (1000 * 60 * 60 * 24);
+                var H = parseInt(runtime / (1000 * 60 * 60));
+                runtime = runtime - H * (1000 * 60 * 60);
+                var M = parseInt(runtime / (1000 * 60));
+                runtime = runtime - M * (1000 * 60);
+                var S = parseInt(runtime / (1000));
+                var persistentTime = day + "天" + H + "时" + M + "分" + S + "秒";//这是执行时间
+
+                var fortasktimeDetails = data.data[i].startTime + "&" + persistentTime + "&" + detailMode + "&" + times + "/" + executimes;
+
+                var stringfortr = "<tr class=\"gradeX\">" +
+                    "<td>" + idforlog + "</td>" +
+                    "<td>" + data.data[i].taskName + "</td>" +
+                    "<td class=\"hidden-xs\">" + mode + "</td>" +
+                    "<td class=\"center hidden-xs\"><a onclick=\"showTheTimeInfo(this)\" id='" + fortasktimeDetails + "' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>" +
+                    "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>" +
+                    "+</tr>";
+                stringfortrlist = stringfortrlist + stringfortr;
+            }
+            $("#datatableForTask").dataTable().fnDestroy();
+            $('#tbodyforTaskList').html(stringfortrlist);
+            AutoCheckLang();
+        }
+    });
+}
 jQuery(document).ready(function() {	//首先渲染
     if (url.indexOf("?") != -1) {//链接中有值
         var str = url.substr(1);
