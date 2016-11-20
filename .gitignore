@@ -15,12 +15,7 @@ logs/
 .DS_Store
 
 # Mac
-.DS_Store
-
 *.properties
 
-*.properties
-
-*.properties
-
-*.properties
+/src/main/java/com/bjtu/cloud/docker/DockerTest.java
+/target/bjtu-cloud/META-INF/MANIFEST.MF

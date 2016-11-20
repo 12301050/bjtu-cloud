@@ -7,10 +7,10 @@ public class DockerTest {
  		String nodeId =Cmds.createNode("java");
 		System.out.println("nodeId:"+nodeId);
 		//上传任务
-		Boolean flag234 = Cmds.uploadTask(nodeId,"/Users/Kafukaaa/Downloads/test.java","111","test.java");
+		Boolean flag234 = Cmds.uploadTask(nodeId,"/Users/Kafukaaa/Downloads/Gg.java","1111","Gg.java");
 		System.out.println("upload:" + flag234);
 		//开始运行任务
-		String pid = Cmds.runTask(nodeId,1,"111","test.java");
+		String pid = Cmds.runTask(nodeId,1,"1111","Gg.java");
 		System.out.println("pid:" + pid);
 		//检查运行状态
 		System.out.println("check status:"+pid+Cmds.checkTaskRunning(nodeId,pid));
