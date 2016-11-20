@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -30,12 +29,11 @@
 	<!-- FONTS -->
 	<!-- JQUERY -->
 	<script src="js/jquery/jquery-2.0.3.min.js"></script>
-	<script src="js/flot/jquery.min.js"></script>
+	<!--<script src="js/flot/jquery.min.js"></script>-->
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<!-- BOOTSTRAP -->
 	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
-
 
 	<!-- JQUERY UI-->
 	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -55,14 +53,18 @@
 	<!-- EASY PIE CHART -->
 	<script src="js/jquery-easing/jquery.easing.min.js"></script>
 	<script type="text/javascript" src="js/easypiechart/jquery.easypiechart.min.js"></script>
-	<!-- FLOT CHARTS -->
-	<script src="js/flot/jquery.flot.min.js"></script>
-	<script src="js/flot/jquery.flot.time.min.js"></script>
-	<script src="js/flot/jquery.flot.selection.min.js"></script>
-	<script src="js/flot/jquery.flot.resize.min.js"></script>
-	<script src="js/flot/jquery.flot.pie.min.js"></script>
-	<script src="js/flot/jquery.flot.stack.min.js"></script>
-	<script src="js/flot/jquery.flot.crosshair.min.js"></script>
+	<script type="text/javascript" src="/js//jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="/js/Highcharts-3.0.7/js/highcharts.js"></script>
+	<!--&lt;!&ndash; FLOT CHARTS &ndash;&gt;-->
+	<!--<script src="js/flot/jquery.flot.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.time.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.selection.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.resize.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.pie.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.stack.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.crosshair.min.js"></script>-->
+	<script src="highcharts.js"></script>
+	<script src="exporting.js"></script>
 	<!-- SLIMSCROLL -->
 	<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script><script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
 	<!-- BLOCK UI -->
@@ -353,74 +355,39 @@
 							</div>
 						<!-- /EXPORT TABLES-TaskView -->
                     <!-- AUTO UPDATING CURVE-查看任务三种折线图 -->
-                    <div id="threeCharts" style="width:100%;display:none;">
-						<div class="box border orange">
+							<div id="threeCharts" style="width:100%;display:none;">
+								<div class="box border orange">
 									<div class="box-title">
-										<h4 id="cup_graph"><i class="fa fa-signal"></i>CPU曲线图</h4>
+										<h4><i class="fa fa-signal"></i>CPU曲线图</h4>
 										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
+										</div>
+									</div>
+									<div class="box-body" id="cpucontainer">
+										<!--<div id="chart_4_1" class="chart" style="width: 100%;"></div>-->
+									</div>
+								</div>
+								<div class="box border orange">
+									<div class="box-title">
+										<h4><i class="fa fa-signal"></i>内存曲线图</h4>
+										<div class="tools hidden-xs">
 										</div>
 									</div>
 									<div class="box-body">
-										<div id="chart_4_1" class="chart" style="width: 100%;"></div>
+										<!--<div id="chart_4_2" class="chart" style="width: 100%;"></div>-->
 									</div>
 								</div>
-						<div class="box border orange">
+								<div class="box border orange">
 									<div class="box-title">
-									<h4 id="ram_graph"><i class="fa fa-signal"></i>内存曲线图</h4>
+										<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>
 										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
-										</div>
-									</div>
-									<div class="box-body">
-										<div id="chart_4_2" class="chart" style="width: 100%;"></div>
-									</div>
-								</div>
-						<div class="box border orange">
-									<div class="box-title">
-										<h4 id="net_graph"><i class="fa fa-signal"></i>网络带宽曲线图</h4>
-										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
+
 										</div>
 									</div>
 									<div class="box-body">
 										<div id="chart_4_3" class="chart" style="width: 100%;"></div>
 									</div>
 								</div>
-                    </div>
+							</div>
 					<!-- /AUTO UPDATING CURVE -->
 						<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
 
@@ -477,48 +444,35 @@
 									</div>
 								</div>
 							</div>
-
 							<div class="modal fade" id="table-modal-showVelocity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-							  <div class="modal-content modal-table">
-								<div class="modal-header">
-								  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								  <h4 class="modal-title">CPU动态信息(后期动态修改成内存和网络)</h4>
-								</div>
-								<div class="modal-body">
-                            
-								<!-- AUTO UPDATING CURVE -->
-								<div class="box border orange">
-									<div class="box-title">
-										<div class="tools hidden-xs">
-											<a href="#box-config" data-toggle="modal" class="config">
-												<i class="fa fa-cog"></i>
-											</a>
-											<a href="javascript:;" class="reload">
-												<i class="fa fa-refresh"></i>
-											</a>
-											<a href="javascript:;" class="collapse">
-												<i class="fa fa-chevron-up"></i>
-											</a>
-											<a href="javascript:;" class="remove">
-												<i class="fa fa-times"></i>
-											</a>
+								<div class="modal-dialog">
+									<div class="modal-content modal-table">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="cpu_info">CPU动态信息(后期动态修改成内存和网络)</h4>
+										</div>
+										<div class="modal-body">
+
+											<!-- AUTO UPDATING CURVE -->
+											<div class="box border orange">
+												<div class="box-title">
+													<div class="tools hidden-xs">
+
+													</div>
+												</div>
+												<div class="box-body" style="padding-left: 0px;padding-top: 0px;padding-right: 0px;"id="cpucontain">
+													<!--<div id="chart_4" class="chart" style="width: 100%;"></div>-->
+												</div>
+											</div>
+											<!-- /AUTO UPDATING CURVE -->
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-success" data-dismiss="modal" id="cpu_sure">确定</button>
 										</div>
 									</div>
-									<div class="box-body">
-										<div id="chart_4" class="chart" style="width: 100%;"></div>
-									</div>
 								</div>
-								<!-- /AUTO UPDATING CURVE -->
-							
-								</div>
-								<div class="modal-footer">
-								  <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
-								</div>
-							  </div>
 							</div>
-						  </div>
-							
 						 
                         <div class="modal fade" id="table-modal-showresource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
@@ -665,19 +619,271 @@
 		</div>
 	</section>
 	<!--/PAGE -->
-</body> 
-  <script>
-		jQuery(document).ready(function() {	
-            
-            $("#nosort").removeClass("sorting_asc");
-            App.setPage("index");  //Set current page
-			App.init(); //Initialise plugins and elements 
-            Charts.initCharts();
-			Charts.initPieCharts();
-             $('#datatable2 tbody').on( 'click', 'tr', function () {
-                $(this).toggleClass('selected');
-            } );
-        });
-                 
-	</script>               
+</body>
+<script>
+	var timer;
+	var chart;
+	var data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
+	jQuery(document).ready(function() {
+
+		//$("th").removeClass();
+		App.setPage("index");  //Set current page
+		App.init(); //Initialise plugins and elements
+		//Charts.initCharts();
+//			$('#datatable2 tbody').on( 'click', 'tr', function () {
+//				$(this).toggleClass('selected');
+//			} );
+	});
+	$('#table-modal-showVelocity').on('hidden.bs.modal', function () {//模态框关闭时重新初始化
+		// 执行一些动作...
+		//alert("模态框关闭了");
+		chart=null;
+		clearInterval(timer);
+		//data = new Array(null, null, null, null, null,null, null, null, null, null, null, null,null, null, null, null, null,null, null, null, null, null, null, null);
+	});
+	function clickbutton(obj){//查看cpu折线图
+		var nodeid=obj.id;
+		$("#table-modal-showVelocity").modal("show");
+		chart = new Highcharts.Chart({
+			chart: {
+				//将报表对象渲染到层上
+				renderTo: 'cpucontain',
+				type: 'spline',
+				animation: Highcharts.svg, // don't animate in old IE
+				events: {
+					load: function () {
+						// set up the updating of the chart each second
+						var series = this.series[0];
+						timer=setInterval(function () {
+							$.ajax({
+								type: "POST",
+								url: "http://localhost:8080/api/node/getOnePerformance",
+								data:{nodeId:nodeid,number:"1"},
+								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								success: function(result){
+									var x = (new Date()).getTime(), // current time
+											y = result.data;
+									series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+								}
+							}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+						}, 1000);
+					}
+				}
+			},
+
+			legend: {
+				enabled: false
+			},
+			exporting: {
+				enabled: false
+			},
+			//设定报表对象的初始数据
+			series: [{
+				name: 'CPU占用率',
+				data: (function() {
+					// generate an array of random data
+					var data = [],
+							time = (new Date()).getTime(),
+							i;
+					for (i = -23; i <= 0; i++) {
+						data.push({
+							x: time + i * 1000,
+							y: null
+						});
+					}
+					return data;
+				})()
+			}]
+		});
+		$(".highcharts-container").css("width","95%");
+		$("tspan").css("visibility","hidden");
+		function getForm(){
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8080/api/node/getOnePerformance",
+				data:{nodeId:nodeid,number:"1"},
+				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+				success: function(result){
+					data.shift();//去除第一个元素
+					data.push([result.data]);
+					chart.series[0].setData(data);
+					$("tspan").css("visibility","hidden");
+					$(".highcharts-container").css("width","95%");
+				}
+			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+		}
+		//$(document).ready(function() {
+		//每隔1秒自动调用方法，实现图表的实时更新
+		//timer=window.setInterval(getForm,1000);
+	}
+	function clickRambutton(obj){//查看内存折线图
+		var nodeid=obj.id;
+		$("#table-modal-showVelocity").modal("show");
+		chart = new Highcharts.Chart({
+			chart: {
+				//将报表对象渲染到层上
+				renderTo: 'cpucontain',
+				type: 'spline',
+				animation: Highcharts.svg, // don't animate in old IE
+				events: {
+					load: function () {
+						// set up the updating of the chart each second
+						var series = this.series[0];
+						timer=setInterval(function () {
+							$.ajax({
+								type: "POST",
+								url: "http://localhost:8080/api/node/getOnePerformance",
+								data:{nodeId:nodeid,number:"2"},
+								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								success: function(result){
+									var x = (new Date()).getTime(), // current time
+											y = result.data;
+									series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+								}
+							}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+						}, 1000);
+					}
+				}
+			},
+
+			legend: {
+				enabled: false
+			},
+			exporting: {
+				enabled: false
+			},
+			//设定报表对象的初始数据
+			series: [{
+				name: 'CPU占用率',
+				data: (function() {
+					// generate an array of random data
+					var data = [],
+							time = (new Date()).getTime(),
+							i;
+					for (i = -23; i <= 0; i++) {
+						data.push({
+							x: time + i * 1000,
+							y: null
+						});
+					}
+					return data;
+				})()
+			}]
+		});
+		$(".highcharts-container").css("width","95%");
+		$("tspan").css("visibility","hidden");
+		function getForm(){
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8080/api/node/getOnePerformance",
+				data:{nodeId:nodeid,number:"1"},
+				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+				success: function(result){
+					data.shift();//去除第一个元素
+					data.push([result.data]);
+					chart.series[0].setData(data);
+					$("tspan").css("visibility","hidden");
+					$(".highcharts-container").css("width","95%");
+				}
+			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+		}
+		//$(document).ready(function() {
+		//每隔1秒自动调用方法，实现图表的实时更新
+		//timer=window.setInterval(getForm,1000);
+	}
+	function clickNetbutton(obj){//查看网络折线图
+		var nodeid=obj.id;
+		$("#table-modal-showVelocity").modal("show");
+		chart = new Highcharts.Chart({
+			chart: {
+				//将报表对象渲染到层上
+				renderTo: 'cpucontain',
+				type: 'spline',
+				animation: Highcharts.svg, // don't animate in old IE
+				events: {
+					load: function () {
+						// set up the updating of the chart each second
+						var series = this.series[0];
+						timer=setInterval(function () {
+							$.ajax({
+								type: "POST",
+								url: "http://localhost:8080/api/node/getOnePerformance",
+								data:{nodeId:nodeid,number:"3"},
+								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								success: function(result){
+									var x = (new Date()).getTime(), // current time
+											y = result.data;
+									series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+								}
+							}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+						}, 1000);
+					}
+				}
+			},
+
+			legend: {
+				enabled: false
+			},
+			exporting: {
+				enabled: false
+			},
+			//设定报表对象的初始数据
+			series: [{
+				name: 'CPU占用率',
+				data: (function() {
+					// generate an array of random data
+					var data = [],
+							time = (new Date()).getTime(),
+							i;
+					for (i = -23; i <= 0; i++) {
+						data.push({
+							x: time + i * 1000,
+							y: null
+						});
+					}
+					return data;
+				})()
+			}]
+		});
+		$(".highcharts-container").css("width","95%");
+		$("tspan").css("visibility","hidden");
+		function getForm(){
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:8080/api/node/getOnePerformance",
+				data:{nodeId:nodeid,number:"1"},
+				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+				success: function(result){
+					data.shift();//去除第一个元素
+					data.push([result.data]);
+					chart.series[0].setData(data);
+					$("tspan").css("visibility","hidden");
+					$(".highcharts-container").css("width","95%");
+				}
+			}, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+		}
+		//$(document).ready(function() {
+		//每隔1秒自动调用方法，实现图表的实时更新
+		//timer=window.setInterval(getForm,1000);
+	}
+
+</script>
 </html>
