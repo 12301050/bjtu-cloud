@@ -251,7 +251,7 @@ public class TaskServiceImpl implements TaskService{
           taskInfo.setPid(Integer.parseInt(pid));
           taskInfo.setHostPath(hostPath);
           taskInfo.setNodePath(nodePath);
-          taskInfo.setStatus(0);
+          taskInfo.setStatus(1);
           taskInfo.setType(type);
           taskInfo.setMode(mode);
           taskInfo.setExecTimes(times);
@@ -266,7 +266,7 @@ public class TaskServiceImpl implements TaskService{
             taskRecord.setStatus(1);
             taskRecord.setOperateName(operatorName);
             taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
-            taskRecordMapper.insertSelective(taskRecord);
+//            taskRecordMapper.insertSelective(taskRecord);
 
             return taskInfo;
           } else {

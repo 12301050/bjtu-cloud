@@ -120,7 +120,7 @@ public class TaskController {
     ModelAndView mv = new ModelAndView();
     try {
       String operatorName = session.getAttribute("userName").toString();
-      String path = "/Users/Kafukaaa/Downloads/file/" + operatorName + "/" + nodeId;
+      String path = "~/file/" + operatorName + "/" + nodeId;
       String hostPath = null;
       File f = null;
       //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
