@@ -851,6 +851,7 @@
 	function clickRambutton(obj){//查看内存折线图
 		var nodeid=obj.id;
 		$("#table-modal-showVelocity").modal("show");
+		$("#cpu_info").text("内存动态");
 		chart = new Highcharts.Chart({
 			chart: {
 				//将报表对象渲染到层上
@@ -932,6 +933,7 @@
 	function clickNetbutton(obj){//查看网络折线图
 		var nodeid=obj.id;
 		$("#table-modal-showVelocity").modal("show");
+		$("#cpu_info").text("网络动态");
 		chart = new Highcharts.Chart({
 			chart: {
 				//将报表对象渲染到层上
