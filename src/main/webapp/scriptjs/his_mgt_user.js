@@ -260,7 +260,7 @@ function getTaskByUserName() {
         alert("请先登录！");
         window.location.href="http://localhost:8080/login_bg.html";
     }
-    var status = 2;
+    var status = 0;
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/task/getTaskByUserName",//接口名字

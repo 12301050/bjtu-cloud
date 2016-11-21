@@ -15,7 +15,7 @@
 	<!-- ANIMATE -->
 	<link rel="stylesheet" type="text/css" href="css/animatecss/animate.min.css" />
 	<!-- DATE RANGE PICKER -->
-	<!--<link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />-->
+	<link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
 	<!-- TODO -->
 	<link rel="stylesheet" type="text/css" href="js/jquery-todo/css/styles.css" />
 	<!-- FULL CALENDAR -->
@@ -56,15 +56,16 @@
 	<!-- EASY PIE CHART -->
 	<script src="js/jquery-easing/jquery.easing.min.js"></script>
 	<script type="text/javascript" src="js/easypiechart/jquery.easypiechart.min.js"></script>
-	<!-- FLOT CHARTS -->
-	<script src="js/flot/jquery.flot.min.js"></script>
-	<script src="js/flot/jquery.flot.time.min.js"></script>
-	<script src="js/flot/jquery.flot.selection.min.js"></script>
-	<script src="js/flot/jquery.flot.resize.min.js"></script>
-	<script src="js/flot/jquery.flot.pie.min.js"></script>
-	<script src="js/flot/jquery.flot.stack.min.js"></script>
-	<script src="js/flot/jquery.flot.crosshair.min.js"></script>
-	<!-- SELECT2 -->
+	<!--&lt;!&ndash; FLOT CHARTS &ndash;&gt;-->
+	<!--<script src="js/flot/jquery.flot.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.time.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.selection.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.resize.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.pie.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.stack.min.js"></script>-->
+	<!--<script src="js/flot/jquery.flot.crosshair.min.js"></script>-->
+	<script src="highcharts.js"></script>
+	<script src="exporting.js"></script>
 	<!-- SLIMSCROLL -->
 	<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script><script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
 	<!-- BLOCK UI -->
@@ -84,6 +85,7 @@
 	<script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
 	<link rel="stylesheet" href="js/jquery-upload/css/jquery.fileupload.css">
 	<link rel="stylesheet" href="js/jquery-upload/css/jquery.fileupload-ui.css">
+
 	<!-- CUSTOM SCRIPT -->
 	<script src="js/script.js"></script>
 	<script src="js/charts.js"></script>
@@ -450,7 +452,7 @@
 																		<div class="col-sm-9">
 																			<span class="btn btn-success fileinput-button" id="upFile">
 																				 <i class="fa fa-plus"></i>
-																				<span>上传文件</span>
+																				<span >上传文件</span>
 																				<input class="btn btn-success fileinput-button" value =""type="file" id="uploadFile" name="file" onchange="showFileName()" multiple >
 																			 </span>
 																			<label id="idForShowFile"></label>
@@ -552,68 +554,33 @@
 						<div id="threeCharts" style="width:100%;display:none;">
 							<div class="box border orange">
 								<div class="box-title">
-									<h4 id="cpu_graph"><i class="fa fa-signal"></i>CPU曲线图</h4>
+									<h4><i class="fa fa-signal"></i>CPU曲线图</h4>
 									<div class="tools hidden-xs">
-										<!--<a href="#box-config" data-toggle="modal" class="config">-->
-										<!--<i class="fa fa-cog"></i>-->
-										<!--</a>-->
-										<a href="javascript:;" class="reload" >
-											<i class="fa fa-refresh"></i>
-										</a>
-										<!--<a href="javascript:;" class="collapse">-->
-										<!--<i class="fa fa-chevron-up"></i>-->
-										<!--</a>-->
-										<!--<a href="javascript:;" class="remove">-->
-										<!--<i class="fa fa-times"></i>-->
-										<!--</a>-->
 									</div>
 								</div>
-								<div class="box-body">
-									<div id="chart_4_1" class="chart" style="width: 100%;"></div>
+								<div class="box-body" id="cpucontainer">
+									<!--<div id="chart_4_1" class="chart" style="width: 100%;"></div>-->
+								</div>
+							</div>
+							<div class="box border orange" id="taskDynamicLine">
+								<div class="box-title">
+									<h4><i class="fa fa-signal"></i>内存曲线图</h4>
+									<div class="tools hidden-xs">
+									</div>
+								</div>
+								<div class="box-body" id="ramcontainer">
+									<!--<div id="chart_4_2" class="chart" style="width: 100%;"></div>-->
 								</div>
 							</div>
 							<div class="box border orange">
 								<div class="box-title">
-									<h4 id="ram_graph"> <i class="fa fa-signal"></i>内存曲线图</h4>
+									<h4><i class="fa fa-signal"></i>网络带宽曲线图</h4>
 									<div class="tools hidden-xs">
-										<!--<a href="#box-config" data-toggle="modal" class="config">-->
-										<!--<i class="fa fa-cog"></i>-->
-										<!--</a>-->
-										<a href="javascript:;" class="reload">
-											<i class="fa fa-refresh"></i>
-										</a>
-										<!--<a href="javascript:;" class="collapse">-->
-										<!--<i class="fa fa-chevron-up"></i>-->
-										<!--</a>-->
-										<!--<a href="javascript:;" class="remove">-->
-										<!--<i class="fa fa-times"></i>-->
-										<!--</a>-->
+
 									</div>
 								</div>
-								<div class="box-body">
-									<div id="chart_4_2" class="chart" style="width: 100%;"></div>
-								</div>
-							</div>
-							<div class="box border orange">
-								<div class="box-title">
-									<h4 id="net_graph"><i class="fa fa-signal"></i>网络带宽曲线图</h4>
-									<div class="tools hidden-xs">
-										<!--<a href="#box-config" data-toggle="modal" class="config">-->
-										<!--<i class="fa fa-cog"></i>-->
-										<!--</a>-->
-										<a href="javascript:;" class="reload">
-											<i class="fa fa-refresh"></i>
-										</a>
-										<!--<a href="javascript:;" class="collapse">-->
-										<!--<i class="fa fa-chevron-up"></i>-->
-										<!--</a>-->
-										<!--<a href="javascript:;" class="remove">-->
-										<!--<i class="fa fa-times"></i>-->
-										<!--</a>-->
-									</div>
-								</div>
-								<div class="box-body">
-									<div id="chart_4_3" class="chart" style="width: 100%;"></div>
+								<div class="box-body" id="netcontainer">
+									<!--<div id="chart_4_3" class="chart" style="width: 100%;"></div>-->
 								</div>
 							</div>
 						</div>

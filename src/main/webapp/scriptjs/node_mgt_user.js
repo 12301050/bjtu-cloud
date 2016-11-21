@@ -316,7 +316,8 @@ function getTaskByNode(obj){//获取正在执行的任务
                         "<td>"+data.data[i].taskName+"</td>"+
                         "<td class=\"hidden-xs\">"+mode+"</td>"+
                         "<td class=\"center hidden-xs\"><a href=\"#table-modal-showTaskSchedual\" data-toggle=\"modal\" class=\"btn btn-info\" onclick=\"showTimeInfoByTask("+data.data[i].id+")\" style=\"font-size:4px;padding:0px 8px;\">"+button+"</a></td>"+
-                        "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                        // "<td class=\"center hidden-xs\"><a onclick=\"showThreeChartsWhenViewTask()\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
+                        "<td class=\"center hidden-xs\"><a onclick='clickTaskbutton(this)' name='"+data.data[i].nodeId+"'class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">查看</a></td>"+
                         "<td style='display:none;'>"+data.data[i].pid+"</td>"+
                         "<td style='display:none;'>"+data.data[i].nodePath+"</td>"+
                         "+</tr>";
@@ -826,4 +827,227 @@ function clickNetbutton(obj){//查看网络折线图
     //$(document).ready(function() {
     //每隔1秒自动调用方法，实现图表的实时更新
     //timer=window.setInterval(getForm,1000);
+}
+function clickTaskbutton(obj){
+    var nodeid=obj.name;
+    $("#threeCharts").css("display","block");
+    //$("#cpu_info").text("网络动态");
+    chart = new Highcharts.Chart({
+        chart: {
+            //将报表对象渲染到层上
+            renderTo: 'cpucontainer',
+            //type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            events: {
+                load: function () {
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    timer=setInterval(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://localhost:8080/api/node/getOnePerformance",
+                            data:{nodeId:nodeid,number:"1"},
+                            async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+                            success: function(result){
+                                var x = (new Date()).getTime(), // current time
+                                    y = result.data;
+                                series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+                            }
+                        }, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+                    }, 1000);
+                }
+            }
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        //设定报表对象的初始数据
+        series: [{
+            name: 'CPU占用率',
+            data: (function() {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+                for (i = -49; i <= 0; i++) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: null
+                    });
+                }
+                return data;
+            })()
+        }]
+    });
+    new Highcharts.Chart({
+        chart: {
+            //将报表对象渲染到层上
+            renderTo: 'ramcontainer',
+            //type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            events: {
+                load: function () {
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    timer=setInterval(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://localhost:8080/api/node/getOnePerformance",
+                            data:{nodeId:nodeid,number:"2"},
+                            async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+                            success: function(result){
+                                var x = (new Date()).getTime(), // current time
+                                    y = result.data;
+                                series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+                            }
+                        }, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+                    }, 1000);
+                }
+            }
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        //设定报表对象的初始数据
+        series: [{
+            name: '内存占用率',
+            data: (function() {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+                for (i = -49; i <= 0; i++) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: null
+                    });
+                }
+                return data;
+            })()
+        }]
+    });
+    new Highcharts.Chart({
+        chart: {
+            //将报表对象渲染到层上
+            renderTo: 'netcontainer',
+            //type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            events: {
+                load: function () {
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    timer=setInterval(function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://localhost:8080/api/node/getOnePerformance",
+                            data:{nodeId:nodeid,number:"3"},
+                            async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+                            success: function(result){
+                                var x = (new Date()).getTime(), // current time
+                                    y = result.data;
+                                series.addPoint([x, y], true, true);
+//									data.shift();//去除第一个元素
+//									data.push([result.data]);
+//									chart.series[0].setData(data);
+//									$("tspan").css("visibility","hidden");
+//									$(".highcharts-container").css("width","95%");
+                            }
+                        }, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+
+                    }, 1000);
+                }
+            }
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        //设定报表对象的初始数据
+        series: [{
+            name: '网络占用率',
+            data: (function() {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+                for (i = -49; i <= 0; i++) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: null
+                    });
+                }
+                return data;
+            })()
+        }]
+    });
+    $(".highcharts-container").css("width","95%");
+    $("tspan").css("visibility","hidden");
+    function getForm(){
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/node/getOnePerformance",
+            data:{nodeId:nodeid,number:"1"},
+            async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+            success: function(result){
+                data.shift();//去除第一个元素
+                data.push([result.data]);
+                chart.series[0].setData(data);
+                $("tspan").css("visibility","hidden");
+                $(".highcharts-container").css("width","95%");
+            }
+        }, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
+    }
 }
