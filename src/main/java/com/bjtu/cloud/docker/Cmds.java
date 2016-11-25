@@ -2,6 +2,9 @@ package com.bjtu.cloud.docker;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class Cmds {
@@ -10,21 +13,26 @@ public class Cmds {
 	private final static String sudoPwd = "1";
 	private static String basecmd;
 	private static String cmds[] = new String[3];
+	private static String dockerAdress;
 	static{
 		if(System.getProperty("os.name").contains("Mac OS")){
 			cmds[0]="/bin/bash";
 			cmds[1]="-c";
 			basecmd="docker ";
+			dockerAdress="127.0.0.1";
 		}
 		else if(System.getProperty("os.name").contains("Windows")){
 			cmds[0]="cmd.exe";
 			cmds[1]="/c";
 			basecmd="docker ";
+			String dockerhost=System.getenv("DOCKER_HOST");
+			dockerAdress=dockerhost.substring(0,dockerhost.length()-5).replace("tcp://","");
 		}
 		else if(System.getProperty("os.name").contains("Linux")){
 			cmds[0]="/bin/bash";
 			cmds[1]="-c";
 			basecmd = "echo \"" + sudoPwd + "\" | sudo -S " + "docker ";
+			dockerAdress="127.0.0.1";
 		}else {
 			System.err.println("Cmds: The System is not supported");
 		}
@@ -40,7 +48,34 @@ public class Cmds {
 			return "";
 		return outPuts.get(0);
 	}
-
+	//返回的是地址和Id,重启和关闭调用普通方法就行。（由于两个停止的容器占用一个端口有可能重启失败！）
+	public static String[] createGUINode() {
+		String addressAndId[] = new String[2];
+		int port = 6079;
+		while (isPortAvailable(++port)) ;
+		cmds[2] = basecmd + "run -t -i -d -p " + port + ":6080 registry.cn-hangzhou.aliyuncs.com/aicodex/ubuntu:lxde-novnc";
+		ArrayList<String> outPuts = executeCmds(cmds);
+		// 创建失败
+		if (outPuts.size() == 0)
+			return null;
+		addressAndId[0] = "http://" + dockerAdress + ":" + port + "/vnc.html";
+		addressAndId[1] = outPuts.get(0);//NodeId
+		return addressAndId;
+	}
+	//检测端口占用
+	private static void bindPort(String host, int port) throws Exception {
+		Socket s = new Socket(host,port);
+		s.close();
+	}
+	//检测端口占用
+	public static boolean isPortAvailable(int port) {
+		try {
+			bindPort(dockerAdress, port);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 	public static boolean runNode(String nodeId) {
 		cmds[2] = basecmd + "start  " + nodeId;
 		ArrayList<String> outPuts = executeCmds(cmds);

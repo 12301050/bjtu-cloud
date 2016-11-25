@@ -4,6 +4,10 @@ package com.bjtu.cloud.docker;
 public class DockerTest {
 
 	public static void main(String[] args) {
+		String []s=Cmds.createGUINode();
+		System.out.println(s[0]);
+		System.out.println(s[1]);
+		/*
  		String nodeId =Cmds.createNode("java");
 		System.out.println("nodeId:"+nodeId);
 		//上传任务
@@ -57,6 +61,7 @@ public class DockerTest {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+*/
 	}
 
 }
