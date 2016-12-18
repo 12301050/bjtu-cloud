@@ -164,7 +164,7 @@ public class NodeServiceImpl implements NodeService {
   }
 
   @Override
-  public Integer deleteNodeByNodeIds(String nodeIds) throws Exception {
+  public Integer deleteNodeByNodeIds(String nodeIds, String operatorName) throws Exception {
     try {
       String[] nodeId = nodeIds.split(",");
       for(int i = 0; i < nodeId.length; i++) {
@@ -201,6 +201,12 @@ public class NodeServiceImpl implements NodeService {
               userInfoMapper.updateDeleteNodeIds(userInfo);
             }
           }
+          NodeRecord nodeRecord = new NodeRecord();
+          nodeRecord.setNodeId(nodeId[i]);
+          nodeRecord.setStatus(1);
+          nodeRecord.setOperateName(operatorName);
+          nodeRecord.setOperateTime(df1.parse(df1.format(new Date())));
+          nodeRecordMapper.insertSelective(nodeRecord);
           continue;
         }
         else {

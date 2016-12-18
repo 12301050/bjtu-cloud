@@ -21,7 +21,7 @@ public interface UserService {
   User login(String userName, String password) throws Exception;
 
   //增加节点
-  Integer addNodeInUserInfo(String userName, String nodeId) throws Exception;
+  Integer addNodeInUserInfo(String userName, String nodeId, String operatorName) throws Exception;
 
   //删除用户
   List<UserInfo> deleteUser(String userName) throws Exception;

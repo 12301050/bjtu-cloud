@@ -1,15 +1,16 @@
 package com.bjtu.cloud.gate.Impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
+
+import com.bjtu.cloud.common.entity.NodeRecord;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.User;
 import com.bjtu.cloud.common.entity.UserInfo;
 import com.bjtu.cloud.docker.Cmds;
 import com.bjtu.cloud.gate.UserService;
-import com.bjtu.cloud.repository.NodeInfoMapper;
-import com.bjtu.cloud.repository.TaskInfoMapper;
-import com.bjtu.cloud.repository.UserInfoMapper;
-import com.bjtu.cloud.repository.UserMapper;
+import com.bjtu.cloud.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,12 @@ public class UserServiceImpl implements UserService{
   private TaskInfoMapper taskInfoMapper;
 
   @Autowired
+  private NodeRecordMapper nodeRecordMapper;
+
+  @Autowired
   private UserMapper userMapper;
 
+  SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   //获取所有用户信息
   @Override
   public List<UserInfo> getAll() throws Exception{
@@ -159,7 +164,7 @@ public class UserServiceImpl implements UserService{
     return str;
   }
   @Override
-  public Integer addNodeInUserInfo(String userName, String nodeId) throws Exception {
+  public Integer addNodeInUserInfo(String userName, String nodeId, String operatorName) throws Exception {
     try {
       UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       Integer flag;
@@ -168,6 +173,12 @@ public class UserServiceImpl implements UserService{
       }else{
         flag = userInfoMapper.addNode(userName, ","+nodeId);
       }
+      NodeRecord nodeRecord = new NodeRecord();
+      nodeRecord.setNodeId(nodeId);
+      nodeRecord.setStatus(1);
+      nodeRecord.setOperateName(operatorName);
+      nodeRecord.setOperateTime(df1.parse(df1.format(new Date())));
+      nodeRecordMapper.insertSelective(nodeRecord);
       return flag;
     }catch (Exception e){
       e.printStackTrace();

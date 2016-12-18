@@ -26,7 +26,7 @@
 
     <select id="getAllUserInfo" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        ui.id, ui.user_name, ui.node_amount, ui.node_ids
         from user u,user_info ui where u.user_name=ui.user_name and u.role=1
     </select>
 

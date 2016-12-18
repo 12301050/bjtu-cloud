@@ -146,7 +146,7 @@ public class UserController {
       String nodeId = nodeService.addNodeInNodeInfo(type);
       //String nodeId = "aaa";//测试返回为假的
       if(!nodeId.isEmpty()) {
-        Integer flag = userService.addNodeInUserInfo(userName, nodeId);
+        Integer flag = userService.addNodeInUserInfo(userName, nodeId, userName);
         if (flag == 1) {
           UserInfo userInfo = userService.getUserByUserName(userName);
           return RestResult.succ().data(userInfo.getNodeAmount()).build();
