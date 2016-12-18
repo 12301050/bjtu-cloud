@@ -101,6 +101,16 @@ public class NodeServiceImpl implements NodeService {
   public Integer rename(String nodeId, String nodeName) throws Exception {
     try {
       NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+
+      //防止出现节点名重复
+      List<NodeInfo> nodeInfos = nodeInfoMapper.getAllNodeInfo();
+      for (int i = 0; i < nodeInfos.size(); i++) {
+        if (nodeInfos.get(i).getNodeName().equals(nodeName) &&
+            nodeInfos.get(i).getNodeId() != nodeInfo.getNodeId()){
+          return 0;
+        }
+      }
+
       nodeInfo.setNodeName(nodeName);
       Integer result = nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
       return result;
