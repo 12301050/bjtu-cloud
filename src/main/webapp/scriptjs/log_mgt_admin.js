@@ -31,6 +31,7 @@ function countTheShortDate(startTime,endTime) {
     while ((endTime.getTime() - startTime.getTime()) >= 0) {
         var year = startTime.getFullYear();
         var month = startTime.getMonth().toString().length == 1 ? "0" + startTime.getMonth().toString() : startTime.getMonth();
+        month += 1
         var day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
         //alert(year+"-"+month+"-"+day);
         shortdatearray.push(year + "-" + month + "-" + day);
@@ -309,12 +310,14 @@ function changeTimeForStart(){//当用户同时选择开始和结束时间后方
         enddate = enddate.replace("/","-");//双过滤
         var strsend = enddate.split("-");
         var year = strsend[2];
+        strsend[0]--;
         enddate=year+"-"+strsend[0]+"-"+strsend[1];
         var startdate = $('#timeForStart').val().replace("/","-");
         var startdate = startdate.replace("/","-");
         startdate = startdate.replace("/","-");//双过滤
         var strsstart = startdate.split("-");
         year = strsstart[2];
+        strsstart[0]--;
         startdate=year+"-"+strsstart[0]+"-"+strsstart[1];
 
         var startTime = getDate(startdate);
@@ -357,12 +360,14 @@ function changeTimeForEnd(){//当用户同时选择开始和结束时间后方�
         enddate = enddate.replace("/","-");//双过滤
         var strsend = enddate.split("-");
         var year = strsend[2];
+        strsend[0]--;
         enddate=year+"-"+strsend[0]+"-"+strsend[1];
         var startdate = $('#timeForStart').val().replace("/","-");
         var startdate = startdate.replace("/","-");
         startdate = startdate.replace("/","-");//双过滤
         var strsstart = startdate.split("-");
         year = strsstart[2];
+        strsstart[0]--;
         startdate=year+"-"+strsstart[0]+"-"+strsstart[1];
 
         var startTime = getDate(startdate);
