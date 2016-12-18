@@ -667,11 +667,14 @@ function eventForidforReload() {//刷新按钮重新加载数据
     });
 }
 jQuery(document).ready(function() {	//首先渲染
+    alert(location.href)
+    $('#reloadForNodeList').attr("href",location.href);//先定义刷新的路径
     if (url.indexOf("?") != -1) {//链接中有值
         var str = url.substr(1);
         strs = str.split("&");
 
         if(strs[0].split("=")[0]=="username"){//检查是否是用户界面传过来的请求
+
             var userName=strs[0].split("=")[1];
             $.ajax({
                 type: "POST",
@@ -685,6 +688,7 @@ jQuery(document).ready(function() {	//首先渲染
                         var idforlog=i+1;//加了1的，要减去
                         var textforOperateButton = (data.data[i].status==0)?"开启":"关闭";
                         var nodeStatus;
+                        var nodeType;
                         if(data.data[i].status==0){
                             nodeStatus="关闭";
                         }else if(data.data[i].status==1){
@@ -692,14 +696,21 @@ jQuery(document).ready(function() {	//首先渲染
                         }else{
                             nodeStatus="空闲";
                         }
+                        if(data.data[i].type==0){
+                            nodeType="Binary";
+                        }else if(data.data[i].type==1){
+                            nodeType="Java";
+                        }else{
+                            nodeType="Python";
+                        }
                         var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog+"&"+textforOperateButton;
                         var stringfortr ="<tr class=\"gradeX\">"+
                             "<td class=\"center\"><input type=\"checkbox\" name=\"checkList\"></td>"+
                             "<td class=\"center\">"+idforlog+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeId+"</td>"+
-                            "<td class=\"center\">"+data.data[i].type+"</td>"+
+                            "<td class=\"center\">"+nodeType+"</td>"+
                             "<td class=\"center\">"+data.data[i].nodeName+"</td>"+
-                            "<td class=\"center\">"+data.data[i].userName+"</td> <td class=\"center\" id='"+data.data[i].nodeId+"'>"+nodeStatus+"</td>"+
+                            "<td class=\"center\">"+userName+"</td> <td class=\"center\" id='"+data.data[i].nodeId+"'>"+nodeStatus+"</td>"+
                             "<td class=\"hidden-xs\"><a onclick='changeToTaskView(this)' id='"+data.data[i].nodeId+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].taskAmount+"</a></td>"+
                             "<td class=\"center\"><a onclick='showtheHisTask(this)'  id='"+data.data[i].nodeId+"' class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">"+data.data[i].historyTaskAmount+"</a></td>"+
                             "<td class=\"center hidden-xs\"><a href=\"#table-modal-showVelocity\" data-toggle=\"modal\" class=\"btn btn-info\" style=\"font-size:4px;padding:0px 8px;\">详情</a></td>"+
@@ -720,7 +731,7 @@ jQuery(document).ready(function() {	//首先渲染
             //App.setPage("index");  //Set current page，这俩破玩意竟然和换肤有关
             //App.init(); //Initialise plugins and elements
         }
-    }else{
+    }else{//
         $.ajax({
             type: "GET",
             url: "http://localhost:8080/api/node/getAllNode",//接口名字，获取所有节点信息
@@ -731,12 +742,20 @@ jQuery(document).ready(function() {	//首先渲染
                     var idforlog=i+1;
                     var textforOperateButton = (data.data[i].status==0)?"开启":"关闭";
                     var nodeStatus;
+                    var nodeType;
                     if(data.data[i].status==0){
                         nodeStatus="关闭";
                     }else if(data.data[i].status==1){
                         nodeStatus="活跃";
                     }else{
                         nodeStatus="空闲";
+                    }
+                    if(data.data[i].type==0){
+                        nodeType="Binary";
+                    }else if(data.data[i].type==1){
+                        nodeType="Java";
+                    }else{
+                        nodeType="Python";
                     }
                     var stringForConvert=data.data[i].nodeId+"&"+data.data[i].taskAmount+"&"+idforlog+"&"+textforOperateButton;
                     var stringfortr ="<tr class=\"gradeX\">"+
