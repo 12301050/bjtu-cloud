@@ -4,9 +4,10 @@ var date=myDate.toLocaleDateString();    //获取当前日期
 var nowdate = date.replace("/","-");
 nowdate = nowdate.replace("/","-");
 //alert(nowdate);
-var start = "2016-11-29";
+var start = "2016-10-29";
 var startTime = getDate(start);
-var endTime = getDate(nowdate);//当前时间
+//var endTime = getDate(nowdate);//当前时间
+var endTime = new Date();//当前时间
 var datearray=new Array();
 var shortdatearray;
 countTheDate();//初始化展示全部日期
@@ -14,9 +15,10 @@ function countTheDate() {
     while ((endTime.getTime() - startTime.getTime()) >= 0) {
         var year = startTime.getFullYear();
         var month = startTime.getMonth().toString().length == 1 ? "0" + startTime.getMonth().toString() : startTime.getMonth();
-        if(month == "00"){
-            month = "12"
-        }
+        //if(month == "00"){
+        //    month = "12"
+        //}
+        month += 1;
         var day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
         //alert(year+"-"+month+"-"+day);
         datearray.push(year + "-" + month + "-" + day);
