@@ -1,5 +1,6 @@
 package com.bjtu.cloud.gate.Impl;
 
+import com.bjtu.cloud.common.entity.NodeInfo;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.UserInfo;
 import com.bjtu.cloud.docker.Cmds;
@@ -266,8 +267,13 @@ public class TaskServiceImpl implements TaskService{
             taskRecord.setStatus(1);
             taskRecord.setOperateName(operatorName);
             taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
-//            taskRecordMapper.insertSelective(taskRecord);
 
+            NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+            nodeInfo.setTaskAmount(nodeInfo.getTaskAmount()+1);
+            nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+
+
+//            taskRecordMapper.insertSelective(taskRecord);
             return taskInfo;
           } else {
             return null;

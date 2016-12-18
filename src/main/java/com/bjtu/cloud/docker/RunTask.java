@@ -1,7 +1,9 @@
 package com.bjtu.cloud.docker;
 
+import com.bjtu.cloud.common.entity.NodeInfo;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.TaskRecord;
+import com.bjtu.cloud.repository.NodeInfoMapper;
 import com.bjtu.cloud.repository.TaskInfoMapper;
 import com.bjtu.cloud.repository.TaskRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class RunTask extends TimerTask {
   @Autowired
   private TaskInfoMapper taskInfoMapper;
 
+  @Autowired
+  private NodeInfoMapper nodeInfoMapper;
+
   private String nodeId;
   private TaskInfo taskInfo;
   private Integer type;
@@ -36,6 +41,13 @@ public class RunTask extends TimerTask {
   public void run() {
     if (flag < times) {
       String pid = Cmds.runTask(nodeId, type, nodePath, fileName);
+
+      if (flag == 0) {
+        NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+        nodeInfo.setTaskAmount(nodeInfo.getTaskAmount() + 1);
+        nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+      }
+
       TaskRecord taskRecord = new TaskRecord();
       taskRecord.setTaskId(pid);
       taskRecord.setMode(mode);

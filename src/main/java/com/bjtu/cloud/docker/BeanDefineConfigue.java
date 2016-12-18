@@ -1,7 +1,9 @@
 package com.bjtu.cloud.docker;
 
+import com.bjtu.cloud.common.entity.NodeInfo;
 import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.gate.TaskService;
+import com.bjtu.cloud.repository.NodeInfoMapper;
 import com.bjtu.cloud.repository.TaskInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -26,6 +28,9 @@ public class BeanDefineConfigue implements ApplicationListener<ContextRefreshedE
   @Autowired
   private TaskInfoMapper taskInfoMapper;
 
+  @Autowired
+  private NodeInfoMapper nodeInfoMapper;
+
   SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -45,6 +50,14 @@ public class BeanDefineConfigue implements ApplicationListener<ContextRefreshedE
                   taskInfos.get(i).setStatus(0);
                   taskInfos.get(i).setEndTime(df1.parse(df1.format(new Date())));
                   taskInfoMapper.updateByPrimaryKeySelective(taskInfos.get(i));
+
+                  NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+                  if (nodeInfo.getTaskAmount() > 0) {
+                    nodeInfo.setTaskAmount(nodeInfo.getTaskAmount() - 1);
+                    nodeInfo.setHistoryTaskAmount(nodeInfo.getHistoryTaskAmount()+1);
+                  }
+                  nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+
                 }
               }
             }
