@@ -421,7 +421,7 @@ function changeNodeName() {   //修改节点名
                 $("#reNodeName").val("");
             }
             else{
-                alert("修改失败");
+                alert("修改失败，节点名不能重复");
                 $("#reNodeName").val();}
 
 
@@ -484,7 +484,7 @@ function getNodeByName(){
             var stringfortrlist = "";
             for (var i = 0; i < data.data.length; i++) {
                 var nodetype=(data.data[i].type==0)?"Binary":((data.data[i].type==1)?"Java":"Python");
-                var nodestatus=(data.data[i].status==1)?"开启":((data.data[i].status==2)?"关闭":"等待");
+                var nodestatus=(data.data[i].status==0)?"关闭":"开启";
                 var idforlog=i+1;
                 var stringfortr ="<tr class=\"gradeX\">"+
                     //   "<td ><input type=\"checkbox\" name=\"checkList\"></td>"+
@@ -550,6 +550,7 @@ $('#table-modal-changeNodeName').on('hide.bs.modal', function () {//模态框关
 });
 function clickbutton(obj){//查看cpu折线图
     var nodeid=obj.id;
+    $("#cpu_info").html("CPU动态信息")
     Highcharts.setOptions({
         global: {
             useUTC: false
@@ -647,7 +648,7 @@ function clickbutton(obj){//查看cpu折线图
 function clickRambutton(obj){//查看内存折线图
     var nodeid=obj.id;
     $("#table-modal-showVelocity").modal("show");
-    $("#cpu_info").text("内存动态");
+    $("#cpu_info").html("内存动态信息")
     chart = new Highcharts.Chart({
         chart: {
             //将报表对象渲染到层上
@@ -673,6 +674,7 @@ function clickRambutton(obj){//查看内存折线图
 //									chart.series[0].setData(data);
 //									$("tspan").css("visibility","hidden");
 //									$(".highcharts-container").css("width","95%");
+
                             }
                         }, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
 
@@ -699,7 +701,7 @@ function clickRambutton(obj){//查看内存折线图
         },
         //设定报表对象的初始数据
         series: [{
-            name: 'CPU占用率',
+            name: '内存占用率',
             data: (function() {
                 // generate an array of random data
                 var data = [],
@@ -738,8 +740,8 @@ function clickRambutton(obj){//查看内存折线图
 }
 function clickNetbutton(obj){//查看网络折线图
     var nodeid=obj.id;
+    $("#cpu_info").html("网络动态信息")
     $("#table-modal-showVelocity").modal("show");
-    $("#cpu_info").text("网络动态");
     chart = new Highcharts.Chart({
         chart: {
             //将报表对象渲染到层上

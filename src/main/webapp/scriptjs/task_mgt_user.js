@@ -303,7 +303,7 @@ function showTimeInfoByTask(taskId) {  //根据任务id获取时间信息
                     nowtime = new Date(Date.parse(nowtime.replace(/-/g, "/"))).getTime();
                 if(nowtime>=starttime){
                     status=1;}
-                    alert(status);
+                  //  alert(status);
                 if(endtime==null&&status==1) { //如果未结束
                     var runtime = nowtime - starttime;
                     var day = parseInt(runtime / (1000 * 60 * 60 * 24)); //获取相差多少天
@@ -421,6 +421,17 @@ function checkRequiredField(){  //必填项控制
         $("#upFile").css("border-color","red");
         return false;
     }
+    var strs = file.split(".")
+    var type = strs[1]
+   // alert(type)
+    var nodeType = document.getElementById("idForTaskType").value;
+    nodeType = (nodeType=="0")?"binary":((nodeType=="1")?"java":"python");
+   if( nodeType!= type){
+
+        alert("请上传和节点类型一致的文件")
+       return false;
+   }
+
     return true;
 }
 function showNodeByUser(){ //动态显示下拉框
