@@ -24,11 +24,11 @@
     where user_name = #{userName,jdbcType=VARCHAR}
   </select>
 
-  <select id="getAllUserInfo" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user_info
-  </select>
+    <select id="getAllUserInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user u,user_info ui where u.user_name=ui.user_name and u.role=1
+    </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_info
