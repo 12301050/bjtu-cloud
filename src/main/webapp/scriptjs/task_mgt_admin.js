@@ -667,7 +667,7 @@ function eventForidforReload() {//刷新按钮重新加载数据
     });
 }
 jQuery(document).ready(function() {	//首先渲染
-    alert(location.href)
+    //alert(location.href)
     $('#reloadForNodeList').attr("href",location.href);//先定义刷新的路径
     if (url.indexOf("?") != -1) {//链接中有值
         var str = url.substr(1);
