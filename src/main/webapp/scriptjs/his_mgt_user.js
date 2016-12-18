@@ -289,7 +289,7 @@ function getTaskByUserName() {
                     "</tr>";
                 stringfortrlist = stringfortrlist + stringfortr;
             }
-            //  $("#datatableTaskUser").dataTable().fnDestroy();
+            $("#datatableHisTaskUser").dataTable().fnDestroy();
             $('#tbodyforhistasklist').html(stringfortrlist);
             AutoCheckLang();
         }
