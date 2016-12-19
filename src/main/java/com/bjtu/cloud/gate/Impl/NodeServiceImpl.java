@@ -2,6 +2,7 @@ package com.bjtu.cloud.gate.Impl;
 
 import com.bjtu.cloud.common.entity.NodeInfo;
 import com.bjtu.cloud.common.entity.NodeRecord;
+import com.bjtu.cloud.common.entity.TaskInfo;
 import com.bjtu.cloud.common.entity.UserInfo;
 import com.bjtu.cloud.docker.Cmds;
 import com.bjtu.cloud.gate.NodeService;
@@ -64,6 +65,17 @@ public class NodeServiceImpl implements NodeService {
           nodeInfo.setHistoryTaskAmount(nodeInfo.getHistoryTaskAmount()+nodeInfo.getTaskAmount());
         }
         nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+
+        //设置正在运行任务和正在等待任务的状态为已结束0
+        List<TaskInfo> taskInfos = taskInfoMapper.getAllTaskByNode(nodeId);
+        for (int i = 0; i < taskInfos.size(); i++) {
+          TaskInfo taskInfo = taskInfos.get(i);
+          if (taskInfo.getStatus() == -1 || taskInfo.getStatus() == 1){
+            taskInfo.setStatus(0);
+            taskInfo.setEndTime(df1.parse(df1.format(new Date())));
+            taskInfoMapper.updateByPrimaryKeySelective(taskInfo);
+          }
+        }
 
         NodeRecord nodeRecord = new NodeRecord();
         nodeRecord.setNodeId(nodeId);
