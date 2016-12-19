@@ -57,6 +57,14 @@ public class NodeServiceImpl implements NodeService {
       if (result == true) {
         Integer flag = nodeInfoMapper.closeNode(nodeId);
 
+        //设置节点正在运行任务数为0
+        NodeInfo nodeInfo = nodeInfoMapper.getNodeByNodeId(nodeId);
+        if (nodeInfo.getTaskAmount() > 0) {
+          nodeInfo.setTaskAmount(0);
+          nodeInfo.setHistoryTaskAmount(nodeInfo.getHistoryTaskAmount()+nodeInfo.getTaskAmount());
+        }
+        nodeInfoMapper.updateByPrimaryKeySelective(nodeInfo);
+
         NodeRecord nodeRecord = new NodeRecord();
         nodeRecord.setNodeId(nodeId);
         nodeRecord.setStatus(0);
