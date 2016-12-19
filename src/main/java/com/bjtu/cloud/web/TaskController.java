@@ -79,9 +79,10 @@ public class TaskController {
 
   //删除任务
   @RequestMapping(value = "api/task/delete", method = RequestMethod.GET)
-  public RestResult<List<TaskInfo>> delete(String nodeId, String pids, String taskPaths) {
+  public RestResult<List<TaskInfo>> delete(String nodeId, String pids, String taskPaths, HttpSession session) {
     try {
-      List<TaskInfo> taskInfos = taskService.deleteTask(nodeId, pids, taskPaths);
+      String operatorName = session.getAttribute("userName").toString();
+      List<TaskInfo> taskInfos = taskService.deleteTask(nodeId, pids, taskPaths, operatorName);
       return RestResult.succ().data(taskInfos).build();
     }catch (Exception e){
       e.printStackTrace();
@@ -91,9 +92,11 @@ public class TaskController {
 
   //全部任务列表删任务
   @RequestMapping(value = "api/task/deleteByAll", method = RequestMethod.GET)
-  public RestResult<List<TaskInfo>> delete(String userName, String nodeIds, String pids, String taskPaths) {
+  public RestResult<List<TaskInfo>> delete(String userName, String nodeIds, String pids,
+                                           String taskPaths, HttpSession session) {
     try {
-      List<TaskInfo> taskInfos = taskService.deleteTaskByAll(userName, nodeIds, pids, taskPaths);
+      String operatorName = session.getAttribute("userName").toString();
+      List<TaskInfo> taskInfos = taskService.deleteTaskByAll(userName, nodeIds, pids, taskPaths, operatorName);
       return RestResult.succ().data(taskInfos).build();
     }catch (Exception e){
       e.printStackTrace();

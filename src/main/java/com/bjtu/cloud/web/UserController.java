@@ -118,9 +118,10 @@ public class UserController {
 
   //删除节点
   @RequestMapping(value = "api/user/deleteNode", method = RequestMethod.POST)
-  public RestResult<Integer> deleteNode(@RequestBody Map<String,String> map) {
+  public RestResult<Integer> deleteNode(@RequestBody Map<String,String> map, HttpSession session) {
     try {
-      UserInfo userInfo = userService.deleteNode(map.get("nodeIds"), map.get("username"));
+      String operatorName = session.getAttribute("userName").toString();
+      UserInfo userInfo = userService.deleteNode(map.get("nodeIds"), map.get("username"), operatorName);
       //List<UserInfo> userInfos = null;
       return RestResult.succ().data(userInfo.getNodeAmount()).build();
     }catch (Exception e) {
@@ -131,8 +132,9 @@ public class UserController {
 
   //用户新增节点
   @RequestMapping(value = "api/user/addNode", method = RequestMethod.POST)
-  public RestResult<Integer> addNode(@RequestBody Map<String, String> map) {
+  public RestResult<Integer> addNode(@RequestBody Map<String, String> map, HttpSession session) {
     try{
+      String operatorName = session.getAttribute("userName").toString();
       String userName = map.get("username");
       String nodeType = map.get("nodetype");
       Integer type;
@@ -146,7 +148,7 @@ public class UserController {
       String nodeId = nodeService.addNodeInNodeInfo(type);
       //String nodeId = "aaa";//测试返回为假的
       if(!nodeId.isEmpty()) {
-        Integer flag = userService.addNodeInUserInfo(userName, nodeId, userName);
+        Integer flag = userService.addNodeInUserInfo(userName, nodeId, operatorName);
         if (flag == 1) {
           UserInfo userInfo = userService.getUserByUserName(userName);
           return RestResult.succ().data(userInfo.getNodeAmount()).build();

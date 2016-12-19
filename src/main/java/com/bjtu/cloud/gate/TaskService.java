@@ -35,9 +35,9 @@ public interface TaskService {
   //查询所有任务日志
   List<TaskRecord> getTaskRecordByDate(String operateTime) throws Exception;
   //删除某个(些)任务
-  List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths) throws Exception;
+  List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths, String operatorName) throws Exception;
   //全部任务界面删除任务
-  List<TaskInfo> deleteTaskByAll(String userName, String nodeIds, String pids, String targetPaths) throws Exception;
+  List<TaskInfo> deleteTaskByAll(String userName, String nodeIds, String pids, String targetPaths, String operatorName) throws Exception;
   //删除某个(些)任务
   List<TaskInfo> getTaskByStatus(Integer status) throws Exception;
 }

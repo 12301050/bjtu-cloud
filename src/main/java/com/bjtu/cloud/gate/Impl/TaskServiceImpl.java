@@ -113,7 +113,8 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public List<TaskInfo> deleteTaskByAll(String userName, String nodeIds, String pids, String targetPaths) throws Exception{
+  public List<TaskInfo> deleteTaskByAll(String userName, String nodeIds, String pids,
+                                        String targetPaths, String operatorName) throws Exception{
     try {
       List<TaskInfo> taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
       String[] taskPath = targetPaths.split(",");
@@ -129,6 +130,12 @@ public class TaskServiceImpl implements TaskService{
               nodeInfoMapper.updateDeleteTaskAmount(nodeId[i]);
               if(flag == 1){
                 taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
+                TaskRecord taskRecord = new TaskRecord();
+                taskRecord.setTaskId(taskpid[i]);
+                taskRecord.setMode(1);
+                taskRecord.setStatus(1);
+                taskRecord.setOperateName(operatorName);
+                taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
                 continue;
               }else{
                 taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
@@ -140,6 +147,12 @@ public class TaskServiceImpl implements TaskService{
           Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
           if(flag == 1){
             taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
+            TaskRecord taskRecord = new TaskRecord();
+            taskRecord.setTaskId(taskpid[i]);
+            taskRecord.setMode(1);
+            taskRecord.setStatus(1);
+            taskRecord.setOperateName(operatorName);
+            taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
             continue;
           }else{
             taskInfos = this.getAllTaskExceptHistoryByUserName(userName);
@@ -156,7 +169,7 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Override
-  public List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths) throws Exception{
+  public List<TaskInfo> deleteTask(String nodeId, String pids, String targetPaths, String operatorName) throws Exception{
     try {
       List<TaskInfo> taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
       String[] taskPath = targetPaths.split(",");
@@ -171,6 +184,12 @@ public class TaskServiceImpl implements TaskService{
               nodeInfoMapper.updateDeleteTaskAmount(nodeId);
               if(flag == 1){
                 taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
+                TaskRecord taskRecord = new TaskRecord();
+                taskRecord.setTaskId(taskpid[i]);
+                taskRecord.setMode(1);
+                taskRecord.setStatus(1);
+                taskRecord.setOperateName(operatorName);
+                taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
                 continue;
               }else{
                 taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
@@ -181,6 +200,12 @@ public class TaskServiceImpl implements TaskService{
         }else if(taskpid[i].equals("-1")){
           Integer flag = taskInfoMapper.deleteTask(taskPath[i]);
           if(flag == 1){
+            TaskRecord taskRecord = new TaskRecord();
+            taskRecord.setTaskId(taskpid[i]);
+            taskRecord.setMode(1);
+            taskRecord.setStatus(1);
+            taskRecord.setOperateName(operatorName);
+            taskRecord.setOperateTime(df1.parse(df1.format(new Date())));
             taskInfos = taskInfoMapper.getAllTaskExceptHistoryByUserName(nodeId);
             continue;
           }else{

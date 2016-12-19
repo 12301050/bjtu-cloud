@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService{
     }
   }
   @Override
-  public UserInfo deleteNode(String nodeIds, String userName) throws Exception{
+  public UserInfo deleteNode(String nodeIds, String userName, String operatorName) throws Exception{
     try {
       UserInfo userInfo = userInfoMapper.getUserInfoByUserName(userName);
       String[] nodeId = nodeIds.split(",");
@@ -106,6 +106,12 @@ public class UserServiceImpl implements UserService{
         if (stop == true && delete == true) {
           taskInfoMapper.deleteByNodeId(nodeId[i]);
           nodeInfoMapper.deleteByNodeId(nodeId[i]);
+          NodeRecord nodeRecord = new NodeRecord();
+          nodeRecord.setNodeId(nodeId[i]);
+          nodeRecord.setStatus(1);
+          nodeRecord.setOperateName(operatorName);
+          nodeRecord.setOperateTime(df1.parse(df1.format(new Date())));
+          nodeRecordMapper.insertSelective(nodeRecord);
           continue;
         }
       else {
