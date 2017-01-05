@@ -790,7 +790,7 @@
 								type: "POST",
 								url: "http://localhost:8080/api/node/getOnePerformance",
 								data:{nodeId:nodeid,number:"1"},
-								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 								success: function(result){
 									var x = (new Date()).getTime(), // current time
 											y = result.data;
@@ -975,7 +975,7 @@
 								type: "POST",
 								url: "http://localhost:8080/api/node/getOnePerformance",
 								data:{nodeId:nodeid,number:"3"},
-								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 								success: function(result){
 									var x = (new Date()).getTime(), // current time
 											y = result.data;
@@ -1068,7 +1068,7 @@
 								type: "POST",
 								url: "http://localhost:8080/api/node/getOnePerformance",
 								data:{nodeId:nodeid,number:"1"},
-								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 								success: function(result){
 									var x = (new Date()).getTime(), // current time
 											y = result.data;
@@ -1135,7 +1135,7 @@
 								type: "POST",
 								url: "http://localhost:8080/api/node/getOnePerformance",
 								data:{nodeId:nodeid,number:"2"},
-								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 								success: function(result){
 									var x = (new Date()).getTime(), // current time
 											y = result.data;
@@ -1202,7 +1202,7 @@
 								type: "POST",
 								url: "http://localhost:8080/api/node/getOnePerformance",
 								data:{nodeId:nodeid,number:"3"},
-								async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+								async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 								success: function(result){
 									var x = (new Date()).getTime(), // current time
 											y = result.data;
@@ -1261,7 +1261,7 @@
 				type: "POST",
 				url: "http://localhost:8080/api/node/getOnePerformance",
 				data:{nodeId:nodeid,number:"1"},
-				async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+				async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
 				success: function(result){
 					data.shift();//去除第一个元素
 					data.push([result.data]);
