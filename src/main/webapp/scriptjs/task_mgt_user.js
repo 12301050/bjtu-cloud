@@ -745,7 +745,7 @@ function clickTaskbutton(obj){
                             type: "POST",
                             url: "http://localhost:8080/api/node/getOnePerformance",
                             data:{nodeId:nodeid,number:"1"},
-                            async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+                            async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
                             success: function(result){
                                 var x = (new Date()).getTime(), // current time
                                     y = result.data;
@@ -879,7 +879,7 @@ function clickTaskbutton(obj){
                             type: "POST",
                             url: "http://localhost:8080/api/node/getOnePerformance",
                             data:{nodeId:nodeid,number:"3"},
-                            async: false, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
+                            async: true, //表示同步，如果要得到ajax处理完后台数据后的返回值，最好这样设置
                             success: function(result){
                                 var x = (new Date()).getTime(), // current time
                                     y = result.data;
@@ -892,7 +892,7 @@ function clickTaskbutton(obj){
                             }
                         }, false);  //false表示“遮罩”，前台不显示“请稍后”进度提示
 
-                    }, 1000);
+                    }, 2000);
                 }
             }
         },
