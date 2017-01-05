@@ -923,7 +923,7 @@ function clickTaskbutton(obj){
                     i;
                 for (i = -49; i <= 0; i++) {
                     data.push({
-                        x: time + i * 1000,
+                        x: time + i * 2000,
                         y: null
                     });
                 }
